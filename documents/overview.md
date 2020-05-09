@@ -1,9 +1,9 @@
 # The Resume Factory Project Plan
 
 ### 0. Team members
-Ngoc-Chau Nguyen 300298475
-Minh Hong Le 300299969
-Nguyen Nguyen 300298479
+Ngoc-Chau Nguyen, 300298475  
+Minh Hong Le, 300299969  
+Nguyen Nguyen, 300298479  
 
 ### 1. Project Title
 
