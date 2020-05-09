@@ -1,5 +1,10 @@
 # The Resume Factory Project Plan
 
+### 0. Team members
+Ngoc-Chau Nguyen 300298475
+Minh Hong Le 300299969
+Nguyen Nguyen 300298479
+
 ### 1. Project Title
 
 Resume Factory – a web app that matches job postings base on a user’s resume and helps recruiters selecting the applicant’s resumes for the highest possibility to get an interview.
