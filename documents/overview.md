@@ -1,10 +1,10 @@
 # The Resume Factory Project Plan
 
-### ** 1. Project Title **
+### 1. Project Title
 
 Resume Factory – a web app that matches job postings base on a user’s resume and helps recruiters selecting the applicant’s resumes for the highest possibility to get an interview.
 
-### ** 2. Abstract / Statement of the problem **
+### 2. Abstract / Statement of the problem
 
 a. Purpose and reason for this project
 
@@ -23,16 +23,22 @@ The Resume Factory is unique because of the following reasons:
 - Unlike other competitors like Linkedin, Glassdoor, and Indeed, the Resume Factory can suggest jobs base on users’ abilities and interests. Therefore, users do not have to search and scan irrelevant job postings.
 - Lastly, Resume Factory can suggest profiles to the recruiters as they need by matching keywords and skills. The recruiters can save time in collecting applicant data when needed.
 
-### ** 4. Project Implementation and timelines **
+### 3. Deliverables and Target Group/beneficiaries
 
-a. Technology used: 
+The targeted groups are:
+- Job applicants: the freshers and the junior levels, who are under-graduated or graduated within 2 years from educational institutes in Canada
+- Recruiters: HR people who are working for companies in Canada and looking for a new talent pool for their companies
+
+### 4. Project Implementation and timelines
+
+a. Technology used:
 
 - ReactJS: provide a user interface that users give input and display output
 - Java + Springboot: provide server side scriptings that process the business as given the input from the interface and return output to UI
 - Databases include MySQL to store data for the application only. Redis as a NoSQL server to store business data and stored procedures/functions/queue messages
-- Learning curve: Redis, ReactJS, external APIs or web crawler technology such as luminati.io. 
+- Learning curve: Redis, ReactJS, external APIs or web crawler technology such as luminati.io.
 
-ReactJS is one of the current hot topic among web development. Since it is one of the most popular web programming technologies so far, it is a good approach to include them in this project as they can help the development team meets the latest trend in the current situation. As for Redis and luminati.io or other substitute APIs such as LinkedIn or Glassdoors API, none of the team members is exposed to those technologies. Therefore, this would be a good opportunity to tackle new knowledge and bring a fresh idea on how to work on alternative techniques. 
+ReactJS is one of the current hot topic among web development. Since it is one of the most popular web programming technologies so far, it is a good approach to include them in this project as they can help the development team meets the latest trend in the current situation. As for Redis and luminati.io or other substitute APIs such as LinkedIn or Glassdoors API, none of the team members is exposed to those technologies. Therefore, this would be a good opportunity to tackle new knowledge and bring a fresh idea on how to work on alternative techniques.
 
 b. Timelines:
 
@@ -44,7 +50,7 @@ b. Timelines:
 - July 25, 2020: Wrapping up project and come up with test cases
 -  Aug 05, 2020: Project demonstration and final report
 
-### ** 5. Monitoring and evaluation **
+### 5. Monitoring and evaluation
 
 Resume Factory should deliver these functions:
 
