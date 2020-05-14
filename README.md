@@ -24,6 +24,8 @@ $ docker --version
 Docker version 19.03.8, build afacb8b
 ```
 
+- For Chau, you probably use Linux for development, you will need to install [docker-compose](https://docs.docker.com/compose/install/) seperately
+
 2. Run docker
 - Inside root directory, run:
 
@@ -41,6 +43,6 @@ docker-compose up -d
 docker-compose down
 ```
 
-- Spring Boot Server will be added to docker in the near future
+- Spring Boot Server and React server will be added to docker in the near future
 
 
