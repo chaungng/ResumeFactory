@@ -43,6 +43,6 @@ docker-compose up -d
 docker-compose down
 ```
 
-- Spring Boot Server will be added to docker in the near future
+- Spring Boot Server and React server will be added to docker in the near future
 
 
