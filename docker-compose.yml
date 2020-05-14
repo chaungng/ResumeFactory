@@ -1,0 +1,46 @@
+version: "3.7"
+
+services:
+  # backend:
+    # image: amazoncorretto:8u252
+    #   - 
+  mysql:
+    image: mysql:5.7
+    container_name: mysql-db
+    volumes:
+      - mysql-data:/var/lib/mysql
+    ports:
+      - 3306:3306
+    networks:
+      - backend
+    environment: 
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: resumefactory
+  
+  redis:
+    image: redis:6.0.1
+    container_name: redis
+    hostname: redis
+    image: redis
+    volumes:
+      - redis-data:/data
+    ports:
+      - 6379:6379
+
+  redis-commander:
+    container_name: redis-commander
+    hostname: redis-commander
+    image: rediscommander/redis-commander:latest
+    restart: always
+    environment:
+    - REDIS_HOSTS=local:redis:6379
+    ports:
+    - "8081:8081"
+
+volumes:
+  mysql-data:
+  redis-data:
+
+networks:
+  frontend:
+  backend:
