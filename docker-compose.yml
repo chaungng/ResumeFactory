@@ -1,9 +1,22 @@
 version: "3.7"
 
 services:
+  # frontend:
+  #   image: node:12.17.0
+  #   container_name: frontend
+  #   command: sh -c "yarn install && yarn start"
+  #   working_dir: /app
+  #   volumes:
+  #     - ./web:/app
+  #   ports:
+  #     - 3000:3000
+    
   # backend:
     # image: amazoncorretto:8u252
     #   - 
+    # depends_on:
+    #   - mysqldb
+    #   - mongodb
   mysqldb:
     image: mysql:5.7
     container_name: mysql
@@ -13,7 +26,7 @@ services:
       - 3306:3306
     networks:
       - backend
-    environment: 
+    environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: resumefactory
   
