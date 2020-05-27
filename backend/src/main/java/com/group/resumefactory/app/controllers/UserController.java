@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.group.resumefactory.app.model.LoginForm;
+import com.group.resumefactory.app.models.LoginForm;
 import com.group.resumefactory.app.entities.User;
 import com.group.resumefactory.app.exceptions.ResourceNotFoundException;
 import com.group.resumefactory.app.repositories.UserRepository;

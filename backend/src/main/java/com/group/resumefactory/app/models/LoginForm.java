@@ -1,4 +1,4 @@
-package com.group.resumefactory.app.model;
+package com.group.resumefactory.app.models;
 
 public class LoginForm {
 
