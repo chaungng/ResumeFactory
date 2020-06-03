@@ -34,8 +34,15 @@ docker-compose up -d
 ```
 
 - flag -d means run docker in the background
-- This will run a MySQL db and a Redis db
+- This will run a MySQL db and a Mongo db
 - Now you can run the Spring Boot Server
+
+- To discover public rest api
+
+```sh
+curl http://localhost:8080
+```
+
 
 3. After development, you can stop docker by running:
 
