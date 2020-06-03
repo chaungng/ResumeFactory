@@ -3,10 +3,10 @@ import './App.css';
 
 import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
 
-import NavBar from './Components/NavBar';
-import LoginPage from './Components/LoginPage';
-import SignUpPage from './Components/SignUpPage';
-import HomePage from './Components/HomePage';
+import NavBar from './components/NavBar';
+import LoginPage from './components/LoginPage';
+import SignUpPage from './components/SignUpPage';
+import HomePage from './components/HomePage';
 
 class App extends Component {
   render() {

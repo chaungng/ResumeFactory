@@ -11,6 +11,8 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
+    "react-schema-form": "^0.8.7",
+    "react-schema-form-rc-select": "^0.3.9",
     "react-scripts": "3.4.1",
     "typeface-roboto": "0.0.75"
   },
