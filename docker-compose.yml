@@ -7,7 +7,7 @@ services:
   #   command: sh -c "yarn install && yarn start"
   #   working_dir: /app
   #   volumes:
-  #     - ./web:/app
+  #     - ./web/resume-factory-web:/app
   #   ports:
   #     - 3000:3000
     
@@ -17,6 +17,7 @@ services:
     # depends_on:
     #   - mysqldb
     #   - mongodb
+    
   mysqldb:
     image: mysql:5.7
     container_name: mysql
