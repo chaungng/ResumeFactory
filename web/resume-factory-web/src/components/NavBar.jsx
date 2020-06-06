@@ -1,5 +1,4 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -8,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
+import history from './../history';
 import MenuBar from './MenuBar';
 
 export default class NavBar extends React.Component {
@@ -47,24 +47,19 @@ export default class NavBar extends React.Component {
         </ClickAwayListener>
 
         <Typography variant="h6">
-          <Link to="/" className="link">
+          <Button color="inherit" onClick={() => history.push('/')}>
             Resume Factory
-          </Link>
+          </Button>
         </Typography>
 
-        <Link to="/login" className="link">
-          <Button color="inherit">Login</Button>
-        </Link>
-        <Link to="/signup" className="link">
-          <Button color="inherit">Sign Up</Button>
-        </Link>
-
+        <Button color="inherit" onClick={() => history.push('/login')}>
+          Login</Button>
+        <Button color="inherit" onClick={() => history.push('/signup')}>
+          Sign Up</Button>
       </Toolbar>
       {
         this.state.openMenu
-          ? <MenuBar/>
-          : null
-      }
+          ? <MenuBar/ >: null}
     </AppBar>);
   }
 }

@@ -1,21 +1,27 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-
 import ResumeTable from './ResumeTable';
+import history from './../history';
 
 class HomePage extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      editProfileIsOn: false
+    }
+
     this.addNewResume = this.addNewResume.bind(this);
     this.editProfile = this.editProfile.bind(this);
   }
 
-  addNewResume() {
+  addNewResume = () => {
     alert("I want to add a new resume!");
     console.log("Add new Resume clicked!");
+
+    history.push('/newresume');
   }
 
   editProfile() {
@@ -24,8 +30,6 @@ class HomePage extends Component {
   }
 
   render() {
-    const classes = this.props;
-
     return (<div>
       <h1>Profile Summary</h1>
       <div>
