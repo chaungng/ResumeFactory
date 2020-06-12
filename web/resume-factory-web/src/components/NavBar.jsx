@@ -21,7 +21,6 @@ export default class NavBar extends React.Component {
     };
 
     this.onClickMenuButton = this.onClickMenuButton.bind(this);
-    this.onClickAwayMenuButton = this.onClickAwayMenuButton.bind(this);
   }
 
   onClickMenuButton() {
@@ -31,35 +30,24 @@ export default class NavBar extends React.Component {
     });
   }
 
-  onClickAwayMenuButton() {
-    console.log("onClickAway: MenuList is closed");
-    this.setState({openMenu: false});
-  }
-
   render() {
-    return (<AppBar position="static">
-
-      <Toolbar>
-        <ClickAwayListener onClickAway={this.onClickAwayMenuButton}>
+    return (<div>
+      <AppBar position="static">
+        <Toolbar>
           <IconButton edge="start" color="inherit" aria-label="menu" onClick={this.onClickMenuButton}>
             <MenuIcon/>
           </IconButton>
-        </ClickAwayListener>
-
-        <Typography variant="h6">
-          <Button color="inherit" onClick={() => history.push('/')}>
-            Resume Factory
-          </Button>
-        </Typography>
-
-        <Button color="inherit" onClick={() => history.push('/login')}>
-          Login</Button>
-        <Button color="inherit" onClick={() => history.push('/signup')}>
-          Sign Up</Button>
-      </Toolbar>
-      {
-        this.state.openMenu
-          ? <MenuBar/ >: null}
-    </AppBar>);
+          <Typography variant="h6">
+            <Button color="inherit" onClick={() => history.push('/')}>
+              Resume Factory
+            </Button>
+          </Typography>
+          <Button color="inherit" onClick={() => history.push('/login')}>
+            Login</Button>
+          <Button color="inherit" onClick={() => history.push('/signup')}>
+            Sign Up</Button>
+        </Toolbar>
+      </AppBar>
+    </div>);
   }
 }
