@@ -1,41 +1,47 @@
-import React from 'react';
-import {makeStyles} from '@material-ui/core/styles';
+import React, {Component} from 'react';
 
-import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
 
-function WorkExpSection() {
+import WorkExperience from './WorkExperience';
 
-  return (<div className='workExperience' style={{
-      "border" : "2px solid gray",
-      "border-radius" : "10px",
-      "padding" : "20px",
-      "margin" : "auto"
-    }}>
-    <Typography variant="h6" gutterBottom="gutterBottom">
-      Work experience
-    </Typography>
-    <button onClick={null}>Save Work Experience</button>
-    <Grid container="container" spacing={3}>
-      <Grid item="item" xs={12} sm={12}>
-        <TextField required="required" id="jobTitle" name="jobTitle" label="Job Title" fullWidth="fullWidth"/>
-      </Grid>
-      <Grid item="item" xs={12} sm={4}>
-        <TextField required="required" id="company" name="company" label="Company" fullWidth="fullWidth"/>
-      </Grid>
-      <Grid item="item" xs={12} sm={4}>
-        <TextField required="required" name="from" label="From" fullWidth="fullWidth"/>
-      </Grid>
-      <Grid item="item" xs={12} sm={4}>
-        <TextField required="required" name="to" label="To" fullWidth="fullWidth"/>
-      </Grid>
-      <Grid item="item" xs={12} sm={12}>
-        <TextField id="description" name="description" label="Description" fullWidth="fullWidth" placeholder="Your description" multiline="multiline" rows={7}/>
-      </Grid>
-    </Grid>
-  </div>);
+class WorkExpSection extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isClicked: false
+    };
+
+    this.handleAddExperience = this.handleAddExperience.bind(this);
+  }
+
+  handleAddExperience() {
+    this.setState({
+      isClicked: !this.state.isClicked
+    });
+  }
+
+  render() {
+    return (<div className='workExperience' style={{
+        "border" : "2px solid gray",
+        "border-radius" : "10px",
+        "padding" : "20px",
+        "margin" : "auto"
+      }}>
+      <Typography variant="h6" gutterBottom="gutterBottom">
+        Work experience
+      </Typography>
+      <Button variant="outlined" color="primary" size="small" startIcon={<AddIcon />} onClick={this.handleAddExperience}>
+        Add Experience
+      </Button>
+      {
+        this.state.isClicked
+          ? <WorkExperience/>
+          : null
+      }
+    </div>);
+  }
 }
 
 export default WorkExpSection;

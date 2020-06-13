@@ -1,11 +1,9 @@
 import React, {Component} from 'react';
-import {makeStyles} from '@material-ui/core/styles';
 
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import {Button, IconButton} from '@material-ui/core';
-import Icon from '@material-ui/core/Icon';
+import {Button} from '@material-ui/core';
 import SaveIcon from '@material-ui/icons/Save';
 import EditIcon from '@material-ui/icons/Edit';
 
@@ -31,6 +29,7 @@ class PersonalInfoSection extends Component {
   }
 
   handleInputChange(event) {
+    event.preventDefault();
     this.setState({
       [event.target.name]: event.target.value
     });

@@ -1,5 +1,4 @@
 import React from 'react';
-import {makeStyles} from '@material-ui/core/styles';
 
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -17,7 +16,7 @@ function EducationSection() {
     <Typography variant="h6" gutterBottom="gutterBottom">
       Education
     </Typography>
-    <button onClick={null}>Save Education</button>
+    <Button onClick={null}>Save Education</Button>
     <Grid container="container" spacing={3}>
       <Grid item="item" xs={12} sm={12}>
         <TextField required="required" id="degree" name="degree" label="Degree" fullWidth="fullWidth"/>
