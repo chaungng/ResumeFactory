@@ -23,6 +23,7 @@ import com.group.resumefactory.app.entities.User;
 import com.group.resumefactory.app.exceptions.ResourceNotFoundException;
 import com.group.resumefactory.app.repositories.UserRepository;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api")
 public class UserController {
@@ -39,7 +40,6 @@ public class UserController {
         return "hello";
     }
 
-    @CrossOrigin
     @GetMapping("/users")
     public List<User> getAllUsers() {
         return userRepository.findAll();
@@ -52,7 +52,6 @@ public class UserController {
 //    }
 
     // Create a new User
-    @CrossOrigin
     @PostMapping("/user")
     public User createUser(@Valid @RequestBody User user) {
         User savedUser = userRepository.save(user);
@@ -60,14 +59,12 @@ public class UserController {
     }
 
     // Get a Single User
-    @CrossOrigin
     @GetMapping("/user/{id}")
     public User getUserById(@PathVariable(value = "id") Long userId) {
         return userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
     }
 
     // Update a Note
-    @CrossOrigin
     @PutMapping("/user/{id}")
     public User updateUser(@PathVariable(value = "id") Long userId, @Valid @RequestBody User userDetails) {
 
@@ -82,7 +79,6 @@ public class UserController {
     }
 
     // Delete a User
-    @CrossOrigin
     @DeleteMapping("/user/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable(value = "id") Long userId) {
         User user = userRepository.findById(userId)
@@ -94,19 +90,17 @@ public class UserController {
     }
 
     // Delete a User
-    @CrossOrigin
     @DeleteMapping("/users")
     public ResponseEntity<?> deleteAllUsers() {
         userRepository.deleteAll();
         return ResponseEntity.ok().build();
     }
 
-    @CrossOrigin
+
     @PostMapping("/user/login")
     public User loginUser(@RequestBody LoginForm loginForm) {
-        // Get all the user
-        // userRepository.findAll()
         // Find the user with that user name
+        System.out.println("Login4");
         User user = userRepository.findByUsername(loginForm.getUsername())
                 .orElseThrow(() -> new ResourceNotFoundException("User", "username", loginForm.getUsername()));
 
