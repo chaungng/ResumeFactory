@@ -1,24 +1,36 @@
 package com.group.resumefactory.app.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotBlank;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
-@Table(name = "users",uniqueConstraints = {
-        @UniqueConstraint(columnNames = {
-                "username"
-        })
-})
-@EntityListeners(AuditingEntityListener.class)
-@JsonIgnoreProperties(value = {"createdAt", "updatedAt", "Password"},
-        allowGetters = true)
+//@Table(name = "users",uniqueConstraints = {
+//        @UniqueConstraint(columnNames = {
+//                "username"
+//        })
+//})
+//@EntityListeners(AuditingEntityListener.class)
+//@JsonIgnoreProperties(value = {"createdAt", "updatedAt", "Password"},
+//        allowGetters = true)
+@Table (name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,6 +43,9 @@ public class User {
 
     @NotBlank
     private String FirstName;
+    
+    @OneToMany(mappedBy="user", cascade = CascadeType.ALL)
+    private List<UserContentMapping> userContentMapping = new ArrayList<>();
 
     public Long getId() {
         return id;

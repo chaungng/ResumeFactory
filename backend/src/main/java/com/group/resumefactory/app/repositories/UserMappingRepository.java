@@ -11,5 +11,5 @@ import com.group.resumefactory.app.entities.UserContentMapping;
 @Repository
 public interface UserMappingRepository extends JpaRepository<UserContentMapping, Long> {
 
-	List<UserContentMapping> getMappingList();
+//	List<UserContentMapping> getMappingList();
 }

@@ -8,6 +8,7 @@ import SaveIcon from '@material-ui/icons/Save';
 import EditIcon from '@material-ui/icons/Edit';
 
 class PersonalInfoSection extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -28,18 +29,36 @@ class PersonalInfoSection extends Component {
     this.startEditing = this.startEditing.bind(this);
   }
 
+  sendData = () =>{
+    var isEditing = (this.state.isEditing) ? true : false;
+    this.props.personalInfo({
+      isEditing: isEditing,
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      phone: this.state.phone,
+      email: this.state.email,
+      city: this.state.city,
+      state: this.state.state,
+      zip: this.state.zip,
+      country: this.state.country,
+      summary: this.state.summary,
+    });
+  }
+
   handleInputChange(event) {
     event.preventDefault();
     this.setState({
       [event.target.name]: event.target.value
     });
-    console.log([event.target.name] + " " + [event.target.value]);
+    // console.log([event.target.name] + " " + [event.target.value]);
+    this.sendData();
   }
 
   stopEditing() {
     this.setState({
       isEditing: !this.state.isEditing
     });
+    this.sendData();
   }
 
   startEditing() {
