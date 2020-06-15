@@ -1,3 +1,4 @@
 class Resume{
 
+    var 
 }

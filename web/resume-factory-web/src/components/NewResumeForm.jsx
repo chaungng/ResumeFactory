@@ -44,11 +44,11 @@ class NewResumeForm extends Component {
 
   prepareResume(){
     console.log(this.state.personalInfo);
-    // if (this.state.personalInfo.isEditing){
-    //   return "Error";
-    // } else {
-
-    // }
+    if (this.state.personalInfo.isEditing){
+      return "Error";
+    } else {
+      
+    }
   }
 
   render() {
