@@ -26,27 +26,62 @@ class WorkExperience extends Component {
     this.clearEditing = this.clearEditing.bind(this);
   }
 
+
+  sendData = (isEditing) => {
+    if (isEditing){
+      this.props.workExperiences({
+        isEditing: isEditing,
+      });
+    } else {
+      this.props.workExperiences ( {
+        isEditing: isEditing,
+        jobTitle: this.state.jobTitle,
+        company: this.state.company,
+        country: this.state.country,
+        from: this.state.from,
+        to: this.state.to,
+        description: this.state.description
+      });
+    }
+  }
+
   handleInputChange(event) {
     event.preventDefault();
     this.setState({
       [event.target.name]: event.target.value,
     });
     console.log([event.target.name] + " " + [event.target.value]);
+    this.sendData(true);
   }
 
   startEditing() {
     this.setState({
-      isEditing: !this.state.isEditing,
+      isEditing: true,
     });
+    console.log(this.state);
   }
 
   stopEditing() {
     this.setState({
-      isEditing: !this.state.isEditing,
+      isEditing: false,
     });
+    this.sendData(false);
   }
 
   clearEditing() {
+    this.setState({
+      isEditing: !this.state.isEditing,
+      jobTitle: "",
+      company: "",
+      country: "",
+      from: "",
+      to: "",
+      description: ""
+    });
+    this.sendData(true);
+  }
+
+  clearData(){
     this.setState({
       isEditing: !this.state.isEditing,
       jobTitle: "",
@@ -69,22 +104,22 @@ class WorkExperience extends Component {
         }}>
         <Grid container="container" spacing={3}>
           <Grid item="item" xs={12} sm={12}>
-            <TextField required="required" id="jobTitle" name="jobTitle" label="Job Title" fullWidth="fullWidth" value={this.state.value} onChange={this.handleInputChange}/>
+            <TextField required="required" id="jobTitle" name="jobTitle" label="Job Title" fullWidth="fullWidth" value={this.state.jobTitle} onChange={this.handleInputChange}/>
           </Grid>
           <Grid item="item" xs={12} sm={4}>
-            <TextField required="required" id="company" name="company" label="Company" fullWidth="fullWidth" value={this.state.value} onChange={this.handleInputChange}/>
+            <TextField required="required" id="company" name="company" label="Company" fullWidth="fullWidth" value={this.state.company} onChange={this.handleInputChange}/>
           </Grid>
           <Grid item="item" xs={12} sm={6}>
-            <TextField required="required" id="country" name="country" label="Country" fullWidth="fullWidth" autoComplete="country" value={this.state.value} onChange={this.handleInputChange}/>
+            <TextField required="required" id="country" name="country" label="Country" fullWidth="fullWidth" autoComplete="country" value={this.state.country} onChange={this.handleInputChange}/>
           </Grid>
           <Grid item="item" xs={12} sm={4}>
-            <TextField required="required" name="from" label="From" fullWidth="fullWidth" value={this.state.value} onChange={this.handleInputChange}/>
+            <TextField required="required" name="from" label="From" fullWidth="fullWidth" value={this.state.from} onChange={this.handleInputChange}/>
           </Grid>
           <Grid item="item" xs={12} sm={4}>
-            <TextField required="required" name="to" label="To" fullWidth="fullWidth" value={this.state.value} onChange={this.handleInputChange}/>
+            <TextField required="required" name="to" label="To" fullWidth="fullWidth" value={this.state.to} onChange={this.handleInputChange}/>
           </Grid>
           <Grid item="item" xs={12} sm={12}>
-            <TextField id="description" name="description" label="Description" fullWidth="fullWidth" placeholder="Your description" multiline="multiline" rows={7} value={this.state.value} onChange={this.handleInputChange}/>
+            <TextField id="description" name="description" label="Description" fullWidth="fullWidth" placeholder="Your description" multiline="multiline" rows={7} value={this.state.description} onChange={this.handleInputChange}/>
           </Grid>
         </Grid>
         <Button variant="outlined" color="primary" size="small" startIcon={<SaveIcon />} onClick={this.stopEditing}/>

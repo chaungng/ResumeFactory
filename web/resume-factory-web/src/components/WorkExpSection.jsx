@@ -7,10 +7,12 @@ import AddIcon from '@material-ui/icons/Add';
 import WorkExperience from './WorkExperience';
 
 class WorkExpSection extends Component {
+  workExperiencesArr = new Array();
   constructor(props) {
     super(props);
     this.state = {
-      isClicked: false
+      isClicked: false,
+      workExperiences: this.workExperiencesArr,
     };
 
     this.handleAddExperience = this.handleAddExperience.bind(this);
@@ -18,7 +20,28 @@ class WorkExpSection extends Component {
 
   handleAddExperience() {
     this.setState({
-      isClicked: !this.state.isClicked
+      isClicked: !this.state.isClicked,
+      workExperiences: this.workExperiencesArr,
+    });
+  }
+
+  getWorkExperience = (childData) => {
+    if (!childData.isEditing){
+      this.workExperiencesArr.push(childData);
+      console.log(this.workExperiencesArr);
+    } else {
+      return;//flag to indicate it is being edited
+    }
+    this.setState({
+      workExperiences : this.workExperiencesArr,
+    });
+    console.log(this.state);
+    this.sendData();
+  }
+
+  sendData =()=>{
+    this.props.workExperiences({
+      workExperiences: this.state.workExperiences,
     });
   }
 
@@ -37,7 +60,7 @@ class WorkExpSection extends Component {
       </Button>
       {
         this.state.isClicked
-          ? <WorkExperience/>
+          ? <WorkExperience workExperiences = {this.getWorkExperience}/>
           : null
       }
     </div>);
