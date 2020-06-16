@@ -10,15 +10,7 @@ import CloseIcon from '@material-ui/icons/Close';
 class WorkExperience extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      isEditing: true,
-      jobTitle: "",
-      company: "",
-      country: "",
-      from: "",
-      to: "",
-      description: ""
-    };
+    this.clearData();
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.startEditing = this.startEditing.bind(this);
@@ -69,15 +61,7 @@ class WorkExperience extends Component {
   }
 
   clearEditing() {
-    this.setState({
-      isEditing: !this.state.isEditing,
-      jobTitle: "",
-      company: "",
-      country: "",
-      from: "",
-      to: "",
-      description: ""
-    });
+    this.clearData();
     this.sendData(true);
   }
 

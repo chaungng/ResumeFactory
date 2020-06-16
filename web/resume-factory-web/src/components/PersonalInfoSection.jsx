@@ -84,31 +84,31 @@ class PersonalInfoSection extends Component {
         </Button>
         <Grid container="container" spacing={3}>
           <Grid item="item" xs={12} sm={6}>
-            <TextField required="required" id="firstName" name="firstName" label="First name" fullWidth="fullWidth" autoComplete="given-name" value={this.state.value} onChange={this.handleInputChange}/>
+            <TextField required="required" id="firstName" name="firstName" label="First name" fullWidth="fullWidth" autoComplete="given-name" value={this.state.firstName} onChange={this.handleInputChange}/>
           </Grid>
           <Grid item="item" xs={12} sm={6}>
-            <TextField required="required" id="lastName" name="lastName" label="Last name" fullWidth="fullWidth" autoComplete="family-name" value={this.state.value} onChange={this.handleInputChange}/>
+            <TextField required="required" id="lastName" name="lastName" label="Last name" fullWidth="fullWidth" autoComplete="family-name" value={this.state.lastName} onChange={this.handleInputChange}/>
           </Grid>
           <Grid item="item" xs={12} sm={6}>
-            <TextField required="required" id="phone" name="phone" label="Phone Number" fullWidth="fullWidth" autoComplete="" value={this.state.value} onChange={this.handleInputChange}/>
+            <TextField required="required" id="phone" name="phone" label="Phone Number" fullWidth="fullWidth" autoComplete="" value={this.state.phone} onChange={this.handleInputChange}/>
           </Grid>
           <Grid item="item" xs={12} sm={6}>
-            <TextField required="required" id="email" name="email" label="Email" fullWidth="fullWidth" autoComplete="" value={this.state.value} onChange={this.handleInputChange}/>
+            <TextField required="required" id="email" name="email" label="Email" fullWidth="fullWidth" autoComplete="" value={this.state.email} onChange={this.handleInputChange}/>
           </Grid>
           <Grid item="item" xs={12} sm={6}>
-            <TextField required="required" id="city" name="city" label="City" fullWidth="fullWidth" autoComplete="shipping address-level2" value={this.state.value} onChange={this.handleInputChange}/>
+            <TextField required="required" id="city" name="city" label="City" fullWidth="fullWidth" autoComplete="shipping address-level2" value={this.state.city} onChange={this.handleInputChange}/>
           </Grid>
           <Grid item="item" xs={12} sm={6}>
-            <TextField id="state" name="state" label="State/Province/Region" fullWidth="fullWidth" value={this.state.value} onChange={this.handleInputChange}/>
+            <TextField id="state" name="state" label="State/Province/Region" fullWidth="fullWidth" value={this.state.state} onChange={this.handleInputChange}/>
           </Grid>
           <Grid item="item" xs={12} sm={6}>
             <TextField required="required" id="zip" name="zip" label="Zip/Postal code" fullWidth="fullWidth" autoComplete="shipping postal-code" value={this.state.value} onChange={this.handleInputChange}/>
           </Grid>
           <Grid item="item" xs={12} sm={6}>
-            <TextField required="required" id="country" name="country" label="Country" fullWidth="fullWidth" autoComplete="country" value={this.state.value} onChange={this.handleInputChange}/>
+            <TextField required="required" id="country" name="country" label="Country" fullWidth="fullWidth" autoComplete="country" value={this.state.country} onChange={this.handleInputChange}/>
           </Grid>
           <Grid item="item" xs={12} sm={12}>
-            <TextField id="summary" name="summary" label="Summary" fullWidth="fullWidth" placeholder="You can add your summary here" multiline="multiline" rows={7} value={this.state.value} onChange={this.handleInputChange}/>
+            <TextField id="summary" name="summary" label="Summary" fullWidth="fullWidth" placeholder="You can add your summary here" multiline="multiline" rows={7} value={this.state.summary} onChange={this.handleInputChange}/>
           </Grid>
         </Grid>
       </div>
