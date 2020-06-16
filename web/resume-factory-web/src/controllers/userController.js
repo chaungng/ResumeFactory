@@ -14,16 +14,24 @@ class UserControllerClass {
         }
 
         let result = await this.httpServices.post(url, data)
-        console.log('Complete')
-        console.log(result)
+        return result
     }
 
     logoutUser() {
 
     }
 
-    signUpUser() {
+    async signupUser(firstname, lastname, email, password) {
+        let url = 'user'
+        let data = {
+            userName: email,
+            firstName: firstname,
+            lastName: lastname,
+            passwordHash: password
+        }
 
+        let result = await this.httpServices.post(url, data)
+        return result
     }
 }
 

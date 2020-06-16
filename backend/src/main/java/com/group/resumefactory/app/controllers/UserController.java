@@ -1,9 +1,11 @@
 package com.group.resumefactory.app.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
+import com.group.resumefactory.app.models.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,7 @@ import com.group.resumefactory.app.repositories.UserRepository;
 @RequestMapping("/api")
 public class UserController {
 
+    @Autowired
     UserRepository userRepository;
 
     Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -44,12 +47,6 @@ public class UserController {
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
-
-//    @PostMapping("/hello1")
-//    @RequestMapping(value = "/hello1", method = RequestMethod.POST)
-//    public String getHello1(@RequestBody User user) {
-//    	return "hello1";
-//    }
 
     // Create a new User
     @PostMapping("/user")
@@ -98,18 +95,28 @@ public class UserController {
 
 
     @PostMapping("/user/login")
-    public User loginUser(@RequestBody LoginForm loginForm) {
+    public Response<User> loginUser(@RequestBody LoginForm loginForm) {
         // Find the user with that user name
-        System.out.println("Login4");
-        User user = userRepository.findByUsername(loginForm.getUsername())
-                .orElseThrow(() -> new ResourceNotFoundException("User", "username", loginForm.getUsername()));
+        Response<User> response = new Response<>();
+        response.setMessage("Invalid User");
+
+        Optional<User> result = userRepository.findByUsername(loginForm.getUsername());
 
         // Then check if the password match
         // if match, return true with the user information
-        if (loginForm.getPassword().equals(user.getPasswordHash())) {
-            return user;
-        } else {
-            return null;
+        if (!result.isPresent()) {
+            return response;
         }
+
+        User user = result.get();
+        if (loginForm.getPassword().equals(user.getPasswordHash())) {
+            response.setSuccess(true);
+            response.setMessage("Success");
+            response.setData(user);
+        } else {
+            response.setMessage("Invalid User");
+        }
+
+        return response;
     }
 }
