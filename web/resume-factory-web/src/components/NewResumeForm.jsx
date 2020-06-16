@@ -14,19 +14,27 @@ import Resume from '../models/Resume';
 class NewResumeForm extends Component {
 
   resumeService = null;
-
-  state = {personalInfo : null};
+  state = {
+    personalInfo : null,
+    workExperiences : null,
+  };
+  constructor(){
+    super();
+    this.resumeService = new ResumeServices();
+  }
 
   getPersonalInfo = (childData) =>{
     this.setState(
       {personalInfo: childData}
     );
   }
-
-  constructor(){
-    super();
-    this.resumeService = new ResumeServices();
+  getWorkExp = (childData) =>{
+    console.log(childData);
+    this.setState(
+      {workExperiences: childData}
+    );
   }
+  
   createNewResume(data){
     if (this.resumeService === null || this.resumeService === undefined){
       this.resumeService = new ResumeServices();
@@ -43,11 +51,11 @@ class NewResumeForm extends Component {
   }
 
   prepareResume(){
-    console.log(this.state.personalInfo);
+    console.log(this.state);
     if (this.state.personalInfo.isEditing){
       return "Error";
     } else {
-      
+
     }
   }
 
@@ -78,7 +86,7 @@ class NewResumeForm extends Component {
         </Grid>
 
         <PersonalInfoSection personalInfo = {this.getPersonalInfo}/>
-        <WorkExpSection/>
+        <WorkExpSection workExperiences = {this.getWorkExp}/>
         <SkillsSection/>
         <EducationSection/>
 
