@@ -14,6 +14,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import UserController from '../controllers/userController';
 import { useHistory } from "react-router-dom";
+import {validateEmptyField} from "../helpers/viewHelpers";
 
 function Copyright() {
     return (<Typography variant="body2" color="textSecondary" align="center">
@@ -56,19 +57,8 @@ export default function LoginPage() {
 
     const loginUser = async function () {
         let valid = true
-        if(email.trim() === '') {
-            setEmailErrorMessage('Email cannot be empty')
-            valid = false
-        } else {
-            setEmailErrorMessage('')
-        }
-
-        if(password.trim() === '') {
-            setPasswordErrorMessage('Password cannot be empty')
-            valid = false
-        } else {
-            setPasswordErrorMessage('')
-        }
+        validateEmptyField(email, valid, setEmailErrorMessage, 'Email cannot be empty')
+        validateEmptyField(password, valid, setPasswordErrorMessage, 'Password cannot be empty')
 
         if(!valid) {
             return
