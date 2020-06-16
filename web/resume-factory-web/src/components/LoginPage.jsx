@@ -13,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import UserController from '../controllers/userController';
+import { useHistory } from "react-router-dom";
 
 function Copyright() {
     return (<Typography variant="body2" color="textSecondary" align="center">
@@ -47,9 +48,38 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LoginPage() {
     const classes = useStyles();
-    const [loginState, setLoginState] = useState('never')
+    const history = useHistory();
     const [email, setEmail] = useState('')
+    const [emailErrorMessage, setEmailErrorMessage] = useState('')
     const [password, setPassword] = useState('')
+    const [passwordErrorMessage, setPasswordErrorMessage] = useState('')
+
+    const loginUser = async function () {
+        let valid = true
+        if(email.trim() === '') {
+            setEmailErrorMessage('Email cannot be empty')
+            valid = false
+        } else {
+            setEmailErrorMessage('')
+        }
+
+        if(password.trim() === '') {
+            setPasswordErrorMessage('Password cannot be empty')
+            valid = false
+        } else {
+            setPasswordErrorMessage('')
+        }
+
+        if(!valid) {
+            return
+        }
+
+        let response = await UserController.loginUser(email, password)
+
+        if(response.success) {
+            history.push('/')
+        }
+    }
 
     return (<Container component="main" maxWidth="xs">
         <CssBaseline/>
@@ -64,11 +94,15 @@ export default function LoginPage() {
                 <TextField
                     variant="outlined" margin="normal" required fullWidth id="email"
                     label="Email Address" name="email" autoComplete="email" autoFocus
+                    error={emailErrorMessage !== ''}
+                    helperText={emailErrorMessage}
                     onChange={(e) => setEmail(e.target.value)}
                 />
                 <TextField
                     variant="outlined" margin="normal" required fullWidth name="password"
                     label="Password" type="password" id="password" autoComplete="current-password"
+                    error={passwordErrorMessage !== ''}
+                    helperText={passwordErrorMessage}
                     onChange={(e) => setPassword(e.target.value)}
                 />
                 <FormControlLabel control={<Checkbox value="remember" color="primary"/>} label="Remember me"/>
@@ -77,10 +111,7 @@ export default function LoginPage() {
                     variant="contained"
                     color="primary"
                     className={classes.submit}
-                    onClick={async () => {
-                        console.log('login')
-                        await UserController.loginUser(email, password)
-                    }}
+                    onClick={loginUser}
                 >
                     Sign In
                 </Button>
@@ -91,7 +122,7 @@ export default function LoginPage() {
                         </Link>
                     </Grid>
                     <Grid item>
-                        <Link href="#" variant="body2">
+                        <Link href="/signup" variant="body2">
                             {"Don't have an account? Sign Up"}
                         </Link>
                     </Grid>

@@ -17,9 +17,15 @@ export default class HttpServices{
 
     async makeRequest(func, url, data) {
         try {
-            return await func(url, data)
+            let response = await func(url, data)
+
+            return response.data
         } catch {
-            return null
+            return {
+                data: null,
+                message: 'unknown error',
+                success: false
+            }
         }
     }
 
