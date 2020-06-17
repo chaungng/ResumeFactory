@@ -13,8 +13,8 @@ import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {useHistory} from "react-router-dom";
-import UserController from "../controllers/userController";
-import {validateEmptyField} from "../helpers/viewHelpers";
+import UserController from "../controllers/UserController";
+import {validateEmptyField} from "../helpers/ViewHelpers";
 
 function Copyright() {
     return (<Typography variant="body2" color="textSecondary" align="center">

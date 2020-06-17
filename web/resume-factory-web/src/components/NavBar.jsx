@@ -1,6 +1,5 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import AppBar from '@material-ui/core/AppBar';
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -8,46 +7,160 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
 import history from './../history';
-import MenuBar from './MenuBar';
 
-export default class NavBar extends React.Component {
-  constructor(props) {
-    super(props);
+import localforage from "localforage";
+import {DataContext} from "../contenxts/DataContext";
 
-    this.state = {
-      openMenu: false,
-      openLogin: false,
-      openSignUp: false
-    };
+export const NavBar = () => {
+    // static
+    // contextType = DataContext
 
-    this.onClickMenuButton = this.onClickMenuButton.bind(this);
-  }
+    const {user} = useContext(DataContext)
 
-  onClickMenuButton() {
-    console.log("onClick: MenuButton is clicked");
-    this.setState({
-      openMenu: !this.state.openMenu
-    });
-  }
+    const onClickMenuButton = () => {
+        this.setState({
+            openMenu: !this.state.openMenu
+        });
+    }
 
-  render() {
-    return (<div>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton edge="start" color="inherit" aria-label="menu" onClick={this.onClickMenuButton}>
-            <MenuIcon/>
-          </IconButton>
-          <Typography variant="h6">
-            <Button color="inherit" onClick={() => history.push('/')}>
-              Resume Factory
-            </Button>
-          </Typography>
-          <Button color="inherit" onClick={() => history.push('/login')}>
-            Login</Button>
-          <Button color="inherit" onClick={() => history.push('/signup')}>
-            Sign Up</Button>
-        </Toolbar>
-      </AppBar>
-    </div>);
-  }
+    const logout = () => {
+        this.context.user.setLoggedIn('false')
+    }
+
+    let notLoggedInComponents = (
+        [<Button
+            key="login"
+            color="inherit"
+            onClick={logout}
+        >
+            Login
+        </Button>,
+            <Button
+                key="signup"
+                color="inherit"
+                onClick={() => history.push('/signup')}
+            >
+                Sign Up
+            </Button>]
+    )
+
+    let loggedInComponents = (
+        <Button
+            color="inherit"
+            onClick={async () => {
+                await user.setLoggedIn(false)
+                await localforage.setItem('loggedIn', false)
+                history.push('/login')
+            }}
+        >
+            Logout
+        </Button>
+    )
+
+    console.log('nav bar')
+    // console.log(this.context)
+    console.log(user)
+
+    return (
+        <AppBar position="static">
+            <Toolbar>
+                <IconButton edge="start" color="inherit" aria-label="menu" onClick={onClickMenuButton}>
+                    <MenuIcon/>
+                </IconButton>
+                <Typography variant="h6">
+                    <Button color="inherit" onClick={() => history.push('/')}>
+                        Resume Factory
+                    </Button>
+                </Typography>
+                {user.loggedIn && loggedInComponents}
+                {!user.loggedIn && notLoggedInComponents}
+            </Toolbar>
+        </AppBar>
+    );
 }
+
+// export default class NavBar extends React.Component {
+//     static contextType = DataContext
+//
+//     constructor(props) {
+//         super(props);
+//
+//         this.state = {
+//             openMenu: false,
+//             openLogin: false,
+//             openSignUp: false,
+//             loggedIn: false
+//         };
+//
+//         this.onClickMenuButton = this.onClickMenuButton.bind(this);
+//     }
+//
+//     onClickMenuButton() {
+//         this.setState({
+//             openMenu: !this.state.openMenu
+//         });
+//     }
+//
+//     logout = () => {
+//         this.context.user.setLoggedIn('false')
+//     }
+//
+//     render() {
+//         const {user} = this.context
+//
+//         let loggedInComponents = (
+//             [<Button
+//                 key="login"
+//                 color="inherit"
+//                 onClick={this.logout}
+//             >
+//                 Login
+//             </Button>,
+//                 <Button
+//                     key="signup"
+//                     color="inherit"
+//                     onClick={() => history.push('/signup')}
+//                 >
+//                     Sign Up
+//                 </Button>]
+//         )
+//
+//         let notLoggedInComponents = (
+//             <Button
+//                 color="inherit"
+//                 onClick={async () => {
+//                     await user.setLoggedIn(false)
+//                     await localforage.setItem('loggedIn', false)
+//                     history.push('/login')
+//                 }}
+//             >
+//                 Logout
+//             </Button>
+//         )
+//
+//         console.log('nav bar')
+//         console.log(this.context)
+//         console.log(user)
+//
+//         return (
+//             <DataContext.Consumer>
+//                 {({user}) => (
+//                     <AppBar position="static">
+//                         <Toolbar>
+//                             <IconButton edge="start" color="inherit" aria-label="menu" onClick={this.onClickMenuButton}>
+//                                 <MenuIcon/>
+//                             </IconButton>
+//                             <Typography variant="h6">
+//                                 <Button color="inherit" onClick={() => history.push('/')}>
+//                                     Resume Factory
+//                                 </Button>
+//                             </Typography>
+//                             {user.loggedIn && loggedInComponents}
+//                             {!user.loggedIn && notLoggedInComponents}
+//                         </Toolbar>
+//                     </AppBar>
+//                 )}
+//             </DataContext.Consumer>
+//         );
+//     }
+// }

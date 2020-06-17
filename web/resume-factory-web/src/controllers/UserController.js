@@ -1,4 +1,4 @@
-import {UserViewModel} from "../viewModel/userViewModel";
+import {UserViewModel} from "../viewModel/UserViewModel";
 import HttpServices from "../Services/HttpServices";
 
 class UserControllerClass {
