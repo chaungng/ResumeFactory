@@ -51,6 +51,7 @@ services:
       - backend
 
   backend:
+    container_name: backend
     build:
       context: ./backend
       dockerfile: Dockerfile
