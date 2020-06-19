@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const baseURL = "http://localhost:8000/api";
+// const baseURL = "http://localhost:8000/api";
+const baseURL = "http://localhost:8000/";
 export default class HttpServices{
     
     getAxiosInstance(){
@@ -8,7 +9,8 @@ export default class HttpServices{
             baseURL: baseURL,
             headers: {
                 "Content-type": "application/json",
-                "cache-control": "no-cache"
+                "cache-control": "no-cache",
+                "Access-Control-Allow-Origin": "*",
             }
         });
     }

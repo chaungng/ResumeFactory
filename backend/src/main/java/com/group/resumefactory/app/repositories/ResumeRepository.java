@@ -9,5 +9,5 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 public interface ResumeRepository extends MongoRepository<Resume, String> {
 //    public List<Resume> _findByUserId(String userId);
-    public List<Resume> findByUserId(@Param("userId") String userId);
+//    public List<Resume> findByUserId(@Param("userId") String userId);
 }

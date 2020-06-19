@@ -6,6 +6,8 @@ class UserControllerClass {
 
     httpServices = new HttpServices()
 
+    baseURL = "api/";
+
     async loginUser(email, password) {
         let url = 'user/login'
         let data = {
@@ -22,7 +24,7 @@ class UserControllerClass {
     }
 
     async signupUser(firstname, lastname, email, password) {
-        let url = 'user'
+        let url = this.baseURL +'user'
         let data = {
             userName: email,
             firstName: firstname,

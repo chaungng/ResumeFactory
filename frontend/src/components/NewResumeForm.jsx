@@ -10,13 +10,17 @@ import EducationSection from './EducationSection';
 
 import ResumeServices from '../Services/ResumeServices';
 import Resume from '../models/Resume';
+import ResumeController from '../controllers/ResumeController';
 
 class NewResumeForm extends Component {
 
   resumeService = null;
+  ResumeController = new ResumeController();
   state = {
     personalInfo : null,
     workExperiences : null,
+    educationInfo: null,
+    skills: null,
   };
   constructor(){
     super();
@@ -34,29 +38,42 @@ class NewResumeForm extends Component {
       {workExperiences: childData}
     );
   }
+  getEducationInfo = (childData) =>{
+    console.log(childData);
+    this.setState(
+      {educationInfo: childData}
+    );
+  }
+  getSkills = (childData) =>{
+    console.log(childData);
+    this.setState(
+      {skills: childData}
+    );
+  }
   
-  createNewResume(data){
-    if (this.resumeService === null || this.resumeService === undefined){
-      this.resumeService = new ResumeServices();
-    }
-    if (resume === null || resume === undefined){
-      console.log("null ");
-      console.log(this.state)
-      return;//error
-    } else {
-      var resume : Resume = this.prepareResume(data);
-      this.resumeService.createNewResume(resume);
-    }
+  async createNewResume(data){
+    let response = await this.ResumeController.addNewResume(data);
+    // const history = useHistory();
+    // if (resume === null || resume === undefined){
+    //   console.log("null ");
+    //   console.log(this.state)
+    //   return;//error
+    // } else {
+    //   var resume : Resume = this.prepareResume(data);
+    //   this.resumeService.createNewResume(resume);
+    // }
     
   }
 
   prepareResume(){
     console.log(this.state);
-    if (this.state.personalInfo.isEditing){
-      return "Error";
-    } else {
+    // if (this.state.personalInfo.isEditing){
+    //   return "Error";
+    // } else {
 
-    }
+    // }
+
+    this.createNewResume(this.state.educationInfo);
   }
 
   render() {
@@ -87,8 +104,8 @@ class NewResumeForm extends Component {
 
         <PersonalInfoSection personalInfo = {this.getPersonalInfo}/>
         <WorkExpSection workExperiences = {this.getWorkExp}/>
-        <SkillsSection/>
-        <EducationSection/>
+        <SkillsSection skills = {this.getSkills}/>
+        <EducationSection educationInfo = {this.getEducationInfo}/>
 
       </div>
     </React.Fragment>);

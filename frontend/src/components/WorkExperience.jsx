@@ -10,7 +10,15 @@ import CloseIcon from '@material-ui/icons/Close';
 class WorkExperience extends Component {
   constructor(props) {
     super(props);
-    this.clearData();
+    this.state={
+      isEditing: true,
+      jobTitle: "",
+      company: "",
+      country: "",
+      from: "",
+      to: "",
+      description: ""
+    };
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.startEditing = this.startEditing.bind(this);
@@ -42,7 +50,7 @@ class WorkExperience extends Component {
     this.setState({
       [event.target.name]: event.target.value,
     });
-    console.log([event.target.name] + " " + [event.target.value]);
+    // console.log([event.target.name] + " " + [event.target.value]);
     this.sendData(true);
   }
 

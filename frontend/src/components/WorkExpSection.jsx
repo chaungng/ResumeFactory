@@ -35,7 +35,7 @@ class WorkExpSection extends Component {
     this.setState({
       workExperiences : this.workExperiencesArr,
     });
-    console.log(this.state);
+    // console.log(this.state);
     this.sendData();
   }
 
