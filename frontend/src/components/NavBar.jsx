@@ -24,7 +24,7 @@ export const NavBar = () => {
     }
 
     const logout = () => {
-        this.context.user.setLoggedIn('false')
+        user.setLoggedIn('false')
     }
 
     let notLoggedInComponents = (

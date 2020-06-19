@@ -26,7 +26,7 @@ class NewResumeForm extends Component {
     skills: null,
   };
 
-  user = DataContext;
+  static contextType = DataContext;
   // user = useContext(DataContext)
   constructor(){
     super();
@@ -36,6 +36,7 @@ class NewResumeForm extends Component {
 
   componentDidMount(){
     // this.user = DataContext;
+    const value = this.user;
     console.log(this.user);
   }
 
@@ -64,9 +65,9 @@ class NewResumeForm extends Component {
   }
   
   async createNewResume(data){
-    // console.log(DataContext);
+    console.log(this.context);
     let resumeData = {
-      userId: this.user.userId, 
+      userId: this.context.user.userId, 
       content: JSON.stringify(data)
     };
 
@@ -120,5 +121,5 @@ class NewResumeForm extends Component {
     </React.Fragment>);
   }
 }
-
+NewResumeForm.contextType = DataContext;
 export default NewResumeForm;

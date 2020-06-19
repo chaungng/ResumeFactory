@@ -99,7 +99,6 @@ export default function LoginPage() {
             await localForage.setItem('loggedIn', true);
             user.setUserId(response.data.id);
             await localForage.setItem('userId', response.data.id);
-            console.log(user);
             history.push('/')
         } else {
             setOtherErrorMessage('Invalid user')
