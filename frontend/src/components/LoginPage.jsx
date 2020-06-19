@@ -83,7 +83,7 @@ export default function LoginPage() {
         }
 
         let response = await UserController.loginUser(email, password)
-
+        console.log(response);
         if (response.success) {
             try {
                 if (rememberMe) {
@@ -97,6 +97,9 @@ export default function LoginPage() {
 
             user.setLoggedIn(true)
             await localForage.setItem('loggedIn', true);
+            user.setUserId(response.data.id);
+            await localForage.setItem('userId', response.data.id);
+            console.log(user);
             history.push('/')
         } else {
             setOtherErrorMessage('Invalid user')

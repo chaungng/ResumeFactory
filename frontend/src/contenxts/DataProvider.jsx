@@ -10,17 +10,25 @@ export class DataProvider extends Component {
         this.state = {
             user: {
                 loggedIn: false,
-                setLoggedIn: this.setLoggedIn
+                setLoggedIn: this.setLoggedIn,
+                userId: null,
+                setUserId: this.setUserId,
             }
         }
     }
 
     async componentDidMount() {
         let loggedIn = await localforage.getItem('loggedIn')
+        let userId = await localforage.getItem('userId')
         this.setState(state => {
             state.user.loggedIn = loggedIn
-            return state
+            // return state
         })
+        this.setState(state => {
+            state.user.userId = userId
+            // return state
+        })
+        return this.state;
     }
 
     setLoggedIn = async (val) => {
@@ -30,6 +38,15 @@ export class DataProvider extends Component {
         })
         await localforage.setItem('loggedIn', val)
         history.push('/login')
+    }
+
+    setUserId = async (val) => {
+        this.setState((state) => {
+            state.user.userId = val
+            return state
+        })
+        await localforage.setItem('userId', val)
+        // history.push('/login')
     }
 
     render() {

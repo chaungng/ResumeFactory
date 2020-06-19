@@ -11,6 +11,9 @@ import EducationSection from './EducationSection';
 import ResumeServices from '../Services/ResumeServices';
 import Resume from '../models/Resume';
 import ResumeController from '../controllers/ResumeController';
+// import localForage from "localforage";
+import {DataContext} from "../contenxts/DataContext";
+
 
 class NewResumeForm extends Component {
 
@@ -22,9 +25,18 @@ class NewResumeForm extends Component {
     educationInfo: null,
     skills: null,
   };
+
+  user = DataContext;
+  // user = useContext(DataContext)
   constructor(){
     super();
     this.resumeService = new ResumeServices();
+    // console.log(this.context);
+  }
+
+  componentDidMount(){
+    // this.user = DataContext;
+    console.log(this.user);
   }
 
   getPersonalInfo = (childData) =>{
@@ -52,16 +64,13 @@ class NewResumeForm extends Component {
   }
   
   async createNewResume(data){
-    let response = await this.ResumeController.addNewResume(data);
-    // const history = useHistory();
-    // if (resume === null || resume === undefined){
-    //   console.log("null ");
-    //   console.log(this.state)
-    //   return;//error
-    // } else {
-    //   var resume : Resume = this.prepareResume(data);
-    //   this.resumeService.createNewResume(resume);
-    // }
+    // console.log(DataContext);
+    let resumeData = {
+      userId: this.user.userId, 
+      content: JSON.stringify(data)
+    };
+
+    let response = await this.ResumeController.addNewResume(resumeData);
     
   }
 
@@ -73,7 +82,7 @@ class NewResumeForm extends Component {
 
     // }
 
-    this.createNewResume(this.state.educationInfo);
+    this.createNewResume(this.state);
   }
 
   render() {
