@@ -9,7 +9,7 @@ class UserControllerClass {
     baseURL = "api/";
 
     async loginUser(email, password) {
-        let url = 'user/login'
+        let url = this.baseURL + 'user/login'
         let data = {
             username: email,
             password: password

@@ -41,7 +41,14 @@ export const NavBar = () => {
                 onClick={() => history.push('/signup')}
             >
                 Sign Up
-            </Button>]
+            </Button>,
+            <Button
+                key="findjob"
+                color="inherit"
+                onClick={() => history.push('/findjob')}
+            >
+                Find a Job!
+            </Button>,]
     )
 
     let loggedInComponents = (
