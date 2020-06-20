@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button';
 import ResumeTable from './ResumeTable';
 import history from './../history';
 import localForage from "localforage";
+import ResumeController from "../controllers/ResumeController";
 
 class HomePage extends Component {
 
@@ -14,7 +15,10 @@ class HomePage extends Component {
 
         this.state = {
             editProfileIsOn: false,
-            loggedIn: false
+            loggedIn: false,
+            userId: null, 
+            userName: "",
+            numOfResume: 0,
         }
 
         this.addNewResume = this.addNewResume.bind(this);
@@ -24,8 +28,17 @@ class HomePage extends Component {
     async componentDidMount() {
         try {
             const loggedIn = await localForage.getItem('loggedIn');
+            
             if (loggedIn) {
-                this.setState({loggedIn: true})
+                const userId = await localForage.getItem('userId');
+                const username = await localForage.getItem('username');
+                const numOfResume = await localForage.getItem('numOfResume');
+                this.setState({
+                    loggedIn: true, 
+                    userId: userId,
+                    username: username,
+                    numOfResume: numOfResume
+                })
             } else {
                 history.push('/login')
             }
@@ -47,39 +60,42 @@ class HomePage extends Component {
     }
 
     render() {
-        if (!this.state.loggedIn) return null
-
-        return (
-            <div>
-                <h1>Profile Summary</h1>
+        if (this.state.loggedIn == false
+            && this.state.userId !== null){
+            return null
+        } else {
+            return (
                 <div>
-                    <Grid container spacing={3}>
-                        <Grid item xs={9}>
-                            <Paper>
-                                <h2>Name: Chau Nguyen</h2>
-                                <p>Software Developer</p>
-                                <p>Location: New Westminster, BC, Canada</p>
-                                <button onClick={this.editProfile}>
-                                    Edit
-                                </button>
-                            </Paper>
+                    <h1>Profile Summary</h1>
+                    <div>
+                        <Grid container spacing={3}>
+                            <Grid item xs={9}>
+                                <Paper>
+                                    <h2>Name: {this.state.username}</h2>
+                                    <p>Software Developer</p>
+                                    <p>Location: New Westminster, BC, Canada</p>
+                                    <button onClick={this.editProfile}>
+                                        Edit
+                                    </button>
+                                </Paper>
+                            </Grid>
+    
+                            <Grid item xs={3}>
+                                <Paper>
+                                    <p>Number of Resumes:</p>
+                                    <h2>{(this.state.numOfResume == null) ? 0 : this.state.numOfResume}</h2>
+                                </Paper>
+                            </Grid>
                         </Grid>
-
-                        <Grid item xs={3}>
-                            <Paper>
-                                <p>Number of Resumes:</p>
-                                <h2>100</h2>
-                            </Paper>
-                        </Grid>
-                    </Grid>
+                    </div>
+                    <Button variant="contained" color="primary" onClick={this.addNewResume}>
+                        Add new Resume
+                    </Button>
+                    <h1>Resume List</h1>
+                    <ResumeTable/>
                 </div>
-                <Button variant="contained" color="primary" onClick={this.addNewResume}>
-                    Add new Resume
-                </Button>
-                <h1>Resume List</h1>
-                <ResumeTable/>
-            </div>
-        );
+            );
+        }
     }
 }
 

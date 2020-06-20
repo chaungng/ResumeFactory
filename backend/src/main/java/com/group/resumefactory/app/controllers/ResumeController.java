@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,10 +37,28 @@ public class ResumeController {
     	return resumeRepository.findAll();
     }
     
+//    @PostMapping("/addnewresume")
+//    public Resume createResume(@Valid @RequestBody Resume resume) {
+//        Resume savedResume = resumeRepository.save(resume);
+//        return savedResume;
+//    }
+    
     @PostMapping("/addnewresume")
     public Resume createResume(@Valid @RequestBody Resume resume) {
         Resume savedResume = resumeRepository.save(resume);
         return savedResume;
+    }
+    
+    @GetMapping("resumes")
+    public List<Resume> getResumeById(String userId){
+    	List<Resume> resumes = resumeRepository.findByUserId(userId);
+    	return resumes;
+    }
+    
+    @GetMapping("count")
+    public int getCountResumeByUserId(String userId){
+    	List<Resume> resumes = resumeRepository.findByUserId(userId);
+    	return resumes.size();
     }
 
 }

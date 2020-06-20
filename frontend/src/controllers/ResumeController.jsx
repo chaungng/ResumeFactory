@@ -1,5 +1,5 @@
 import HttpServices from "../Services/HttpServices";
-export default class ResumeController{
+class ResumeControllerClass{
 
     httpServices = new HttpServices();
 
@@ -7,7 +7,27 @@ export default class ResumeController{
     async addNewResume(data){
 
         let result = await this.httpServices.post(this.baseURL + "addnewresume", data);
+        console.log(result);
+        return result;
+    }
+
+    async getAllResumes (){
+        let result = await this.httpServices.get(this.baseURL + "allResumes");
+        console.log(result);
+        return result;
+    }
+
+    async getResumesByUserId (userId){
+        let result = await this.httpServices.get( this.baseURL +"resumes?userId=" +userId);
+        // console.log(result);
+        return result;
+    }
+
+    async getCountResumeByUserId (userId){
+        let result = await this.httpServices.get( this.baseURL +"count?userId=" +userId);
         return result;
     }
 
 }
+let ResumeController = new ResumeControllerClass();
+export default ResumeController;

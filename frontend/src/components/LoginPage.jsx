@@ -17,6 +17,7 @@ import {useHistory} from "react-router-dom";
 import {validateEmptyField} from "../helpers/ViewHelpers";
 import localForage from "localforage";
 import {DataContext} from "../contenxts/DataContext";
+import ResumeController from '../controllers/ResumeController';
 
 function Copyright() {
     return (<Typography variant="body2" color="textSecondary" align="center">
@@ -99,6 +100,11 @@ export default function LoginPage() {
             await localForage.setItem('loggedIn', true);
             user.setUserId(response.data.id);
             await localForage.setItem('userId', response.data.id);
+            user.setUsername(response.data.firstName + " " + response.data.lastName);
+            await localForage.setItem('username', user.username);
+            let count = await ResumeController.getCountResumeByUserId(user.userId);
+            user.setNumOfResume(count);
+            await localForage.setItem('numOfResume', user.numOfResume);
             history.push('/')
         } else {
             setOtherErrorMessage('Invalid user')

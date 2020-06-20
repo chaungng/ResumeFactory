@@ -13,12 +13,13 @@ import Resume from '../models/Resume';
 import ResumeController from '../controllers/ResumeController';
 // import localForage from "localforage";
 import {DataContext} from "../contenxts/DataContext";
+import localForage from "localforage";
 
 
 class NewResumeForm extends Component {
 
   resumeService = null;
-  ResumeController = new ResumeController();
+  // ResumeController = new ResumeController();
   state = {
     personalInfo : null,
     workExperiences : null,
@@ -35,9 +36,6 @@ class NewResumeForm extends Component {
   }
 
   componentDidMount(){
-    // this.user = DataContext;
-    const value = this.user;
-    console.log(this.user);
   }
 
   getPersonalInfo = (childData) =>{
@@ -65,24 +63,29 @@ class NewResumeForm extends Component {
   }
   
   async createNewResume(data){
-    console.log(this.context);
     let resumeData = {
       userId: this.context.user.userId, 
-      content: JSON.stringify(data)
+      content: JSON.stringify(data),
+      title: "Software Engineer",
+      level: "Fresh Graduate",
+      company: "SAP Inc."
     };
 
-    let response = await this.ResumeController.addNewResume(resumeData);
-    
+    let response = await ResumeController.addNewResume(resumeData);
+    if (response.id !== null || response.id !== undefined){
+      //TODO: handle response in case error
+      let count = await ResumeController.getCountResumeByUserId(this.context.user.userId);
+      this.context.user.setNumOfResume(count);
+      await localForage.setItem('numOfResume', count);
+      this.props.history.push('/');
+      // return true;
+    } else {
+      // return false;
+    }
   }
 
   prepareResume(){
     console.log(this.state);
-    // if (this.state.personalInfo.isEditing){
-    //   return "Error";
-    // } else {
-
-    // }
-
     this.createNewResume(this.state);
   }
 

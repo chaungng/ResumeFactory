@@ -6,5 +6,9 @@ export const DataContext = React.createContext({
         setLoggedIn: null, 
         userId: null,
         setUserId: null,
+        username: null,
+        setUsername: null,
+        numOfResume: null, 
+        setNumOfResume: null, 
     }
 })

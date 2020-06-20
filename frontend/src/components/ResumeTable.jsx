@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
@@ -8,6 +8,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
+import ResumeController from '../controllers/ResumeController';
+import { DataContext } from '../contenxts/DataContext';
 
 const columns = [
     {
@@ -69,6 +71,28 @@ export default function StickyHeadTable() {
     const classes = useStyles();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [resumes, setResumes] = React.useState([]);
+
+    
+    const {user} = useContext(DataContext);
+
+    useEffect(() => {
+        async function getResumes(){
+            if (user.loggedIn){
+                const result = await ResumeController.getResumesByUserId(user.userId);
+                // console.log(result);
+                var resumesArr = [];
+                for (const [index, value] of result.entries()) {
+                    resumesArr.push(
+                        createData(index +1 , value.title, value.level, value.company)
+                    );
+                }
+                setResumes(resumesArr);
+            }
+        }
+        getResumes();
+        
+    });
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -81,6 +105,7 @@ export default function StickyHeadTable() {
 
     return (
         <Paper className={classes.root}>
+            <p></p>
             <TableContainer className={classes.container}>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
@@ -96,9 +121,9 @@ export default function StickyHeadTable() {
                     </TableHead>
                     <TableBody>
                         {
-                            rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                            resumes.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                                 return (
-                                    <TableRow hover role="checkbox" tabIndex={-1} key={row.number}>
+                                    <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                                         {
                                             columns.map((column) => {
                                                 const value = row[column.id];
@@ -120,7 +145,7 @@ export default function StickyHeadTable() {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <TablePagination rowsPerPageOptions={[10, 25, 100]} component="div" count={rows.length}
+            <TablePagination rowsPerPageOptions={[10, 25, 100]} component="div" count={resumes.length}
                              rowsPerPage={rowsPerPage} page={page} onChangePage={handleChangePage}
                              onChangeRowsPerPage={handleChangeRowsPerPage}/>
         </Paper>

@@ -13,6 +13,10 @@ export class DataProvider extends Component {
                 setLoggedIn: this.setLoggedIn,
                 userId: null,
                 setUserId: this.setUserId,
+                username: null,
+                setUsername: this.setUsername,
+                numOfResume: null,
+                setNumOfResume: this.setNumOfResume,
             }
         }
     }
@@ -20,12 +24,22 @@ export class DataProvider extends Component {
     async componentDidMount() {
         let loggedIn = await localforage.getItem('loggedIn')
         let userId = await localforage.getItem('userId')
+        let username = await localforage.getItem('username')
+        let numOfResume = await localforage.getItem('numOfResume')
         this.setState(state => {
             state.user.loggedIn = loggedIn
             // return state
         })
         this.setState(state => {
             state.user.userId = userId
+            // return state
+        })
+        this.setState(state => {
+            state.user.username = username
+            // return state
+        })
+        this.setState(state => {
+            state.user.numOfResume = numOfResume
             // return state
         })
         return this.state;
@@ -46,7 +60,22 @@ export class DataProvider extends Component {
             return state
         })
         await localforage.setItem('userId', val)
-        // history.push('/login')
+    }
+
+    setUsername = async (val) => {
+        this.setState((state) => {
+            state.user.username = val
+            return state
+        })
+        await localforage.setItem('username', val)
+    }
+
+    setNumOfResume = async (val) => {
+        this.setState((state) => {
+            state.user.numOfResume = val
+            return state
+        })
+        await localforage.setItem('numOfResume', val)
     }
 
     render() {

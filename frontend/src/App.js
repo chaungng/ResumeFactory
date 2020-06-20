@@ -14,6 +14,8 @@ class App extends Component {
 
     async componentDidMount() {
         this.setState({loggedIn: await localforage.getItem('loggedIn')})
+        this.setState({userId: await localforage.getItem('userId')})
+        this.setState({username: await localforage.getItem('username')})
     }
 
     render() {
