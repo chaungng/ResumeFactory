@@ -60,6 +60,7 @@ class HomePage extends Component {
     }
 
     render() {
+        console.log(this.state);
         if (this.state.loggedIn == false
             && this.state.userId !== null){
             return null

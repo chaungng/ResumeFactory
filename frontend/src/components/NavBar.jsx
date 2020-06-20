@@ -79,8 +79,7 @@ export const NavBar = () => {
                         Resume Factory
                     </Button>
                 </Typography>
-                {user.loggedIn && loggedInComponents}
-                {!user.loggedIn && notLoggedInComponents}
+                {user.loggedIn ? loggedInComponents: notLoggedInComponents}
             </Toolbar>
         </AppBar>
     );
