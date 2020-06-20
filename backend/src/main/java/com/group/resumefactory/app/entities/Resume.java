@@ -14,6 +14,8 @@ public class Resume {
     public String title;
     
     public String level;
+    
+    public String company; 
 
     public Resume() {}
 
@@ -33,6 +35,16 @@ public class Resume {
 		this.content = content;
 		this.title = title;
 		this.level = level;
+	}
+    
+
+	public Resume(String userId, String content, String title, String level, String company) {
+		super();
+		this.userId = userId;
+		this.content = content;
+		this.title = title;
+		this.level = level;
+		this.company = company;
 	}
 
 	public String getUserId() {
@@ -66,7 +78,13 @@ public class Resume {
 	public void setLevel(String level) {
 		this.level = level;
 	}
-    
-    
+
+	public String getCompany() {
+		return company;
+	}
+
+	public void setCompany(String company) {
+		this.company = company;
+	}
     
 }

@@ -48,7 +48,7 @@ class HomePage extends Component {
     }
 
     addNewResume = () => {
-        alert("I want to add a new resume!");
+        // alert("I want to add a new resume!");
         console.log("Add new Resume clicked!");
 
         history.push('/newresume');

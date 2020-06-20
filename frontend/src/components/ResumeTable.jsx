@@ -80,7 +80,7 @@ export default function StickyHeadTable() {
         async function getResumes(){
             if (user.loggedIn){
                 const result = await ResumeController.getResumesByUserId(user.userId);
-                // console.log(result);
+                console.log(result);
                 var resumesArr = [];
                 for (const [index, value] of result.entries()) {
                     resumesArr.push(
