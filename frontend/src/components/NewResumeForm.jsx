@@ -7,6 +7,7 @@ import PersonalInfoSection from './PersonalInfoSection';
 import WorkExpSection from './WorkExpSection';
 import SkillsSection from './SkillsSection';
 import EducationSection from './EducationSection';
+import BasicInfoSection from './BasicInfoSection';
 
 import ResumeServices from '../Services/ResumeServices';
 import Resume from '../models/Resume';
@@ -25,6 +26,7 @@ class NewResumeForm extends Component {
     workExperiences : null,
     educationInfo: null,
     skills: null,
+    basicInfo: null,
   };
 
   static contextType = DataContext;
@@ -61,14 +63,20 @@ class NewResumeForm extends Component {
       {skills: childData}
     );
   }
+  getBasicInfo = (childData) =>{
+    console.log(childData);
+    this.setState(
+      {basicInfo: childData}
+    );
+  }
   
   async createNewResume(data){
     let resumeData = {
       userId: this.context.user.userId, 
       content: JSON.stringify(data),
-      title: "Software Engineer",
-      level: "Fresh Graduate",
-      company: "SAP Inc."
+      title: data.basicInfo.title,
+      level: data.basicInfo.level,
+      company: data.basicInfo.company
     };
 
     let response = await ResumeController.addNewResume(resumeData);
@@ -114,7 +122,7 @@ class NewResumeForm extends Component {
             </Button>
           </Grid>
         </Grid>
-
+        <BasicInfoSection basicInfo = {this.getBasicInfo}/>
         <PersonalInfoSection personalInfo = {this.getPersonalInfo}/>
         <WorkExpSection workExperiences = {this.getWorkExp}/>
         <SkillsSection skills = {this.getSkills}/>
