@@ -23,13 +23,15 @@ class UserControllerClass {
 
     }
 
-    async signupUser(firstname, lastname, email, password) {
+    async signupUser(firstname, lastname, email, password, title, location) {
         let url = this.baseURL +'user'
         let data = {
             userName: email,
             firstName: firstname,
             lastName: lastname,
-            passwordHash: password
+            passwordHash: password,
+            title: title, 
+            location: location,
         }
 
         let result = await this.httpServices.post(url, data)
