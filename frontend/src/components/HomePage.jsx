@@ -19,6 +19,8 @@ class HomePage extends Component {
             userId: null, 
             userName: "",
             numOfResume: 0,
+            title : "",
+            location : "",
         }
 
         this.addNewResume = this.addNewResume.bind(this);
@@ -33,11 +35,15 @@ class HomePage extends Component {
                 const userId = await localForage.getItem('userId');
                 const username = await localForage.getItem('username');
                 const numOfResume = await localForage.getItem('numOfResume');
+                const title = await localForage.getItem('title');
+                const location = await localForage.getItem('location');
                 this.setState({
                     loggedIn: true, 
                     userId: userId,
                     username: username,
-                    numOfResume: numOfResume
+                    numOfResume: numOfResume,
+                    title: title,
+                    location: location,
                 })
             } else {
                 history.push('/login')
@@ -73,8 +79,8 @@ class HomePage extends Component {
                             <Grid item xs={9}>
                                 <Paper>
                                     <h2>Name: {this.state.username}</h2>
-                                    <p>Software Developer</p>
-                                    <p>Location: New Westminster, BC, Canada</p>
+                                    <p>{this.state.title}</p>
+                                    <p>Location: {this.state.location}</p>
                                     <button onClick={this.editProfile}>
                                         Edit
                                     </button>

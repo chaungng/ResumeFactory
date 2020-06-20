@@ -9,6 +9,10 @@ export const DataContext = React.createContext({
         username: null,
         setUsername: null,
         numOfResume: null, 
-        setNumOfResume: null, 
+        setNumOfResume: null,
+        title: null,
+        setTitle: null, 
+        location: null,
+        setLocation: null, 
     }
 })

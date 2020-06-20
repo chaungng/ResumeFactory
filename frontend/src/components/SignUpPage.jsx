@@ -58,6 +58,10 @@ export default function SignUpPage() {
     const [firstnameErrorMessage, setFirstnameErrorMessage] = useState('')
     const [lastname, setLastname] = useState('')
     const [lastnameErrorMessage, setLastnameErrorMessage] = useState('')
+    const [title, setTitle] = useState('')
+    const [titleErrorMsg, setTitleErrorMsg] = useState('')
+    const [location, setLocation] = useState('')
+    const [locationErrorMsg, setLocationErrorMsg] = useState('')
 
     const signup = async function () {
         let valid = true
@@ -66,6 +70,8 @@ export default function SignUpPage() {
         validateEmptyField(lastname, valid, setLastnameErrorMessage, 'Last name cannot be empty')
         validateEmptyField(email, valid, setEmailErrorMessage, 'Email cannot be empty')
         validateEmptyField(password, valid, setPasswordErrorMessage, 'Password cannot be empty')
+        validateEmptyField(title, valid, setTitleErrorMsg, 'Title cannot be empty')
+        validateEmptyField(location, valid, setLocationErrorMsg, 'Location cannot be empty')
 
         if(!valid) {
             return
@@ -75,7 +81,9 @@ export default function SignUpPage() {
             firstname,
             lastname,
             email,
-            password
+            password,
+            title, 
+            location
         )
 
         if(response.success) {
@@ -119,6 +127,24 @@ export default function SignUpPage() {
                             error={email!==''}
                             helperText={emailErrorMessage}
                             onChange={(e) => setEmail(e.target.value)}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                            variant="outlined" required fullWidth id="title" label="Title" name="title"
+                            autoComplete="title"
+                            error={title!==''}
+                            helperText={titleErrorMsg}
+                            onChange={(e) => setTitle(e.target.value)}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                            variant="outlined" required fullWidth id="location" label="Location" name="location"
+                            autoComplete="location"
+                            error={location!==''}
+                            helperText={locationErrorMsg}
+                            onChange={(e) => setLocation(e.target.value)}
                         />
                     </Grid>
                     <Grid item xs={12}>

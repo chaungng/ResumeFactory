@@ -102,6 +102,12 @@ export default function LoginPage() {
             await localForage.setItem('userId', response.data.id);
             user.setUsername(response.data.firstName + " " + response.data.lastName);
             await localForage.setItem('username', user.username);
+
+            user.setTitle(response.data.title);
+            await localForage.setItem('title', user.title);
+            user.setLocation(response.data.location);
+            await localForage.setItem('location', user.location);
+
             let count = await ResumeController.getCountResumeByUserId(user.userId);
             user.setNumOfResume(count);
             await localForage.setItem('numOfResume', user.numOfResume);
