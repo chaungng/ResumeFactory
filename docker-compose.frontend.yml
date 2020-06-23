@@ -1,0 +1,12 @@
+version: "3.7"
+
+services:
+  frontend:
+    image: node:12.17.0
+    container_name: frontend
+    command: sh -c "yarn install && yarn start"
+    working_dir: /app
+    volumes:
+      - ./app:/app
+    ports:
+      - 3000:3000

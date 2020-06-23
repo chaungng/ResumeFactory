@@ -1,8 +1,3 @@
 web/.idea/
 web/resume-factory-web/yarn.lock
 web/resume-factory-web/.idea/
-
-docker-compose.backend.yml
-docker-compose.frontend.yml
-docker-compose.db.yml
-docker-compose.yml
