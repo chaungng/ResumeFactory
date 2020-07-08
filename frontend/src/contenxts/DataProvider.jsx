@@ -21,6 +21,10 @@ export class DataProvider extends Component {
                 setTitle: this.setTitle,
                 location: null,
                 setLocation: this.setLocation,
+                firstName: null, 
+                setFirstName: this.setFirstName,
+                lastName: null, 
+                setLastName: this.setLastName,
             }
         }
     }
@@ -32,6 +36,8 @@ export class DataProvider extends Component {
         let numOfResume = await localforage.getItem('numOfResume')
         let title = await localforage.getItem('title')
         let location = await localforage.getItem('location')
+        let firstName = await localforage.getItem('firstName');
+        let lastName = await localforage.getItem('lastName');
         this.setState(state => {
             state.user.loggedIn = loggedIn
             // return state
@@ -50,6 +56,12 @@ export class DataProvider extends Component {
         })
         this.setState(state => {
             state.user.location = location
+        })
+        this.setState(state => {
+            state.user.firstName = firstName
+        })
+        this.setState(state => {
+            state.user.lastName = lastName
         })
         return this.state;
     }
@@ -77,6 +89,22 @@ export class DataProvider extends Component {
             return state
         })
         await localforage.setItem('username', val)
+    }
+
+    setFirstName = async (val) => {
+        this.setState((state) => {
+            state.user.firstName = val
+            return state
+        })
+        await localforage.setItem('firstName', val)
+    }
+
+    setLastName = async (val) => {
+        this.setState((state) => {
+            state.user.lastName = val
+            return state
+        })
+        await localforage.setItem('lastName', val)
     }
 
     setNumOfResume = async (val) => {

@@ -37,12 +37,6 @@ public class ResumeController {
     	return resumeRepository.findAll();
     }
     
-//    @PostMapping("/addnewresume")
-//    public Resume createResume(@Valid @RequestBody Resume resume) {
-//        Resume savedResume = resumeRepository.save(resume);
-//        return savedResume;
-//    }
-    
     @PostMapping("/addnewresume")
     public Resume createResume(@Valid @RequestBody Resume resume) {
         Resume savedResume = resumeRepository.save(resume);

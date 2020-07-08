@@ -100,8 +100,14 @@ export default function LoginPage() {
             await localForage.setItem('loggedIn', true);
             user.setUserId(response.data.id);
             await localForage.setItem('userId', response.data.id);
-            user.setUsername(response.data.firstName + " " + response.data.lastName);
+            user.setUsername(response.data.userName);
             await localForage.setItem('username', user.username);
+
+            user.setFirstName(response.data.firstName);
+            await localForage.setItem('firstName', user.firstName);
+
+            user.setLastName(response.data.lastName);
+            await localForage.setItem('lastName', user.lastName);
 
             user.setTitle(response.data.title);
             await localForage.setItem('title', user.title);

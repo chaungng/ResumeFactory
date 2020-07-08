@@ -36,8 +36,8 @@ const columns = [
     }
 ];
 
-function createData(number, title, level, company, date) {
-    return {number, title, level, company, date};
+function createData(number, title, level, company, date, resumeId) {
+    return {number, title, level, company, date, resumeId};
 }
 
 const rows = [
@@ -73,7 +73,6 @@ export default function StickyHeadTable() {
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [resumes, setResumes] = React.useState([]);
 
-    
     const {user} = useContext(DataContext);
 
     useEffect(() => {
@@ -84,7 +83,7 @@ export default function StickyHeadTable() {
                 var resumesArr = [];
                 for (const [index, value] of result.entries()) {
                     resumesArr.push(
-                        createData(index +1 , value.title, value.level, value.company)
+                        createData(index +1 , value.title, value.level, value.company, "", value.id)
                     );
                 }
                 setResumes(resumesArr);

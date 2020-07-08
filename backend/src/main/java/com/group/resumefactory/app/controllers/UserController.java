@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -63,17 +64,46 @@ public class UserController {
 
     // Update a Note
     @PutMapping("/user/{id}")
-    public User updateUser(@PathVariable(value = "id") Long userId, @Valid @RequestBody User userDetails) {
-
+    public User updateUser(@PathVariable(value = "id") Long userId, 
+    		@Valid @RequestBody User userDetails) {
+//    		@Valid @RequestBody String data) {
+//    	logger.debug("userDetaul" + userDetails);
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
 
         user.setFirstName(userDetails.getFirstName());
         user.setLastName(userDetails.getLastName());
+        
+        user.setLocation(userDetails.getLocation());
+        user.setTitle(userDetails.getTitle());
 
+        if (userDetails.getPasswordHash() != "") {
+        	user.setPasswordHash(userDetails.getPasswordHash());
+        }
+        
+        if (userDetails.getUserName() != "") {
+        	user.setUserName(userDetails.getUserName());
+        }
+        
         User updatedUser = userRepository.save(user);
         return updatedUser;
     }
+    
+//    @PutMapping("/user/basicinfo/{id}")
+//    public User updateBasicInfo(@PathVariable(value = "id") Long userId, 
+//    		@Valid @RequestBody User userDetail ) {
+//    	logger.debug("updateBasicInfo" + lastName);
+//        User user = userRepository.findById(userId)
+//                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+//
+//        user.setFirstName(firstName);
+//        user.setLastName(lastName);
+//        user.setLocation(location);
+//        user.setTitle(title);
+//
+//        User updatedUser = userRepository.save(user);
+//        return updatedUser;
+//    }
 
     // Delete a User
     @DeleteMapping("/user/{id}")
@@ -119,4 +149,6 @@ public class UserController {
 
         return response;
     }
+    
+    
 }

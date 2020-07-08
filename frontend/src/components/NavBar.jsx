@@ -16,15 +16,21 @@ export const NavBar = () => {
     // contextType = DataContext
 
     const {user} = useContext(DataContext)
+    
 
     const onClickMenuButton = () => {
-        this.setState({
-            openMenu: !this.state.openMenu
-        });
+        // this.setState({
+        //     openMenu: !this.state.openMenu
+        // });
     }
 
     const logout = () => {
-        user.setLoggedIn('false')
+        user.setLoggedIn(false);
+        user.setUsername('');
+        user.setUsername('');
+        user.setNumOfResume(0);
+        user.setTitle('');
+        user.setLocation('');
     }
 
     let notLoggedInComponents = (
@@ -57,6 +63,13 @@ export const NavBar = () => {
             onClick={async () => {
                 await user.setLoggedIn(false)
                 await localforage.setItem('loggedIn', false)
+                await localforage.setItem('userId', null);
+                await localforage.setItem('username', null);
+                await localforage.setItem('numOfResume', 0);
+                await localforage.setItem('title', null);
+                await localforage.setItem('location', null);
+                await localforage.setItem('firstName', null);
+                await localforage.setItem('lastName', null);
                 history.push('/login')
             }}
         >
@@ -64,9 +77,11 @@ export const NavBar = () => {
         </Button>
     )
 
+
+
     console.log('nav bar')
     // console.log(this.context)
-    console.log(user)
+    // console.log(user.loggedIn)
 
     return (
         <AppBar position="static">
@@ -79,7 +94,7 @@ export const NavBar = () => {
                         Resume Factory
                     </Button>
                 </Typography>
-                {user.loggedIn ? loggedInComponents: notLoggedInComponents}
+                {(user.loggedIn==true) ? loggedInComponents: notLoggedInComponents}
             </Toolbar>
         </AppBar>
     );

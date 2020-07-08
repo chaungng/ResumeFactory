@@ -1,18 +1,15 @@
 import React, {Component} from 'react';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import ResumeTable from './ResumeTable';
 import history from './../history';
 import localForage from "localforage";
 import ResumeController from "../controllers/ResumeController";
+import ProfileSummarySection from './ProfileSummarySection';
 
 class HomePage extends Component {
 
     constructor(props) {
         super(props);
-
-
         this.state = {
             editProfileIsOn: false,
             loggedIn: false,
@@ -21,14 +18,28 @@ class HomePage extends Component {
             numOfResume: 0,
             title : "",
             location : "",
+            firstName: "",
+            lastName: ""
         }
 
         this.addNewResume = this.addNewResume.bind(this);
         this.editProfile = this.editProfile.bind(this);
     }
 
+    async clearData(){
+        await localForage.setItem('loggedIn', false);
+        await localForage.setItem('userId', null);
+        await localForage.setItem('username', null);
+        await localForage.setItem('numOfResume', 0);
+        await localForage.setItem('title', null);
+        await localForage.setItem('location', null);
+        await localForage.setItem('firstName', null);
+        await localForage.setItem('lastName', null);
+    }
+
     async componentDidMount() {
         try {
+            // await this.clearData();
             const loggedIn = await localForage.getItem('loggedIn');
             
             if (loggedIn) {
@@ -37,13 +48,17 @@ class HomePage extends Component {
                 const numOfResume = await localForage.getItem('numOfResume');
                 const title = await localForage.getItem('title');
                 const location = await localForage.getItem('location');
+                const firstName = await localForage.getItem('firstName');
+                const lastName = await localForage.getItem('lastName');
                 this.setState({
                     loggedIn: true, 
                     userId: userId,
-                    username: username,
+                    userName: username,
                     numOfResume: numOfResume,
                     title: title,
                     location: location,
+                    firstName: firstName,
+                    lastName: lastName,
                 })
             } else {
                 history.push('/login')
@@ -61,40 +76,24 @@ class HomePage extends Component {
     }
 
     editProfile() {
-        alert("Edit Profile clicked");
-        console.log("Edit Profile clicked!");
+        // alert("Edit Profile clicked");
+        // console.log("Edit Profile clicked!");
+
     }
 
     render() {
         console.log(this.state);
         if (this.state.loggedIn == false
-            && this.state.userId !== null){
-            return null
+            || this.state.userId == null
+            || this.state.userName == ""
+            || this.state.title == ""
+            || this.state.location == ""){
+            return <h1>Seems like you are not logged in!</h1>
         } else {
             return (
                 <div>
                     <h1>Profile Summary</h1>
-                    <div>
-                        <Grid container spacing={3}>
-                            <Grid item xs={9}>
-                                <Paper>
-                                    <h2>Name: {this.state.username}</h2>
-                                    <p>{this.state.title}</p>
-                                    <p>Location: {this.state.location}</p>
-                                    <button onClick={this.editProfile}>
-                                        Edit
-                                    </button>
-                                </Paper>
-                            </Grid>
-    
-                            <Grid item xs={3}>
-                                <Paper>
-                                    <p>Number of Resumes:</p>
-                                    <h2>{(this.state.numOfResume == null) ? 0 : this.state.numOfResume}</h2>
-                                </Paper>
-                            </Grid>
-                        </Grid>
-                    </div>
+                    <ProfileSummarySection isEditable = {false}/>
                     <Button variant="contained" color="primary" onClick={this.addNewResume}>
                         Add new Resume
                     </Button>

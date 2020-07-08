@@ -35,7 +35,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt", "Password"},
         allowGetters = true)
-//@Table (name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

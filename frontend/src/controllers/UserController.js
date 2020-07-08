@@ -37,6 +37,21 @@ class UserControllerClass {
         let result = await this.httpServices.post(url, data)
         return result
     }
+
+    async updateBasicInfo(id, firstName, lastName, location, title){
+        let url = this.baseURL +'user'
+        let data = {
+            firstName: firstName,
+            lastName: lastName,
+            title: title, 
+            location: location,
+            passwordHash: '1',
+            userName: 'hong.le@live.com'
+        }
+
+        let result = await this.httpServices.put(url,id, data)
+        return result
+    }
 }
 
 let UserController = new UserControllerClass()

@@ -14,5 +14,9 @@ export const DataContext = React.createContext({
         setTitle: null, 
         location: null,
         setLocation: null, 
+        firstName: null, 
+        setFirstName: null,
+        lastName: null, 
+        setLastName: null,
     }
 })
