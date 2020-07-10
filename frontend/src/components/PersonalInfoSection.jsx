@@ -29,8 +29,10 @@ class PersonalInfoSection extends Component {
     this.startEditing = this.startEditing.bind(this);
   }
 
-  sendData = () =>{
-    var isEditing = (this.state.isEditing) ? true : false;
+  sendData = () => {
+    var isEditing = (this.state.isEditing)
+      ? true
+      : false;
     this.props.personalInfo({
       isEditing: isEditing,
       firstName: this.state.firstName,
@@ -41,7 +43,7 @@ class PersonalInfoSection extends Component {
       state: this.state.state,
       zip: this.state.zip,
       country: this.state.country,
-      summary: this.state.summary,
+      summary: this.state.summary
     });
   }
 
