@@ -3,7 +3,7 @@ import axios from 'axios';
 // const baseURL = "http://localhost:8000/api";
 const baseURL = "http://localhost:8000/";
 export default class HttpServices{
-    
+
     getAxiosInstance(){
         return axios.create({
             baseURL: baseURL,
@@ -46,7 +46,7 @@ export default class HttpServices{
 
     getAllData (url){
         return this.axiosInstance.get('/' + url);
-    } 
+    }
 
     getDataById (url, id){
         return this.axiosInstance.get('/' + url + '/' + id);

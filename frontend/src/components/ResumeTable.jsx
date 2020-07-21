@@ -90,7 +90,6 @@ export default function StickyHeadTable() {
             }
         }
         getResumes();
-        
     });
 
     const handleChangePage = (event, newPage) => {

@@ -13,7 +13,7 @@ class HomePage extends Component {
         this.state = {
             editProfileIsOn: false,
             loggedIn: false,
-            userId: null, 
+            userId: null,
             userName: "",
             numOfResume: 0,
             title : "",
@@ -41,7 +41,7 @@ class HomePage extends Component {
         try {
             // await this.clearData();
             const loggedIn = await localForage.getItem('loggedIn');
-            
+
             if (loggedIn) {
                 const userId = await localForage.getItem('userId');
                 const username = await localForage.getItem('username');
@@ -51,7 +51,7 @@ class HomePage extends Component {
                 const firstName = await localForage.getItem('firstName');
                 const lastName = await localForage.getItem('lastName');
                 this.setState({
-                    loggedIn: true, 
+                    loggedIn: true,
                     userId: userId,
                     userName: username,
                     numOfResume: numOfResume,

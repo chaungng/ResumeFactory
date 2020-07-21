@@ -1,9 +1,11 @@
 import HttpServices from "../Services/HttpServices";
+
 class ResumeControllerClass{
 
     httpServices = new HttpServices();
 
-    baseURL = "resumes/"
+    baseURL = "resumes/";
+
     async addNewResume(data){
 
         let result = await this.httpServices.post(this.baseURL + "addnewresume", data);
@@ -17,6 +19,7 @@ class ResumeControllerClass{
         return result;
     }
 
+//resumes/resumes?userId=1
     async getResumesByUserId (userId){
         let result = await this.httpServices.get( this.baseURL +"resumes?userId=" +userId);
         // console.log(result);
