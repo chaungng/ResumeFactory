@@ -1,18 +1,16 @@
 package com.group.resumefactory.app.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
+import com.group.resumefactory.app.entities.User;
+import com.group.resumefactory.app.models.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.group.resumefactory.app.entities.Education;
 import com.group.resumefactory.app.entities.PersonalInformation;
@@ -64,7 +62,7 @@ public class ResumeController {
     }
     
     @GetMapping("resumes")
-    public List<Resume> getResumeById(String userId){
+    public List<Resume> getResumeByUserId(String userId){
     	List<Resume> resumes = resumeRepository.findByUserId(userId);
     	return resumes;
     }
@@ -100,5 +98,23 @@ public class ResumeController {
     	return savedEdu.getId();
     }
     
+
+    @GetMapping("/{id}")
+    public Response<Resume> getResumeById(@PathVariable String id){
+        Response<Resume> response = new Response<>();
+        response.setMessage("Invalid User");
+
+        Optional<Resume> result = resumeRepository.findById(id);
+
+        if (!result.isPresent()) {
+            return response;
+        }
+
+        response.setSuccess(true);
+        response.setMessage("Success");
+        response.setData(result.get());
+
+        return response;
+    }
 
 }

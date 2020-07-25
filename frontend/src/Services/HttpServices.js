@@ -32,6 +32,7 @@ export default class HttpServices{
     }
 
     async get(url){
+        console.log('get url', url)
         return await this.makeRequest(this.axiosInstance.get, '/' + url)
     }
 

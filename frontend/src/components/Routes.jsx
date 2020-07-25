@@ -7,6 +7,7 @@ import SignUpPage from './SignUpPage';
 import FindJobPage from './FindJobPage';
 import NewResumeForm from './NewResumeForm';
 import history from './../history';
+import ViewResumeForm from "./ViewResumeForm";
 
 export default class Routes extends Component {
   render() {
@@ -17,6 +18,7 @@ export default class Routes extends Component {
           <Route path='/signup' component={SignUpPage}></Route>
           <Route path='/findjob' component={FindJobPage}></Route>
           <Route path='/newresume' component={NewResumeForm}></Route>
+          <Route path='/viewresume' component={ViewResumeForm}></Route>
         </Switch>
     </Router>)
   }

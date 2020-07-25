@@ -3,7 +3,6 @@ import Button from '@material-ui/core/Button';
 import ResumeTable from './ResumeTable';
 import history from './../history';
 import localForage from "localforage";
-import ResumeController from "../controllers/ResumeController";
 import ProfileSummarySection from './ProfileSummarySection';
 
 class HomePage extends Component {
@@ -26,16 +25,16 @@ class HomePage extends Component {
         this.editProfile = this.editProfile.bind(this);
     }
 
-    async clearData(){
-        await localForage.setItem('loggedIn', false);
-        await localForage.setItem('userId', null);
-        await localForage.setItem('username', null);
-        await localForage.setItem('numOfResume', 0);
-        await localForage.setItem('title', null);
-        await localForage.setItem('location', null);
-        await localForage.setItem('firstName', null);
-        await localForage.setItem('lastName', null);
-    }
+    // async clearData(){
+    //     await localForage.setItem('loggedIn', false);
+    //     await localForage.setItem('userId', null);
+    //     await localForage.setItem('username', null);
+    //     await localForage.setItem('numOfResume', 0);
+    //     await localForage.setItem('title', null);
+    //     await localForage.setItem('location', null);
+    //     await localForage.setItem('firstName', null);
+    //     await localForage.setItem('lastName', null);
+    // }
 
     async componentDidMount() {
         try {
@@ -71,7 +70,6 @@ class HomePage extends Component {
     addNewResume = () => {
         // alert("I want to add a new resume!");
         console.log("Add new Resume clicked!");
-
         history.push('/newresume');
     }
 
@@ -83,11 +81,11 @@ class HomePage extends Component {
 
     render() {
         console.log(this.state);
-        if (this.state.loggedIn == false
-            || this.state.userId == null
-            || this.state.userName == ""
-            || this.state.title == ""
-            || this.state.location == ""){
+        if (this.state.loggedIn === false
+            || this.state.userId === null
+            || this.state.userName === ""
+            || this.state.title === ""
+            || this.state.location === ""){
             return <h1>Seems like you are not logged in!</h1>
         } else {
             return (

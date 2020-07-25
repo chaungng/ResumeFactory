@@ -81,56 +81,56 @@ class EducationSection extends Component {
       this.state.isEditing
       ? <div className='education' style={{
       "border" : "2px solid gray",
-      "border-radius" : "10px",
+      "borderRadius" : "10px",
       "padding" : "20px",
       "margin" : "auto"
     }}>
-    <Typography variant="h6" gutterBottom="gutterBottom">
+    <Typography variant="h6" gutterBottom>
       Education
     </Typography>
     <Button variant="outlined" color="primary" size="small" startIcon={<SaveIcon />} onClick={this.stopEditing}>
           Save Education
         </Button>
-    <Grid container="container" spacing={3}>
-      <Grid item="item" xs={12} sm={12}>
-        <TextField required="required" id="degree" name="degree" label="Degree" fullWidth="fullWidth" value={this.state.degree} onChange={this.handleInputChange}/>
+    <Grid container spacing={3}>
+      <Grid item xs={12} sm={12}>
+        <TextField required id="degree" name="degree" label="Degree" fullWidth value={this.state.degree} onChange={this.handleInputChange}/>
       </Grid>
-      <Grid item="item" xs={12} sm={4}>
-        <TextField required="required" id="school" name="school" label="School" fullWidth="fullWidth" value={this.state.school} onChange={this.handleInputChange}/>
+      <Grid item xs={12} sm={4}>
+        <TextField required id="school" name="school" label="School" fullWidth value={this.state.school} onChange={this.handleInputChange}/>
       </Grid>
-      <Grid item="item" xs={12} sm={4}>
-        <TextField required="required" name="from" label="From" fullWidth="fullWidth" value={this.state.from} onChange={this.handleInputChange}/>
+      <Grid item xs={12} sm={4}>
+        <TextField required name="from" label="From" fullWidth value={this.state.from} onChange={this.handleInputChange}/>
       </Grid>
-      <Grid item="item" xs={12} sm={4}>
-        <TextField required="required" name="to" label="To" fullWidth="fullWidth" value={this.state.to} onChange={this.handleInputChange}/>
+      <Grid item xs={12} sm={4}>
+        <TextField required name="to" label="To" fullWidth value={this.state.to} onChange={this.handleInputChange}/>
       </Grid>
-      <Grid item="item" xs={12} sm={12}>
-        <TextField id="description" name="description" label="Description" fullWidth="fullWidth" placeholder="Your description" multiline="multiline" rows={7} value={this.state.description} onChange={this.handleInputChange}/>
+      <Grid item xs={12} sm={12}>
+        <TextField id="description" name="description" label="Description" fullWidth placeholder="Your description" multiline rows={7} value={this.state.description} onChange={this.handleInputChange}/>
       </Grid>
     </Grid>
   </div>
   : 
   <div>
-        <Typography variant="h6" gutterBottom="gutterBottom">
+        <Typography variant="h6" gutterBottom>
           Education
         </Typography>
         <Button variant="outlined" color="primary" size="small" startIcon={<EditIcon />} onClick={this.startEditing}>
           Edit
         </Button>
-        <Grid container="container" spacing={3}>
-          <Grid item="item" xs={12} sm={6}>
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={6}>
             <p>Degree: {this.state.degree}</p>
           </Grid>
-          <Grid item="item" xs={12} sm={6}>
+          <Grid item xs={12} sm={6}>
             <p>School: {this.state.school}</p>
           </Grid>
-          <Grid item="item" xs={12} sm={6}>
+          <Grid item xs={12} sm={6}>
             <p>From: {this.state.from}</p>
           </Grid>
-          <Grid item="item" xs={12} sm={6}>
+          <Grid item xs={12} sm={6}>
             <p>To: {this.state.to}</p>
           </Grid>
-          <Grid item="item" xs={12} sm={6}>
+          <Grid item xs={12} sm={6}>
             <p>Description: {this.state.description}</p>
           </Grid>
         </Grid>

@@ -25,6 +25,10 @@ export class DataProvider extends Component {
                 setFirstName: this.setFirstName,
                 lastName: null, 
                 setLastName: this.setLastName,
+            },
+            resumeCRUD: {
+                currentResumeId: -1,
+                setCurrentResumeId: this.setCurrentResumeId
             }
         }
     }
@@ -38,32 +42,21 @@ export class DataProvider extends Component {
         let location = await localforage.getItem('location')
         let firstName = await localforage.getItem('firstName');
         let lastName = await localforage.getItem('lastName');
+
+        console.log('getting data from store', loggedIn)
+
         this.setState(state => {
             state.user.loggedIn = loggedIn
-            // return state
-        })
-        this.setState(state => {
             state.user.userId = userId
-        })
-        this.setState(state => {
             state.user.username = username
-        })
-        this.setState(state => {
             state.user.numOfResume = numOfResume
-        })
-        this.setState(state => {
             state.user.title = title
-        })
-        this.setState(state => {
             state.user.location = location
-        })
-        this.setState(state => {
             state.user.firstName = firstName
-        })
-        this.setState(state => {
             state.user.lastName = lastName
+            return state
         })
-        return this.state;
+
     }
 
     setLoggedIn = async (val) => {
@@ -129,6 +122,13 @@ export class DataProvider extends Component {
             return state
         })
         await localforage.setItem('location', val)
+    }
+
+    setCurrentResumeId = (val) => {
+        this.setState((state) => {
+            state.resumeCRUD.currentResumeId = val
+            return state
+        })
     }
 
     render() {

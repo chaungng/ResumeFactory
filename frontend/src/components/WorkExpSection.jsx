@@ -7,64 +7,97 @@ import AddIcon from '@material-ui/icons/Add';
 import WorkExperience from './WorkExperience';
 
 class WorkExpSection extends Component {
-  workExperiencesArr = new Array();
-  constructor(props) {
-    super(props);
-    this.state = {
-      isClicked: false,
-      workExperiences: this.workExperiencesArr,
-    };
+    workExperiencesArr = [];
+    workExperiencesIndex = []
 
-    this.handleAddExperience = this.handleAddExperience.bind(this);
-  }
+    constructor(props) {
+        super(props);
+        this.state = {
+            isClicked: false,
+            workExperiences: this.workExperiencesArr,
+            workExperiencesIndex: this.workExperiencesIndex
+        };
 
-  handleAddExperience() {
-    this.setState({
-      isClicked: !this.state.isClicked,
-      workExperiences: this.workExperiencesArr,
-    });
-  }
-
-  getWorkExperience = (childData) => {
-    if (!childData.isEditing){
-      this.workExperiencesArr.push(childData);
-      console.log(this.workExperiencesArr);
-    } else {
-      return;//flag to indicate it is being edited
+        this.handleAddExperience = this.handleAddExperience.bind(this);
     }
-    this.setState({
-      workExperiences : this.workExperiencesArr,
-    });
-    // console.log(this.state);
-    this.sendData();
-  }
 
-  sendData =()=>{
-    this.props.workExperiences({
-      workExperiences: this.state.workExperiences,
-    });
-  }
+    handleAddExperience() {
+        let index = 0
+        if (this.workExperiencesIndex.length > 0) {
+            index = this.workExperiencesIndex[this.workExperiencesIndex.length - 1] + 1
+        }
+        this.workExperiencesIndex.push(index)
+        this.workExperiencesArr.push(null)
+        console.log(this.workExperiencesIndex)
+        console.log(this.workExperiencesArr)
+        this.setState({
+            isClicked: !this.state.isClicked,
+            workExperiences: this.workExperiencesArr
+        });
+    }
 
-  render() {
-    return (<div className='workExperience' style={{
-        "border" : "2px solid gray",
-        "border-radius" : "10px",
-        "padding" : "20px",
-        "margin" : "auto"
-      }}>
-      <Typography variant="h6" gutterBottom="gutterBottom">
-        Work experience
-      </Typography>
-      <Button variant="outlined" color="primary" size="small" startIcon={<AddIcon />} onClick={this.handleAddExperience}>
-        Add Experience
-      </Button>
-      {
-        this.state.isClicked
-          ? <WorkExperience workExperiences = {this.getWorkExperience}/>
-          : null
-      }
-    </div>);
-  }
+    getWorkExperience = (childData, canceled, index) => {
+        if(canceled) {
+            console.log(index)
+            this.workExperiencesIndex.splice(index,1)
+            this.workExperiencesArr.splice(index,1)
+            this.forceUpdate()
+
+            console.log(this.workExperiencesIndex)
+            console.log(this.workExperiencesArr)
+            return
+        }
+
+        console.log('bla')
+        console.log(childData)
+        if (!childData.isEditing) {
+            this.workExperiencesArr[index] = childData;
+            console.log(this.workExperiencesArr);
+        } else {
+            return;//flag to indicate it is being edited
+        }
+        this.setState({
+            workExperiences: this.workExperiencesArr,
+        });
+        // console.log(this.state);
+        this.sendData();
+    }
+
+    sendData = () => {
+        this.props.workExperiences({
+            workExperiences: this.state.workExperiences,
+        });
+    }
+
+    render() {
+        return (
+            <div className='workExperience' style={{
+                "border": "2px solid gray",
+                "borderRadius": "10px",
+                "padding": "20px",
+                "margin": "auto"
+            }}>
+                <Typography variant="h6" gutterBottom>
+                    Work experience
+                </Typography>
+                <Button variant="outlined" color="primary" size="small" startIcon={<AddIcon/>}
+                        onClick={this.handleAddExperience}>
+                    Add Experience
+                </Button>
+                {
+                    this.state.workExperiencesIndex.map((ex, i) => {
+                        return (
+                            <WorkExperience
+                                key={i}
+                                workExperiences={this.getWorkExperience}
+                                index={i}
+                            />
+                        )
+                    })
+                }
+            </div>
+        );
+    }
 }
 
 export default WorkExpSection;

@@ -18,118 +18,119 @@ import localForage from "localforage";
 
 class NewResumeForm extends Component {
 
-  resumeService = null;
-  // ResumeController = new ResumeController();
-  state = {
-    personalInfo : null,
-    workExperiences : null,
-    educationInfo: null,
-    skills: null,
-    basicInfo: null,
-  };
-
-  static contextType = DataContext;
-  // user = useContext(DataContext)
-  constructor(){
-    super();
-    this.resumeService = new ResumeServices();
-    // console.log(this.context);
-  }
-
-  componentDidMount(){
-  }
-
-  getPersonalInfo = (childData) =>{
-    this.setState(
-      {personalInfo: childData}
-    );
-  }
-  getWorkExp = (childData) =>{
-    console.log(childData);
-    this.setState(
-      {workExperiences: childData}
-    );
-  }
-  getEducationInfo = (childData) =>{
-    console.log(childData);
-    this.setState(
-      {educationInfo: childData}
-    );
-  }
-  getSkills = (childData) =>{
-    console.log(childData);
-    this.setState(
-      {skills: childData}
-    );
-  }
-  getBasicInfo = (childData) =>{
-    console.log(childData);
-    this.setState(
-      {basicInfo: childData}
-    );
-  }
-
-  async createNewResume(data){
-    let resumeData = {
-      userId: this.context.user.userId,
-      content: JSON.stringify(data),
-      title: data.basicInfo.title,
-      level: data.basicInfo.level,
-      company: data.basicInfo.company
+    static contextType = DataContext;
+    resumeService = null;
+    // ResumeController = new ResumeController();
+    state = {
+        personalInfo: null,
+        workExperiences: null,
+        educationInfo: null,
+        skills: null,
+        basicInfo: null,
     };
 
-    let response = await ResumeController.addNewResume(resumeData);
-    if (response.id !== null || response.id !== undefined){
-      //TODO: handle response in case error
-      let count = await ResumeController.getCountResumeByUserId(this.context.user.userId);
-      this.context.user.setNumOfResume(count);
-      await localForage.setItem('numOfResume', count);
-      this.props.history.push('/');
-      // return true;
-    } else {
-      // return false;
+    // user = useContext(DataContext)
+    constructor(props) {
+        super(props);
+        this.resumeService = new ResumeServices();
+        // console.log(this.context);
     }
-  }
 
-  prepareResume(){
-    console.log(this.state);
-    this.createNewResume(this.state);
-  }
+    componentDidMount() {
+    }
 
-  render() {
-    return (<React.Fragment>
-      <div className="" style={{
-          "width" : "70%",
-          "padding" : "10px",
-          "margin" : "auto"
-        }}>
+    getPersonalInfo = (childData) => {
+        this.setState(
+            {personalInfo: childData}
+        );
+    }
+    getWorkExp = (childData) => {
+        // console.log(childData);
+        this.setState(
+            {workExperiences: childData}
+        );
+    }
+    getEducationInfo = (childData) => {
+        // console.log(childData);
+        this.setState(
+            {educationInfo: childData}
+        );
+    }
+    getSkills = (childData) => {
+        // console.log(childData);
+        this.setState(
+            {skills: childData}
+        );
+    }
+    getBasicInfo = (childData) => {
+        // console.log(childData);
+        this.setState(
+            {basicInfo: childData}
+        );
+    }
 
-        <Grid container="container" spacing={3}>
-          <Grid item="item" xs={12} sm={10}>
-            <Typography variant="h4" gutterBottom="gutterBottom">
-              New Resume Form
-            </Typography>
-          </Grid>
-          <Grid item="item" xs={12} sm={1}>
-            <Button variant="contained" color="secondary">
-              Cancel
-            </Button>
-          </Grid>
-          <Grid item="item" xs={12} sm={1}>
-            <Button variant="contained" color="primary" onClick={()=>this.prepareResume()}>
-              Save
-            </Button>
-          </Grid>
-        </Grid>
-        <BasicInfoSection basicInfo = {this.getBasicInfo}/>
-        <PersonalInfoSection personalInfo = {this.getPersonalInfo}/>
-        <WorkExpSection workExperiences = {this.getWorkExp}/>
-        <SkillsSection skills = {this.getSkills}/>
-        <EducationSection educationInfo = {this.getEducationInfo}/>
+    async createNewResume(data) {
+        let resumeData = {
+            userId: this.context.user.userId,
+            content: JSON.stringify(data),
+            title: data.basicInfo.title,
+            level: data.basicInfo.level,
+            company: data.basicInfo.company
+        };
 
-      </div>
-    </React.Fragment>);
-  }
+        let response = await ResumeController.addNewResume(resumeData);
+        if (response.id !== null || response.id !== undefined) {
+            //TODO: handle response in case error
+            let count = await ResumeController.getCountResumeByUserId(this.context.user.userId);
+            this.context.user.setNumOfResume(count);
+            await localForage.setItem('numOfResume', count);
+            this.props.history.push('/');
+            // return true;
+        } else {
+            // return false;
+        }
+    }
+
+    prepareResume() {
+        console.log(this.state);
+        this.createNewResume(this.state);
+    }
+
+    render() {
+        return (<React.Fragment>
+            <div className="" style={{
+                "width": "70%",
+                "padding": "10px",
+                "margin": "auto"
+            }}>
+
+                <Grid container spacing={3}>
+                    <Grid item xs={12} sm={10}>
+                        <Typography variant="h4" gutterBottom>
+                            New Resume Form
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={12} sm={1}>
+                        <Button variant="contained" color="secondary">
+                            Cancel
+                        </Button>
+                    </Grid>
+                    <Grid item xs={12} sm={1}>
+                        <Button variant="contained" color="primary" onClick={() => this.prepareResume()}>
+                            Save
+                        </Button>
+                    </Grid>
+                </Grid>
+                <BasicInfoSection basicInfo={this.getBasicInfo}/>
+                <PersonalInfoSection personalInfo={this.getPersonalInfo}/>
+                <WorkExpSection workExperiences={this.getWorkExp}/>
+                <SkillsSection skills={this.getSkills}/>
+                <EducationSection educationInfo={this.getEducationInfo}/>
+
+            </div>
+        </React.Fragment>);
+    }
 }
+
 NewResumeForm.contextType = DataContext;
 export default NewResumeForm;

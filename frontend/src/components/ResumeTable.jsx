@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
@@ -10,6 +10,7 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import ResumeController from '../controllers/ResumeController';
 import { DataContext } from '../contenxts/DataContext';
+import history from './../history';
 
 const columns = [
     {
@@ -72,24 +73,30 @@ export default function StickyHeadTable() {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [resumes, setResumes] = React.useState([]);
+    const [loaded, setLoaded] = useState(false)
 
-    const {user} = useContext(DataContext);
+    const {user, resumeCRUD} = useContext(DataContext);
+
+    const getResumes = async () => {
+        if (user.loggedIn){
+            const result = await ResumeController.getResumesByUserId(user.userId);
+
+            let resumesArr = [];
+            for (const [index, value] of result.entries()) {
+                resumesArr.push(
+                    createData(index +1 , value.title, value.level, value.company, "", value.id)
+                );
+            }
+            setResumes(resumesArr);
+
+            setLoaded(true)
+        }
+    }
 
     useEffect(() => {
-        async function getResumes(){
-            if (user.loggedIn){
-                const result = await ResumeController.getResumesByUserId(user.userId);
-                // console.log(result);
-                var resumesArr = [];
-                for (const [index, value] of result.entries()) {
-                    resumesArr.push(
-                        createData(index +1 , value.title, value.level, value.company, "", value.id)
-                    );
-                }
-                setResumes(resumesArr);
-            }
+        if(!loaded) {
+            getResumes();
         }
-        getResumes();
     });
 
     const handleChangePage = (event, newPage) => {
@@ -101,6 +108,11 @@ export default function StickyHeadTable() {
         setPage(0);
     };
 
+    const onResumeClick = (resumeId) => {
+        resumeCRUD.setCurrentResumeId(resumeId)
+        history.push('/viewresume')
+    }
+
     return (
         <Paper className={classes.root}>
             <p></p>
@@ -109,11 +121,15 @@ export default function StickyHeadTable() {
                     <TableHead>
                         <TableRow>
                             {
-                                columns.map((column) => (<TableCell key={column.id} align={column.align} style={{
-                                    minWidth: column.minWidth
-                                }}>
-                                    {column.label}
-                                </TableCell>))
+                                columns.map((column) => (
+                                    <TableCell
+                                        key={column.id}
+                                        align={column.align}
+                                        style={{minWidth: column.minWidth}}
+                                    >
+                                        {column.label}
+                                    </TableCell>)
+                                )
                             }
                         </TableRow>
                     </TableHead>
@@ -121,12 +137,21 @@ export default function StickyHeadTable() {
                         {
                             resumes.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                                 return (
-                                    <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
+                                    <TableRow
+                                        hover
+                                        role="checkbox"
+                                        tabIndex={-1}
+                                        key={row.id}
+                                        onClick={(e) => onResumeClick(row.resumeId)}
+                                    >
                                         {
                                             columns.map((column) => {
                                                 const value = row[column.id];
                                                 return (
-                                                    <TableCell key={column.id} align={column.align}>
+                                                    <TableCell
+                                                        key={column.id}
+                                                        align={column.align}
+                                                    >
                                                         {
                                                             column.format && typeof value === 'number'
                                                                 ? column.format(value)

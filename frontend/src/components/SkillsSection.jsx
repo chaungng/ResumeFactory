@@ -71,11 +71,11 @@ class SkillsSection extends Component {
   render(){
     return (<div className='skills' style={{
       "border" : "2px solid gray",
-      "border-radius" : "10px",
+      "borderRadius" : "10px",
       "padding" : "20px",
       "margin" : "auto"
     }}>
-    <Typography variant="h6" gutterBottom="gutterBottom">
+    <Typography variant="h6" gutterBottom>
       Skills
     </Typography>
     <Button startIcon={<AddIcon />} onClick={this.handleAddSkill}>Add Skills</Button>
@@ -91,7 +91,9 @@ class SkillsSection extends Component {
 
       }
     <div>
-      <Button variant="outlined" color="primary" size="small" startIcon={<SaveIcon />} onClick={this.stopEditing}/>
+      <Button variant="outlined" color="primary" size="small" startIcon={<SaveIcon />} onClick={this.stopEditing}>
+        Save Skills
+      </Button>
     </div>
   </div>);
   }

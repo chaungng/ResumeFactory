@@ -18,5 +18,9 @@ export const DataContext = React.createContext({
         setFirstName: null,
         lastName: null, 
         setLastName: null,
+    },
+    resumeCRUD: {
+        currentResumeId: -1,
+        setCurrentResumeId: null
     }
 })

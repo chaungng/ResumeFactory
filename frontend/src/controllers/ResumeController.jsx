@@ -26,6 +26,14 @@ class ResumeControllerClass{
         return result;
     }
 
+    async getResumesById (resumeId){
+        let result = await this.httpServices.get( this.baseURL + resumeId);
+        if(result.success) {
+            result.data.content = JSON.parse(result.data.content)
+        }
+        return result;
+    }
+
     async getCountResumeByUserId (userId){
         let result = await this.httpServices.get( this.baseURL +"count?userId=" +userId);
         return result;
