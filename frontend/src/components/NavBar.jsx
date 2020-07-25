@@ -16,7 +16,7 @@ export const NavBar = () => {
     // contextType = DataContext
 
     const {user} = useContext(DataContext)
-    
+
 
     const onClickMenuButton = () => {
         // this.setState({
@@ -34,13 +34,14 @@ export const NavBar = () => {
     }
 
     let notLoggedInComponents = (
-        [<Button
-            key="login"
-            color="inherit"
-            onClick={logout}
-        >
-            Login
-        </Button>,
+        [
+            <Button
+                key="login"
+                color="inherit"
+                onClick={logout}
+            >
+                Login
+            </Button>,
             <Button
                 key="signup"
                 color="inherit"
@@ -48,13 +49,7 @@ export const NavBar = () => {
             >
                 Sign Up
             </Button>,
-            <Button
-                key="findjob"
-                color="inherit"
-                onClick={() => history.push('/findjob')}
-            >
-                Find a Job!
-            </Button>,]
+        ]
     )
 
     let loggedInComponents = (
@@ -78,7 +73,6 @@ export const NavBar = () => {
     )
 
 
-
     console.log('nav bar')
     // console.log(this.context)
     // console.log(user.loggedIn)
@@ -94,94 +88,15 @@ export const NavBar = () => {
                         Resume Factory
                     </Button>
                 </Typography>
-                {(user.loggedIn==true) ? loggedInComponents: notLoggedInComponents}
+                {(user.loggedIn == true) ? loggedInComponents : notLoggedInComponents}
+                <Button
+                    key="findjob"
+                    color="inherit"
+                    onClick={() => history.push('/findjob')}
+                >
+                    Find a Job!
+                </Button>
             </Toolbar>
         </AppBar>
     );
 }
-
-// export default class NavBar extends React.Component {
-//     static contextType = DataContext
-//
-//     constructor(props) {
-//         super(props);
-//
-//         this.state = {
-//             openMenu: false,
-//             openLogin: false,
-//             openSignUp: false,
-//             loggedIn: false
-//         };
-//
-//         this.onClickMenuButton = this.onClickMenuButton.bind(this);
-//     }
-//
-//     onClickMenuButton() {
-//         this.setState({
-//             openMenu: !this.state.openMenu
-//         });
-//     }
-//
-//     logout = () => {
-//         this.context.user.setLoggedIn('false')
-//     }
-//
-//     render() {
-//         const {user} = this.context
-//
-//         let loggedInComponents = (
-//             [<Button
-//                 key="login"
-//                 color="inherit"
-//                 onClick={this.logout}
-//             >
-//                 Login
-//             </Button>,
-//                 <Button
-//                     key="signup"
-//                     color="inherit"
-//                     onClick={() => history.push('/signup')}
-//                 >
-//                     Sign Up
-//                 </Button>]
-//         )
-//
-//         let notLoggedInComponents = (
-//             <Button
-//                 color="inherit"
-//                 onClick={async () => {
-//                     await user.setLoggedIn(false)
-//                     await localforage.setItem('loggedIn', false)
-//                     history.push('/login')
-//                 }}
-//             >
-//                 Logout
-//             </Button>
-//         )
-//
-//         console.log('nav bar')
-//         console.log(this.context)
-//         console.log(user)
-//
-//         return (
-//             <DataContext.Consumer>
-//                 {({user}) => (
-//                     <AppBar position="static">
-//                         <Toolbar>
-//                             <IconButton edge="start" color="inherit" aria-label="menu" onClick={this.onClickMenuButton}>
-//                                 <MenuIcon/>
-//                             </IconButton>
-//                             <Typography variant="h6">
-//                                 <Button color="inherit" onClick={() => history.push('/')}>
-//                                     Resume Factory
-//                                 </Button>
-//                             </Typography>
-//                             {user.loggedIn && loggedInComponents}
-//                             {!user.loggedIn && notLoggedInComponents}
-//                         </Toolbar>
-//                     </AppBar>
-//                 )}
-//             </DataContext.Consumer>
-//         );
-//     }
-// }
