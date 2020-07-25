@@ -1,10 +1,16 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import Drawer from '@material-ui/core/Drawer';
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
 
 import history from './../history';
 
@@ -16,12 +22,11 @@ export const NavBar = () => {
     // contextType = DataContext
 
     const {user} = useContext(DataContext)
+    const [menu, setMenu] = useState(false)
 
 
     const onClickMenuButton = () => {
-        // this.setState({
-        //     openMenu: !this.state.openMenu
-        // });
+        setMenu(!menu)
     }
 
     const logout = () => {
@@ -76,7 +81,7 @@ export const NavBar = () => {
     console.log('nav bar')
     // console.log(this.context)
     // console.log(user.loggedIn)
-
+    let anchor = 'left'
     return (
         <AppBar position="static">
             <Toolbar>
@@ -97,6 +102,17 @@ export const NavBar = () => {
                     Find a Job!
                 </Button>
             </Toolbar>
+            <React.Fragment key={anchor}>
+                <Drawer anchor={anchor} open={menu} onClose={onClickMenuButton}>
+                    <List>
+                        <ListItem button key={1}>
+                            <ListItemText primary='My Saved Jobs' onClick={() => {
+                                history.push('/savedjob')
+                            }}/>
+                        </ListItem>
+                    </List>
+                </Drawer>
+            </React.Fragment>
         </AppBar>
     );
 }
