@@ -10,7 +10,6 @@ import EducationSection from './EducationSection';
 import BasicInfoSection from './BasicInfoSection';
 
 import ResumeServices from '../Services/ResumeServices';
-import Resume from '../models/Resume';
 import ResumeController from '../controllers/ResumeController';
 // import localForage from "localforage";
 import {DataContext} from "../contenxts/DataContext";
@@ -69,10 +68,10 @@ class NewResumeForm extends Component {
       {basicInfo: childData}
     );
   }
-  
+
   async createNewResume(data){
     let resumeData = {
-      userId: this.context.user.userId, 
+      userId: this.context.user.userId,
       content: JSON.stringify(data),
       title: data.basicInfo.title,
       level: data.basicInfo.level,
