@@ -9,7 +9,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import history from './../history';
 
 import localforage from "localforage";
-import {DataContext} from "../contenxts/DataContext";
+import {DataContext} from "../contexts/DataContext";
 
 export const NavBar = () => {
     // static

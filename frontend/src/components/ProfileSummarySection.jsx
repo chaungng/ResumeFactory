@@ -48,6 +48,7 @@ export default class ProfileSummarySection extends Component{
                 const location = await localForage.getItem('location');
                 const firstName = await localForage.getItem('firstName');
                 const lastName = await localForage.getItem('lastName');
+
                 this.setState({
                     loggedIn: true, 
                     userId: userId,
@@ -87,6 +88,7 @@ export default class ProfileSummarySection extends Component{
             isEditable: true
         });
     }
+
     onCancelClicked(){
         this.setState({
             isEditable: false
@@ -115,10 +117,10 @@ export default class ProfileSummarySection extends Component{
                         {this.state.isEditable 
                             ?
                         <Paper>
-                            <TextField required={true} id="firstName" name="firstName" label="firstName" fullWidth="fullWidth" autoComplete={this.state.firstName} value={this.state.firstName} onChange={this.handleInputChange}/>
-                            <TextField required={true} id="lastName" name="lastName" label="Last Name" fullWidth="fullWidth" autoComplete={this.state.lastName} value={this.state.lastName} onChange={this.handleInputChange}/>
-                            <TextField required={true} id="title" name="title" label="Title" fullWidth="fullWidth" autoComplete={this.state.title} value={this.state.title} onChange={this.handleInputChange}/>
-                            <TextField required={true} id="location" name="location" label="Location" fullWidth="fullWidth" autoComplete={this.state.location} value={this.state.location} onChange={this.handleInputChange}/>
+                            <TextField required id="firstName" name="firstName" label="firstName" fullWidth autoComplete={this.state.firstName} value={this.state.firstName} onChange={this.handleInputChange}/>
+                            <TextField required id="lastName" name="lastName" label="Last Name" fullWidth autoComplete={this.state.lastName} value={this.state.lastName} onChange={this.handleInputChange}/>
+                            <TextField required id="title" name="title" label="Title" fullWidth autoComplete={this.state.title} value={this.state.title} onChange={this.handleInputChange}/>
+                            <TextField required id="location" name="location" label="Location" fullWidth autoComplete={this.state.location} value={this.state.location} onChange={this.handleInputChange}/>
                             <button onClick={this.onSaveClicked}>
                                 Save
                             </button>

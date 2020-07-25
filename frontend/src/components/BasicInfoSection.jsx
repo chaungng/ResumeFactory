@@ -7,9 +7,8 @@ import SaveIcon from '@material-ui/icons/Save';
 import EditIcon from '@material-ui/icons/Edit';
 
 class BasicInfoSection extends Component {
-
     constructor(props) {
-        super(props);
+        super(props)
         if(this.props.defaultInfo) {
             let defaultInfo = this.props.defaultInfo
             this.state = {
@@ -17,14 +16,14 @@ class BasicInfoSection extends Component {
                 title: defaultInfo.title,
                 level: defaultInfo.level,
                 company: defaultInfo.company,
-            };
+            }
         } else {
             this.state = {
                 isEditing: true,
-                title: "",
-                level: "",
-                company: "",
-            };
+                title: '',
+                level: '',
+                company: '',
+            }
         }
 
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -33,9 +32,7 @@ class BasicInfoSection extends Component {
     }
 
     sendData = () => {
-        let isEditing = this.state.isEditing;
-        this.props.basicInfo({
-            isEditing: isEditing,
+        this.props.set({
             title: this.state.title,
             level: this.state.level,
             company: this.state.company,
@@ -46,8 +43,7 @@ class BasicInfoSection extends Component {
         event.preventDefault();
         this.setState({
             [event.target.name]: event.target.value
-        });
-        this.sendData();
+        }, this.sendData);
     }
 
     stopEditing() {
@@ -80,15 +76,20 @@ class BasicInfoSection extends Component {
                         <Grid item xs={12} sm={4}>
                             <TextField required id="title" name="title" label="Resume Title"
                                        fullWidth autoComplete="title" value={this.state.title}
-                                       onChange={this.handleInputChange}/>
+                                       onChange={this.handleInputChange}
+                            />
                         </Grid>
                         <Grid item xs={12} sm={4}>
-                            <TextField required id="level" name="level" label="Level" fullWidth
-                                       autoComplete="level" value={this.state.level} onChange={this.handleInputChange}/>
+                            <TextField required id="level" name="level" label="Level"
+                                       fullWidth autoComplete="level" value={this.state.level}
+                                       onChange={this.handleInputChange}
+                            />
                         </Grid>
                         <Grid item xs={12} sm={4}>
-                            <TextField required id="company" name="company" label="Company" fullWidth
-                                       autoComplete="" value={this.state.company} onChange={this.handleInputChange}/>
+                            <TextField required id="company" name="company" label="Company"
+                                       fullWidth autoComplete="" value={this.state.company}
+                                       onChange={this.handleInputChange}
+                            />
                         </Grid>
                     </Grid>
                 </div>

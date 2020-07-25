@@ -11,7 +11,9 @@ import BasicInfoSection from './BasicInfoSection';
 
 import ResumeServices from '../Services/ResumeServices';
 import ResumeController from '../controllers/ResumeController';
-import {DataContext} from "../contenxts/DataContext";
+import {DataContext} from "../contexts/DataContext";
+import localforage from "localforage";
+import localForage from "localforage";
 
 
 class ViewResumeForm extends Component {
@@ -34,11 +36,14 @@ class ViewResumeForm extends Component {
 
     async componentDidMount() {
         let resumeCRUD = this.context.resumeCRUD
-        // let resume = await ResumeController.getResumesById(resumeCRUD.currentResumeId)
-        let result = await ResumeController.getResumesById("5ef1335dc337e637a303347d")
+        if (resumeCRUD.currentResumeId === -1) {
+            let currentResumeId = await localforage.getItem('currentResumeId')
+            if(currentResumeId == null) return
+            resumeCRUD.setCurrentResumeId(currentResumeId)
+        }
+        let result = await ResumeController.getResumesById(resumeCRUD.currentResumeId)
         let resume = result.data
         let content = resume.content
-        console.log('resume', resume)
         this.setState((state) => {
             state.loaded = true
             state.basicInfo = content.basicInfo
@@ -82,9 +87,31 @@ class ViewResumeForm extends Component {
         );
     }
 
-    prepareResume() {
+    async prepareResume() {
         console.log(this.state);
-        this.createNewResume(this.state);
+        await this.createNewResume(this.state);
+    }
+
+    async createNewResume(data) {
+        let resumeData = {
+            userId: this.context.user.userId,
+            content: JSON.stringify(data),
+            title: data.basicInfo.title,
+            level: data.basicInfo.level,
+            company: data.basicInfo.company
+        };
+
+        let response = await ResumeController.addNewResume(resumeData);
+        if (response.id !== null || response.id !== undefined) {
+            //TODO: handle response in case error
+            let count = await ResumeController.getCountResumeByUserId(this.context.user.userId);
+            this.context.user.setNumOfResume(count);
+            await localForage.setItem('numOfResume', count);
+            this.props.history.push('/');
+            // return true;
+        } else {
+            // return false;
+        }
     }
 
     render() {

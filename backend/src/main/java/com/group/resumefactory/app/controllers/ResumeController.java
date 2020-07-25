@@ -60,11 +60,24 @@ public class ResumeController {
         Resume savedResume = resumeRepository.save(resume);
         return savedResume;
     }
+
+    @PutMapping("/{id}")
+    public Resume saveResume(@Valid @RequestBody Resume resume, @PathVariable String id) {
+        resume.id = id;
+        Resume savedResume = resumeRepository.save(resume);
+        return savedResume;
+    }
     
     @GetMapping("resumes")
-    public List<Resume> getResumeByUserId(String userId){
+    public Response<List<Resume>> getResumeByUserId(String userId){
     	List<Resume> resumes = resumeRepository.findByUserId(userId);
-    	return resumes;
+
+        Response<List<Resume>> response = new Response<>();
+        response.setSuccess(true);
+        response.setMessage("Success");
+        response.setData(resumes);
+        
+    	return response;
     }
     
     @GetMapping("count")

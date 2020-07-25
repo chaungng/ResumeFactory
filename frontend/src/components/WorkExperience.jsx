@@ -8,40 +8,62 @@ import EditIcon from '@material-ui/icons/Edit';
 import CloseIcon from '@material-ui/icons/Close';
 
 class WorkExperience extends Component {
+    original
     constructor(props) {
         super(props);
-        this.state = {
-            isEditing: true,
-            jobTitle: "",
-            company: "",
-            country: "",
-            from: "",
-            to: "",
-            description: ""
-        };
+        if (this.props.defaultInfo === null) {
+            let defaultInfo = this.props.defaultInfo
+            this.state = {
+                isEditing: true,
+                jobTitle: defaultInfo.jobTitle,
+                company: defaultInfo.company,
+                country: defaultInfo.country,
+                from: defaultInfo.from,
+                to: defaultInfo.to,
+                description: defaultInfo.description
+            };
+        } else {
+            this.state = {
+                isEditing: true,
+                jobTitle: "",
+                company: "",
+                country: "",
+                from: "",
+                to: "",
+                description: ""
+            };
+        }
+
+        this.original = this.state
 
         this.handleInputChange = this.handleInputChange.bind(this);
-        this.startEditing = this.startEditing.bind(this);
-        this.stopEditing = this.stopEditing.bind(this);
-        this.clearEditing = this.clearEditing.bind(this);
+        this.edit = this.edit.bind(this);
+        this.save = this.save.bind(this);
+        this.cancle = this.cancle.bind(this);
+        this.delete = this.delete.bind(this);
+        this.sendData = this.sendData.bind(this);
     }
 
 
-    sendData = (isEditing, canceled) => {
-        if (isEditing) {
-            this.props.workExperiences({
-                isEditing: isEditing
-            }, canceled, this.props.index);
-        } else {
-            this.props.workExperiences({
-                isEditing: isEditing,
-                jobTitle: this.state.jobTitle,
-                company: this.state.company,
-                country: this.state.country,
-                from: this.state.from,
-                to: this.state.to,
-                description: this.state.description
-            }, canceled, this.props.index);
+    sendData = (action) => {
+        switch (action) {
+            case -1:
+                this.props.set(null, -1, this.props.index);
+                break
+            case 1:
+                this.props.set({
+                    jobTitle: this.state.jobTitle,
+                    company: this.state.company,
+                    country: this.state.country,
+                    from: this.state.from,
+                    to: this.state.to,
+                    description: this.state.description
+                }, 1, this.props.index);
+                this.original = this.state
+                break
+            default:
+                this.props.set(null, 0, this.props.index);
+                break
         }
     }
 
@@ -50,27 +72,39 @@ class WorkExperience extends Component {
         this.setState({
             [event.target.name]: event.target.value,
         });
-        // console.log([event.target.name] + " " + [event.target.value]);
-        this.sendData(true);
     }
 
-    startEditing() {
+    edit() {
         this.setState({
             isEditing: true,
         });
         console.log(this.state);
     }
 
-    stopEditing() {
+    save() {
         this.setState({
             isEditing: false,
+        }, () => {
+            this.sendData(1);
         });
-        this.sendData(false, false);
     }
 
-    clearEditing() {
-        this.clearData();
-        this.sendData(true, true);
+    cancle() {
+        this.setState({
+            isEditing: false,
+            jobTitle: this.original.jobTitle,
+            company: this.original.company,
+            country: this.original.country,
+            from: this.original.from,
+            to: this.original.to,
+            description: this.original.description
+        }, () => {
+            this.sendData(0);
+        });
+    }
+
+    delete() {
+        this.sendData(-1)
     }
 
     clearData() {
@@ -122,12 +156,16 @@ class WorkExperience extends Component {
                         </Grid>
                     </Grid>
                     <Button variant="outlined" color="primary" size="small" startIcon={<SaveIcon/>}
-                            onClick={this.stopEditing}>
-                      Save
+                            onClick={this.save}>
+                        Save
                     </Button>
                     <Button variant="outlined" color="secondary" size="small" startIcon={<CloseIcon/>}
-                            onClick={this.clearEditing}>
-                      Cancel
+                            onClick={this.cancle}>
+                        Cancel
+                    </Button>
+                    <Button variant="outlined" color="secondary" size="small" startIcon={<CloseIcon/>}
+                            onClick={this.delete}>
+                        Delete
                     </Button>
                 </div>
                 : <div>
@@ -135,7 +173,7 @@ class WorkExperience extends Component {
                         Personal Information
                     </Typography>
                     <Button variant="outlined" color="primary" size="small" startIcon={<EditIcon/>}
-                            onClick={this.startEditing}>
+                            onClick={this.edit}>
                         Edit
                     </Button>
                     <Grid container spacing={3}>

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import {DataProvider} from "./contenxts/DataProvider";
+import {DataProvider} from "./contexts/DataProvider";
 
 ReactDOM.render(
     <React.StrictMode>

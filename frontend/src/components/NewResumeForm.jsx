@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Grid from '@material-ui/core/Grid';
+import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
@@ -12,15 +13,14 @@ import BasicInfoSection from './BasicInfoSection';
 import ResumeServices from '../Services/ResumeServices';
 import ResumeController from '../controllers/ResumeController';
 // import localForage from "localforage";
-import {DataContext} from "../contenxts/DataContext";
+import {DataContext} from "../contexts/DataContext";
 import localForage from "localforage";
 
 
 class NewResumeForm extends Component {
-
     static contextType = DataContext;
     resumeService = null;
-    // ResumeController = new ResumeController();
+
     state = {
         personalInfo: null,
         workExperiences: null,
@@ -33,10 +33,6 @@ class NewResumeForm extends Component {
     constructor(props) {
         super(props);
         this.resumeService = new ResumeServices();
-        // console.log(this.context);
-    }
-
-    componentDidMount() {
     }
 
     getPersonalInfo = (childData) => {
@@ -44,6 +40,7 @@ class NewResumeForm extends Component {
             {personalInfo: childData}
         );
     }
+
     getWorkExp = (childData) => {
         // console.log(childData);
         this.setState(
@@ -91,9 +88,9 @@ class NewResumeForm extends Component {
         }
     }
 
-    prepareResume() {
+    async prepareResume() {
         console.log(this.state);
-        this.createNewResume(this.state);
+        await this.createNewResume(this.state);
     }
 
     render() {
@@ -104,7 +101,7 @@ class NewResumeForm extends Component {
                 "margin": "auto"
             }}>
 
-                <Grid container spacing={3}>
+                <Grid container>
                     <Grid item xs={12} sm={10}>
                         <Typography variant="h4" gutterBottom>
                             New Resume Form
@@ -121,11 +118,15 @@ class NewResumeForm extends Component {
                         </Button>
                     </Grid>
                 </Grid>
-                <BasicInfoSection basicInfo={this.getBasicInfo}/>
-                <PersonalInfoSection personalInfo={this.getPersonalInfo}/>
-                <WorkExpSection workExperiences={this.getWorkExp}/>
-                <SkillsSection skills={this.getSkills}/>
-                <EducationSection educationInfo={this.getEducationInfo}/>
+                <BasicInfoSection set={this.getBasicInfo}/>
+                <br/>
+                <PersonalInfoSection set={this.getPersonalInfo}/>
+                <br/>
+                <WorkExpSection set={this.getWorkExp}/>
+                <br/>
+                <SkillsSection set={this.getSkills}/>
+                <br/>
+                <EducationSection set={this.getEducationInfo}/>
 
             </div>
         </React.Fragment>);

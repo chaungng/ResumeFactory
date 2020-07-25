@@ -7,9 +7,14 @@ class ResumeControllerClass{
     baseURL = "resumes/";
 
     async addNewResume(data){
-
         let result = await this.httpServices.post(this.baseURL + "addnewresume", data);
         console.log(result);
+        return result;
+    }
+
+    async saveResume(id, data) {
+        let result = await this.httpServices.put(this.baseURL, id, data);
+        console.log('save', result);
         return result;
     }
 

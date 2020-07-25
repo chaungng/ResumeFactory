@@ -16,7 +16,7 @@ import UserController from '../controllers/UserController';
 import {useHistory} from "react-router-dom";
 import {validateEmptyField} from "../helpers/ViewHelpers";
 import localForage from "localforage";
-import {DataContext} from "../contenxts/DataContext";
+import {DataContext} from "../contexts/DataContext";
 import ResumeController from '../controllers/ResumeController';
 
 function Copyright() {

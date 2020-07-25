@@ -7,66 +7,55 @@ import AddIcon from '@material-ui/icons/Add';
 import WorkExperience from './WorkExperience';
 
 class WorkExpSection extends Component {
-    workExperiencesArr = [];
-    workExperiencesIndex = []
+    arr = [];
 
     constructor(props) {
         super(props);
+        if(this.props.defaultInfo !== undefined) {
+            this.arr = this.props.defaultInfo
+        }
+
         this.state = {
-            isClicked: false,
-            workExperiences: this.workExperiencesArr,
-            workExperiencesIndex: this.workExperiencesIndex
+            workExperiences: this.arr,
         };
 
         this.handleAddExperience = this.handleAddExperience.bind(this);
     }
 
     handleAddExperience() {
-        let index = 0
-        if (this.workExperiencesIndex.length > 0) {
-            index = this.workExperiencesIndex[this.workExperiencesIndex.length - 1] + 1
-        }
-        this.workExperiencesIndex.push(index)
-        this.workExperiencesArr.push(null)
-        console.log(this.workExperiencesIndex)
-        console.log(this.workExperiencesArr)
+        this.arr.push(null)
         this.setState({
-            isClicked: !this.state.isClicked,
-            workExperiences: this.workExperiencesArr
+            workExperiences: this.arr
         });
     }
 
-    getWorkExperience = (childData, canceled, index) => {
-        if(canceled) {
-            console.log(index)
-            this.workExperiencesIndex.splice(index,1)
-            this.workExperiencesArr.splice(index,1)
-            this.forceUpdate()
-
-            console.log(this.workExperiencesIndex)
-            console.log(this.workExperiencesArr)
-            return
+    getWorkExperience = (childData, action, index) => {
+        switch (action) {
+            case -1:
+                this.arr[index] = -1
+                break
+            case 1:
+                this.arr[index] = childData
+                break
+            default:
+                break
         }
 
-        console.log('bla')
-        console.log(childData)
-        if (!childData.isEditing) {
-            this.workExperiencesArr[index] = childData;
-            console.log(this.workExperiencesArr);
-        } else {
-            return;//flag to indicate it is being edited
-        }
         this.setState({
-            workExperiences: this.workExperiencesArr,
-        });
-        // console.log(this.state);
-        this.sendData();
+            workExperiences: this.arr,
+        }, this.sendData)
     }
 
     sendData = () => {
-        this.props.workExperiences({
-            workExperiences: this.state.workExperiences,
-        });
+        this.props.set(this.getData());
+    }
+
+    getData = () => {
+        let data = this.arr.filter((v) => {
+            return (v !== -1 && v !== null)
+        })
+        // console.log('data', data)
+        return data
     }
 
     render() {
@@ -85,11 +74,16 @@ class WorkExpSection extends Component {
                     Add Experience
                 </Button>
                 {
-                    this.state.workExperiencesIndex.map((ex, i) => {
+                    this.state.workExperiences.map((v, i) => {
+                        if(v === -1) {
+                            return null
+                        }
+
                         return (
                             <WorkExperience
                                 key={i}
-                                workExperiences={this.getWorkExperience}
+                                set={this.getWorkExperience}
+                                defaultInfo={v}
                                 index={i}
                             />
                         )

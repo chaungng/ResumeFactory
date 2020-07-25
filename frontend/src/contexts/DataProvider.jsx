@@ -28,7 +28,31 @@ export class DataProvider extends Component {
             },
             resumeCRUD: {
                 currentResumeId: -1,
-                setCurrentResumeId: this.setCurrentResumeId
+                setCurrentResumeId: this.setCurrentResumeId,
+                resume: {
+                    basicInfo: {
+                        title: '',
+                        level: '',
+                        company: ''
+                    },
+                    personalInfo: {
+                        firstName: '',
+                        lastName: '',
+                        phone: '',
+                        email: '',
+                        city: '',
+                        state: '',
+                        zip: '',
+                        country: '',
+                        summary: '',
+                    },
+                    workExperiences: {
+                        workExperiences: null,
+                    },
+                    skills: null,
+                    education: null
+                },
+                setResume: this.setResume
             }
         }
     }
@@ -42,8 +66,10 @@ export class DataProvider extends Component {
         let location = await localforage.getItem('location')
         let firstName = await localforage.getItem('firstName');
         let lastName = await localforage.getItem('lastName');
+        let currentResumeId = await localforage.getItem('currentResumeId')
 
-        console.log('getting data from store', loggedIn)
+
+        console.log('getting data from store', currentResumeId)
 
         this.setState(state => {
             state.user.loggedIn = loggedIn
@@ -124,11 +150,46 @@ export class DataProvider extends Component {
         await localforage.setItem('location', val)
     }
 
-    setCurrentResumeId = (val) => {
+    setCurrentResumeId = async (val) => {
         this.setState((state) => {
             state.resumeCRUD.currentResumeId = val
             return state
         })
+        console.log('save currentResumeId', val)
+        await localforage.setItem('currentResumeId', val)
+    }
+
+    setResume = {
+        setBasicInfo: (val) => {
+            this.setState((state) => {
+                state.resumeCRUD.resume.basicInfo = val
+                return state
+            })
+        },
+        setPersonalInfo: (val) => {
+            this.setState((state) => {
+                state.resumeCRUD.resume.personalInfo = val
+                return state
+            })
+        },
+        setWorkExperiences: (val) => {
+            this.setState((state) => {
+                state.resumeCRUD.resume.workExperiences = val
+                return state
+            })
+        },
+        setSkills: (val) => {
+            this.setState((state) => {
+                state.resumeCRUD.resume.skills = val
+                return state
+            })
+        },
+        setEducation: (val) => {
+            this.setState((state) => {
+                state.resumeCRUD.data.education = val
+                return state
+            })
+        }
     }
 
     render() {

@@ -41,8 +41,11 @@ export default class HttpServices{
     }
 
     async put(url, id, data) {
-        console.log('/' + url+'/' + id);
         return await this.makeRequest(this.axiosInstance.put, '/' + url+'/' + id, data)
+    }
+
+    async put1(url, data) {
+        return await this.makeRequest(this.axiosInstance.put,  '/' + url, data)
     }
 
     getAllData (url){
