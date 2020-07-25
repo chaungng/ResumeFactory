@@ -65,7 +65,15 @@ class WorkExperience extends Component {
     this.setState({
       isEditing: false,
     });
+    
+    //Save data to mongo temporarily
+    //Send data to section 
     this.sendData(false);
+  }
+
+  saveData(){
+    console.log(this.props.workExperiences);
+    
   }
 
   clearEditing() {

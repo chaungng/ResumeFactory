@@ -31,6 +31,17 @@ class ResumeControllerClass{
         return result;
     }
 
+    async addNewResume(data){
+
+        let result = await this.httpServices.post(this.baseURL + "addnewresume", data);
+        console.log(result);
+        return result;
+    }
+
+    async addPersonalInfo(data){
+        
+    }
+
 }
 let ResumeController = new ResumeControllerClass();
 export default ResumeController;

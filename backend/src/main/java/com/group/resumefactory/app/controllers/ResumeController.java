@@ -14,8 +14,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.group.resumefactory.app.entities.Education;
+import com.group.resumefactory.app.entities.PersonalInformation;
 import com.group.resumefactory.app.entities.Resume;
+import com.group.resumefactory.app.entities.Skill;
+import com.group.resumefactory.app.entities.WorkExperience;
+import com.group.resumefactory.app.repositories.EducationRepository;
+import com.group.resumefactory.app.repositories.PersonalInformationRepository;
 import com.group.resumefactory.app.repositories.ResumeRepository;
+import com.group.resumefactory.app.repositories.SkillRepository;
+import com.group.resumefactory.app.repositories.WorkExperienceRepository;
 
 @CrossOrigin
 @RestController
@@ -26,6 +34,18 @@ public class ResumeController {
     
     @Autowired
     ResumeRepository resumeRepository;
+    
+    @Autowired
+    EducationRepository educationRepository;
+    
+    @Autowired
+    PersonalInformationRepository personalInfoRepository;
+    
+    @Autowired
+    SkillRepository skillRepository;
+    
+    @Autowired
+    WorkExperienceRepository workExpRespository;
     
     @Autowired
     public ResumeController() {
@@ -54,5 +74,31 @@ public class ResumeController {
     	List<Resume> resumes = resumeRepository.findByUserId(userId);
     	return resumes.size();
     }
+    
+    @PostMapping("/saveInfo")
+    public String savePersonalInfo 
+    		(@Valid @RequestBody PersonalInformation personalInfo) {
+    	PersonalInformation savedPersonalInfo = personalInfoRepository.save(personalInfo);
+    	return savedPersonalInfo.getId();
+    }
+    
+    @PostMapping("/saveWorkExp")
+    public String saveWorkExp (@Valid @RequestBody WorkExperience workExp) {
+    	WorkExperience savedWorkExp = workExpRespository.save(workExp);
+    	return savedWorkExp.getId();
+    }
+    
+    @PostMapping("/saveSkill")
+    public String saveSkill (@Valid @RequestBody Skill skill) {
+    	Skill savedSkill = skillRepository.save(skill);
+    	return savedSkill.getId();
+    }
+    
+    @PostMapping("/saveEdu")
+    public String saveEdu (@Valid @RequestBody Education education) {
+    	Education savedEdu = educationRepository.save(education);
+    	return savedEdu.getId();
+    }
+    
 
 }
