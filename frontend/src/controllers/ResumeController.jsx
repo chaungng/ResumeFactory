@@ -13,7 +13,7 @@ class ResumeControllerClass{
     }
 
     async saveResume(id, data) {
-        let result = await this.httpServices.put(this.baseURL, id, data);
+        let result = await this.httpServices.put1(this.baseURL + id, data);
         console.log('save', result);
         return result;
     }
@@ -27,7 +27,7 @@ class ResumeControllerClass{
 //resumes/resumes?userId=1
     async getResumesByUserId (userId){
         let result = await this.httpServices.get( this.baseURL +"resumes?userId=" +userId);
-        // console.log(result);
+        console.log('getResumesByUserId', result);
         return result;
     }
 

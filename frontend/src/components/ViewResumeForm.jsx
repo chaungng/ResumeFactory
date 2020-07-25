@@ -101,7 +101,7 @@ class ViewResumeForm extends Component {
             company: data.basicInfo.company
         };
 
-        let response = await ResumeController.addNewResume(resumeData);
+        let response = await ResumeController.saveResume(this.context.resumeCRUD.currentResumeId, resumeData);
         if (response.id !== null || response.id !== undefined) {
             //TODO: handle response in case error
             let count = await ResumeController.getCountResumeByUserId(this.context.user.userId);
@@ -143,20 +143,20 @@ class ViewResumeForm extends Component {
                     {this.state.loaded ?
                         <>
                             <BasicInfoSection
-                                basicInfo={this.getBasicInfo}
-                                defaultInfo={this.state.basicInfo}/>
+                                set={this.getBasicInfo}
+                                defaultInfo={this.state.basicInfo}/><br/>
                             <PersonalInfoSection
-                                personalInfo={this.getPersonalInfo}
-                                defaultInfo={this.state.personalInfo}/>
+                                set={this.getPersonalInfo}
+                                defaultInfo={this.state.personalInfo}/><br/>
                             <WorkExpSection
-                                workExperiences={this.getWorkExp}
-                                defaultInfo={this.state.workExperiences}/>
+                                set={this.getWorkExp}
+                                defaultInfo={this.state.workExperiences}/><br/>
                             <SkillsSection
-                                skills={this.getSkills}
-                                defaultInfo={this.state.skills}/>
+                                set={this.getSkills}
+                                defaultInfo={this.state.skills}/><br/>
                             <EducationSection
-                                educationInfo={this.getEducationInfo}
-                                defaultInfo={this.state.educationInfo}/>
+                                set={this.getEducationInfo}
+                                defaultInfo={this.state.educationInfo}/><br/>
                         </>
                         :
                         null

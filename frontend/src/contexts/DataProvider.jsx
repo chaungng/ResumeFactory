@@ -69,7 +69,7 @@ export class DataProvider extends Component {
         let currentResumeId = await localforage.getItem('currentResumeId')
 
 
-        console.log('getting data from store', currentResumeId)
+        // console.log('getting data from store', currentResumeId)
 
         this.setState(state => {
             state.user.loggedIn = loggedIn

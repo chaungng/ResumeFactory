@@ -14,7 +14,6 @@ class PersonalInfoSection extends Component {
 
         if (this.props.defaultInfo !== undefined) {
             let defaultInfo = this.props.defaultInfo
-            console.log('per', defaultInfo)
             this.state = {
                 isEditing: true,
                 firstName: defaultInfo.firstName,

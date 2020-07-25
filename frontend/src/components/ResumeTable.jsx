@@ -82,10 +82,13 @@ export default function StickyHeadTable() {
             const result = await ResumeController.getResumesByUserId(user.userId);
 
             let resumesArr = [];
-            for (const [index, value] of result.entries()) {
-                resumesArr.push(
-                    createData(index +1 , value.title, value.level, value.company, "", value.id)
-                );
+            console.log(result.success)
+            if(result.success) {
+                for (const [index, value] of result.data.entries()) {
+                    resumesArr.push(
+                        createData(index +1 , value.title, value.level, value.company, "", value.id)
+                    );
+                }
             }
             setResumes(resumesArr);
 

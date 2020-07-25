@@ -11,7 +11,7 @@ class WorkExperience extends Component {
     original
     constructor(props) {
         super(props);
-        if (this.props.defaultInfo === null) {
+        if (this.props.defaultInfo !== null) {
             let defaultInfo = this.props.defaultInfo
             this.state = {
                 isEditing: true,
