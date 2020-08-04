@@ -66,6 +66,18 @@ class ResumeControllerClass{
         return result;
     }
 
+    async saveTempWorkExp( data ){
+        let result = await this.httpServices.post(this.baseURL + "saveWorkExp", data);
+        console.log(result);
+        return result;
+    }
+
+    async getWorkExp( userId ){
+        let result = await this.httpServices.get(this.baseURL + "workExp?userId=" + userId);
+        console.log(result);
+        return result;
+    }
+
 }
 let ResumeController = new ResumeControllerClass();
 export default ResumeController;

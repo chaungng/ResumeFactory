@@ -141,8 +141,9 @@ class PersonalInfoSection extends Component {
 
     async saveTemplatePersonInfo(){
         if (this.isValid()){
+            let userIdContext = await localForage.getItem('userId');
             let info = {
-                userId: this.context.user.userId,
+                userId: userIdContext,
                 firstName: this.state.firstName,
                 lastName: this.state.lastName,
                 phone: this.state.phone,

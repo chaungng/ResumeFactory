@@ -131,6 +131,21 @@ public class ResumeController {
 
         return response;
     }
+    
+    @GetMapping("/workExp")
+    public Response<List<WorkExperience>> getWorkExp (String userId) {
+    	Response<List<WorkExperience>> response = new Response<>();
+    	Optional<List<WorkExperience>> result = workExpRespository.findByUserId(userId);
+    	if (!result.isPresent()) {
+            return response;
+        }
+
+        response.setSuccess(true);
+        response.setMessage("Success");
+        response.setData(result.get());
+
+        return response;
+    }
 
     @GetMapping("/{id}")
     public Response<Resume> getResumeById(@PathVariable String id){

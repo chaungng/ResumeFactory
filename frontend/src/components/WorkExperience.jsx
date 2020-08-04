@@ -6,6 +6,11 @@ import {Button} from '@material-ui/core';
 import SaveIcon from '@material-ui/icons/Save';
 import EditIcon from '@material-ui/icons/Edit';
 import CloseIcon from '@material-ui/icons/Close';
+import { Alert } from '@material-ui/lab';
+
+import ResumeController from '../controllers/ResumeController';
+import {DataContext} from "../contexts/DataContext";
+import localForage from "localforage";
 
 class WorkExperience extends Component {
     original
@@ -43,7 +48,14 @@ class WorkExperience extends Component {
         this.delete = this.delete.bind(this);
         this.sendData = this.sendData.bind(this);
     }
-
+    isValid (){
+        if (this.state.jobTitle == ""
+            && this.state.company == ""
+            && this.state.country == ""){
+            return false;
+        }
+        return true;
+    }
 
     sendData = (action) => {
         switch (action) {
@@ -89,7 +101,33 @@ class WorkExperience extends Component {
         });
     }
 
-    saveTemplate(){
+    async saveTemplate(){
+        // if (this.isValid()){
+            let userIdContext = await localForage.getItem('userId');
+            let info = {
+                userId: userIdContext,
+                jobTitle: this.state.jobTitle,
+                company: this.state.company,
+                country: this.state.country,
+                from: this.state.from,
+                to: this.state.to,
+                description: this.state.description
+            };
+
+            console.log(info);
+            let response = await ResumeController.saveTempWorkExp(info);
+            if (response.id !== null || response.id !== undefined) {
+                this.save();
+                this.setState({
+                    error: false,
+                });
+            } else {
+                // return false;
+                this.setState({
+                    error: true,
+                });
+            }
+        // }
         
     }
 
@@ -131,7 +169,10 @@ class WorkExperience extends Component {
                     "borderRadius": "10px",
                     "padding": "20px",
                     "margin": "auto"
-                }}>
+                }}> 
+                    {this.state.error ? 
+                    <Alert severity="error">Something wrong! Could not load data!</Alert>
+                    : ""}
                     <Grid container spacing={3}>
                         <Grid item xs={12} sm={12}>
                             <TextField required id="jobTitle" name="jobTitle" label="Job Title" fullWidth
@@ -160,19 +201,19 @@ class WorkExperience extends Component {
                         </Grid>
                     </Grid>
                     <Button variant="outlined" color="primary" size="small" startIcon={<SaveIcon/>}
-                            onClick={this.save}>
+                            style={{"margin": "2px",}} onClick={this.save}>
                         Save
                     </Button>
                     <Button variant="outlined" color="primary" size="small" startIcon={<SaveIcon/>}
-                            onClick={this.save}>
+                            style={{"margin": "2px",}} onClick={this.saveTemplate}>
                         Save Template
                     </Button>
                     <Button variant="outlined" color="secondary" size="small" startIcon={<CloseIcon/>}
-                            onClick={this.cancle}>
-                        Cancel
+                            style={{"margin": "2px",}} onClick={this.cancle}>
+                            Cancel
                     </Button>
                     <Button variant="outlined" color="secondary" size="small" startIcon={<CloseIcon/>}
-                            onClick={this.delete}>
+                            style={{"margin": "2px",}}  onClick={this.delete}>
                         Delete
                     </Button>
                 </div>

@@ -95,14 +95,6 @@ public class UserController {
         user.setLastName(userDetails.getLastName());
         user.setLocation(userDetails.getLocation());
         user.setTitle(userDetails.getTitle());
-
-        if (userDetails.getPasswordHash() != "") {
-        	user.setPasswordHash(userDetails.getPasswordHash());
-        }
-        
-        if (userDetails.getUserName() != "") {
-        	user.setUserName(userDetails.getUserName());
-        }
         
         User updatedUser = userRepository.save(user);
         return updatedUser;
