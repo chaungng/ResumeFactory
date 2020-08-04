@@ -44,15 +44,26 @@ class ResumeControllerClass{
         return result;
     }
 
-    async addNewResume(data){
+    async addPersonalInfo(data){
+        
+    }
 
-        let result = await this.httpServices.post(this.baseURL + "addnewresume", data);
+    async saveTempEduData( data ){
+        let result = await this.httpServices.post(this.baseURL + "saveEdu", data);
         console.log(result);
         return result;
     }
 
-    async addPersonalInfo(data){
-        
+    async saveTempPersonInfo( data ){
+        let result = await this.httpServices.post(this.baseURL + "saveInfo", data);
+        console.log(result);
+        return result;
+    }
+
+    async getPersonalInfo( userId ){
+        let result = await this.httpServices.get(this.baseURL + "personalInfo?userId=" + userId);
+        console.log(result);
+        return result;
     }
 
 }

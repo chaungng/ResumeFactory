@@ -84,6 +84,8 @@ class HomePage extends Component {
         if (this.state.loggedIn === false
             || this.state.userId === null
             || this.state.userName === ""
+            || this.state.userName === undefined
+            || this.state.userName === null
             || this.state.title === ""
             || this.state.location === ""){
             return <h1>Seems like you are not logged in!</h1>

@@ -7,10 +7,13 @@ import {Button} from '@material-ui/core';
 import SaveIcon from '@material-ui/icons/Save';
 import EditIcon from '@material-ui/icons/Edit';
 
-class PersonalInfoSection extends Component {
+import ResumeController from '../controllers/ResumeController';
+import {DataContext} from "../contexts/DataContext";
 
-    constructor(props) {
-        super(props);
+class PersonalInfoSection extends Component {
+    static contextType = DataContext;
+    constructor(props, context) {
+        super(props, context);
 
         if (this.props.defaultInfo !== undefined) {
             let defaultInfo = this.props.defaultInfo
@@ -37,13 +40,53 @@ class PersonalInfoSection extends Component {
                 state: "",
                 zip: "",
                 country: "",
-                summary: ""
+                summary: "",
             };
         }
-
         this.handleInputChange = this.handleInputChange.bind(this);
         this.stopEditing = this.stopEditing.bind(this);
         this.startEditing = this.startEditing.bind(this);
+        this.saveTemplatePersonInfo = this.saveTemplatePersonInfo.bind(this);
+    }
+
+    async componentDidMount(){
+        let result = await this.loadDefaultInfo();
+        if (result.success){
+            let defaultInfo = result.data;
+            this.setState({
+                isEditing: false,
+                firstName: defaultInfo.firstName,
+                lastName: defaultInfo.lastName,
+                phone: defaultInfo.phone,
+                email: defaultInfo.email,
+                city: defaultInfo.city,
+                state: defaultInfo.state,
+                zip: defaultInfo.zip,
+                country: defaultInfo.country,
+                summary: defaultInfo.summary,
+            });
+        }
+    }
+
+    isValid (){
+        if (this.state.firstName == ""
+            && this.state.lastName == ""
+            && this.state.phone == ""
+            && this.state.email == ""
+            && this.state.city == ""){
+            return false;
+        }
+        return true;
+    }
+
+    async loadDefaultInfo(){
+        let userId = this.context.user.userId;
+        console.log(userId)
+        if (userId != null && userId != undefined && userId != ""){
+            let result = await ResumeController.getPersonalInfo(userId);
+            // console.log(result);
+            return result;
+        }
     }
 
     sendData = () => {
@@ -80,6 +123,34 @@ class PersonalInfoSection extends Component {
         });
     }
 
+    async saveTemplatePersonInfo(){
+        if (this.isValid()){
+            let info = {
+                userId: this.context.user.userId,
+                firstName: this.state.firstName,
+                lastName: this.state.lastName,
+                phone: this.state.phone,
+                email: this.state.email,
+                city: this.state.city,
+                state: this.state.state,
+                zip: this.state.zip,
+                country: this.state.country,
+                summary: this.state.summary,
+            };
+
+            console.log(info);
+            let response = await ResumeController.saveTempPersonInfo(info);
+            if (response.id !== null || response.id !== undefined) {
+                //TODO: handle response in case error
+                // this.props.history.push('/');
+                // console.log(response.id);
+                this.stopEditing();
+            } else {
+                // return false;
+            }
+        }
+    }
+
     render() {
         return (
             this.state.isEditing
@@ -96,6 +167,12 @@ class PersonalInfoSection extends Component {
                             onClick={this.stopEditing}>
                         Save
                     </Button>
+                    <span></span>
+                    <Button variant="outlined" color="primary" size="small" startIcon={<SaveIcon/>}
+                            onClick={this.saveTemplatePersonInfo}>
+                        Save Template
+                    </Button>
+
                     <Grid container spacing={3}>
                         <Grid item xs={12} sm={6}>
                             <TextField required id="firstName" name="firstName" label="First name" fullWidth autoComplete="given-name"
@@ -175,5 +252,5 @@ class PersonalInfoSection extends Component {
                 </div>);
     }
 }
-
+PersonalInfoSection.contextType = DataContext
 export default PersonalInfoSection;

@@ -70,6 +70,7 @@ export const NavBar = () => {
                 await localforage.setItem('location', null);
                 await localforage.setItem('firstName', null);
                 await localforage.setItem('lastName', null);
+
                 history.push('/login')
             }}
         >
@@ -78,9 +79,6 @@ export const NavBar = () => {
     )
 
 
-    console.log('nav bar')
-    // console.log(this.context)
-    // console.log(user.loggedIn)
     let anchor = 'left'
     return (
         <AppBar position="static">

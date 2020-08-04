@@ -7,11 +7,17 @@ import Button from '@material-ui/core/Button';
 import SaveIcon from '@material-ui/icons/Save';
 import EditIcon from '@material-ui/icons/Edit';
 
+import ResumeController from '../controllers/ResumeController';
+import {DataContext} from "../contexts/DataContext";
+
 class EducationSection extends Component {
-    constructor(props) {
-        super(props);
-        if (this.props.defaultInfo !== null) {
+    static contextType = DataContext;
+    constructor(props, context) {
+        super(props, context);
+        if (this.props.defaultInfo !== null 
+                && this.props.defaultInfo !== undefined) {
             let defaultInfo = this.props.defaultInfo
+            console.log(this.props);
             this.state = {
                 isEditing: true,
                 degree: defaultInfo.degree,
@@ -36,6 +42,7 @@ class EducationSection extends Component {
         this.startEditing = this.startEditing.bind(this);
         this.stopEditing = this.stopEditing.bind(this);
         this.clearEditing = this.clearEditing.bind(this);
+        this.saveTemplateEduData = this.saveTemplateEduData.bind(this);
     }
 
     handleInputChange(event) {
@@ -58,7 +65,40 @@ class EducationSection extends Component {
         this.setState({
             isEditing: false,
         });
-        this.sendData(false);
+        this.sendData(false); 
+    }
+
+    isValid (){
+        if (this.state.degree == ""
+            && this.state.school == ""
+            && this.state.from == ""
+            && this.state.to == ""){
+            return false;
+        }
+        return true;
+    }
+
+    async saveTemplateEduData() {
+        if (this.isValid()){
+            let eduData = {
+                userId: this.context.user.userId,
+                degree: this.state.degree,
+                school: this.state.school,
+                from: this.state.from,
+                to: this.state.to,
+                description: this.state.description,
+            };
+            console.log(eduData);
+            let response = await ResumeController.saveTempEduData(eduData);
+            if (response.id !== null || response.id !== undefined) {
+                //TODO: handle response in case error
+                // this.props.history.push('/');
+                console.log(response.id);
+                this.stopEditing();
+            } else {
+                // return false;
+            }
+        }
     }
 
     clearEditing() {
@@ -104,6 +144,10 @@ class EducationSection extends Component {
                     <Button variant="outlined" color="primary" size="small" startIcon={<SaveIcon/>}
                             onClick={this.stopEditing}>
                         Save Education
+                    </Button>
+                    <Button variant="outlined" color="primary" size="small" startIcon={<SaveIcon/>}
+                            onClick={this.saveTemplateEduData}>
+                        Save Template
                     </Button>
                     <Grid container spacing={3}>
                         <Grid item xs={12} sm={12}>
@@ -159,5 +203,5 @@ class EducationSection extends Component {
     }
 
 }
-
+EducationSection.contextType = DataContext
 export default EducationSection;

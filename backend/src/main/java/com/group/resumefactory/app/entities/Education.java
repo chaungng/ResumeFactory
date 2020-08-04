@@ -11,16 +11,15 @@ public class Education {
 	
 	public String userId;
 	
-	public String content;
+	public String degree;
+	
+	public String from;
+	
+	public String to;
+	
+	public String description;
 
 	public Education() {}
-	
-	public Education(String id, String userId, String content) {
-		super();
-		this.id = id;
-		this.userId = userId;
-		this.content = content;
-	}
 
 	public String getId() {
 		return id;
@@ -38,11 +37,36 @@ public class Education {
 		this.userId = userId;
 	}
 
-	public String getContent() {
-		return content;
+	public String getDegree() {
+		return degree;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
+	public void setDegree(String degree) {
+		this.degree = degree;
 	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getFrom() {
+		return from;
+	}
+
+	public void setFrom(String from) {
+		this.from = from;
+	}
+
+	public String getTo() {
+		return to;
+	}
+
+	public void setTo(String to) {
+		this.to = to;
+	}
+	
 }
