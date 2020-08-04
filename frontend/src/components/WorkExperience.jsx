@@ -89,6 +89,10 @@ class WorkExperience extends Component {
         });
     }
 
+    saveTemplate(){
+        
+    }
+
     cancle() {
         this.setState({
             isEditing: false,
@@ -158,6 +162,10 @@ class WorkExperience extends Component {
                     <Button variant="outlined" color="primary" size="small" startIcon={<SaveIcon/>}
                             onClick={this.save}>
                         Save
+                    </Button>
+                    <Button variant="outlined" color="primary" size="small" startIcon={<SaveIcon/>}
+                            onClick={this.save}>
+                        Save Template
                     </Button>
                     <Button variant="outlined" color="secondary" size="small" startIcon={<CloseIcon/>}
                             onClick={this.cancle}>

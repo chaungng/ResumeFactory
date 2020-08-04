@@ -6,15 +6,18 @@ import TextField from '@material-ui/core/TextField';
 import {Button} from '@material-ui/core';
 import SaveIcon from '@material-ui/icons/Save';
 import EditIcon from '@material-ui/icons/Edit';
+import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
+import { Alert } from '@material-ui/lab';
 
 import ResumeController from '../controllers/ResumeController';
 import {DataContext} from "../contexts/DataContext";
+import localForage from "localforage";
 
 class PersonalInfoSection extends Component {
     static contextType = DataContext;
+
     constructor(props, context) {
         super(props, context);
-
         if (this.props.defaultInfo !== undefined) {
             let defaultInfo = this.props.defaultInfo
             this.state = {
@@ -47,25 +50,11 @@ class PersonalInfoSection extends Component {
         this.stopEditing = this.stopEditing.bind(this);
         this.startEditing = this.startEditing.bind(this);
         this.saveTemplatePersonInfo = this.saveTemplatePersonInfo.bind(this);
+        this.onClickLoadInfo = this.onClickLoadInfo.bind(this);
     }
 
     async componentDidMount(){
-        let result = await this.loadDefaultInfo();
-        if (result.success){
-            let defaultInfo = result.data;
-            this.setState({
-                isEditing: false,
-                firstName: defaultInfo.firstName,
-                lastName: defaultInfo.lastName,
-                phone: defaultInfo.phone,
-                email: defaultInfo.email,
-                city: defaultInfo.city,
-                state: defaultInfo.state,
-                zip: defaultInfo.zip,
-                country: defaultInfo.country,
-                summary: defaultInfo.summary,
-            });
-        }
+        await this.onClickLoadInfo();
     }
 
     isValid (){
@@ -81,11 +70,38 @@ class PersonalInfoSection extends Component {
 
     async loadDefaultInfo(){
         let userId = this.context.user.userId;
-        console.log(userId)
+        if (userId == null || userId == undefined){
+            userId = await localForage.getItem('userId');
+        }
         if (userId != null && userId != undefined && userId != ""){
             let result = await ResumeController.getPersonalInfo(userId);
-            // console.log(result);
             return result;
+        }
+    }
+
+    async onClickLoadInfo(){
+        let result = await this.loadDefaultInfo();
+        if (result !== undefined && result.success){
+            let defaultInfo = result.data;
+            this.setState({
+                isEditing: true,
+                firstName: defaultInfo.firstName,
+                lastName: defaultInfo.lastName,
+                phone: defaultInfo.phone,
+                email: defaultInfo.email,
+                city: defaultInfo.city,
+                state: defaultInfo.state,
+                zip: defaultInfo.zip,
+                country: defaultInfo.country,
+                summary: defaultInfo.summary,
+            });
+            this.setState({
+                error: false,
+            });
+        } else {
+            this.setState({
+                error: true,
+            });
         }
     }
 
@@ -141,12 +157,15 @@ class PersonalInfoSection extends Component {
             console.log(info);
             let response = await ResumeController.saveTempPersonInfo(info);
             if (response.id !== null || response.id !== undefined) {
-                //TODO: handle response in case error
-                // this.props.history.push('/');
-                // console.log(response.id);
                 this.stopEditing();
+                this.setState({
+                    error: false,
+                });
             } else {
                 // return false;
+                this.setState({
+                    error: true,
+                });
             }
         }
     }
@@ -160,58 +179,65 @@ class PersonalInfoSection extends Component {
                     "padding": "20px",
                     "margin": "auto"
                 }}>
+                    <div style={{"paddingBottom": "20px",}}>
                     <Typography variant="h6" gutterBottom>
                         Personal Information
                     </Typography>
                     <Button variant="outlined" color="primary" size="small" startIcon={<SaveIcon/>}
-                            onClick={this.stopEditing}>
+                            style={{"margin": "2px",}} onClick={this.stopEditing}>
                         Save
                     </Button>
-                    <span></span>
-                    <Button variant="outlined" color="primary" size="small" startIcon={<SaveIcon/>}
-                            onClick={this.saveTemplatePersonInfo}>
+                    <Button variant="outlined" color="primary" size="small" startIcon={<SaveIcon/> } 
+                            style={{"margin": "2px",}} onClick={this.saveTemplatePersonInfo}>
                         Save Template
                     </Button>
-
+                    <Button variant="outlined" color="primary" size="small" startIcon={<CloudDownloadIcon/>}
+                            style={{"margin": "2px",}} onClick={this.onClickLoadInfo}>
+                        Load Info
+                    </Button>
+                    {this.state.error ? 
+                        <Alert severity="error">Something wrong! Could not load data!</Alert>
+                        : ""}
+                    </div>
                     <Grid container spacing={3}>
                         <Grid item xs={12} sm={6}>
                             <TextField required id="firstName" name="firstName" label="First name" fullWidth autoComplete="given-name"
-                                       value={this.state.firstName} onChange={this.handleInputChange}
+                                        value={this.state.firstName} onChange={this.handleInputChange}
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField required id="lastName" name="lastName" label="Last name" fullWidth autoComplete="family-name"
-                                       value={this.state.lastName} onChange={this.handleInputChange}
+                                        value={this.state.lastName} onChange={this.handleInputChange}
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField required id="phone" name="phone" label="Phone Number" fullWidth autoComplete=""
-                                       value={this.state.phone} onChange={this.handleInputChange}/>
+                                        value={this.state.phone} onChange={this.handleInputChange}/>
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField required id="email" name="email" label="Email" fullWidth autoComplete=""
-                                       value={this.state.email} onChange={this.handleInputChange}/>
+                                        value={this.state.email} onChange={this.handleInputChange}/>
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField required id="city" name="city" label="City" fullWidth autoComplete="shipping address-level2"
-                                       value={this.state.city} onChange={this.handleInputChange}/>
+                                        value={this.state.city} onChange={this.handleInputChange}/>
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField id="state" name="state" label="State/Province/Region" fullWidth
-                                       value={this.state.state} onChange={this.handleInputChange}/>
+                                        value={this.state.state} onChange={this.handleInputChange}/>
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField required id="zip" name="zip" label="Zip/Postal code" fullWidth autoComplete="shipping postal-code"
-                                       value={this.state.zip} onChange={this.handleInputChange}/>
+                                        value={this.state.zip} onChange={this.handleInputChange}/>
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField required id="country" name="country" label="Country" fullWidth autoComplete="country"
-                                       value={this.state.country} onChange={this.handleInputChange}/>
+                                        value={this.state.country} onChange={this.handleInputChange}/>
                         </Grid>
                         <Grid item xs={12} sm={12}>
                             <TextField id="summary" name="summary" label="Summary" fullWidth
-                                       placeholder="You can add your summary here" multiline rows={7}
-                                       value={this.state.summary} onChange={this.handleInputChange}/>
+                                        placeholder="You can add your summary here" multiline rows={7}
+                                        value={this.state.summary} onChange={this.handleInputChange}/>
                         </Grid>
                     </Grid>
                 </div>
@@ -250,6 +276,7 @@ class PersonalInfoSection extends Component {
                         </Grid>
                     </Grid>
                 </div>);
+        
     }
 }
 PersonalInfoSection.contextType = DataContext
