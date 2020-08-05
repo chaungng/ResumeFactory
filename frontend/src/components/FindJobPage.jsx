@@ -1,11 +1,13 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Search from './Search';
 import JobsList from './JobsList';
 import JobPostingController from '../controllers/JobPostingController';
+import {DataContext} from "../contexts/DataContext";
+import SavedJobsController from "../controllers/SavedJobsController";
 
 // Function: create data
-const createData = (company, companyLogo, companyUrl, createdAt, id, location, title, type, url, description) => {
+const createData = (company, companyLogo, companyUrl, createdAt, id, location, title, type, url, userId, fave, description) => {
   return {
     company,
     companyLogo,
@@ -16,6 +18,8 @@ const createData = (company, companyLogo, companyUrl, createdAt, id, location, t
     title,
     type,
     url,
+    userId,
+    fave,
     description
   };
 }
@@ -51,6 +55,8 @@ const FindJobPage = () => {
   const [isFullTime, setIsFullTime] = useSemiPersistentState("isFullTime", false);
   const [jobs, setJobs] = useState([]);
 
+  const {user} = useContext(DataContext)
+
   // Function: gets jobs list from github API
   async function getJobPostings(jobTitle, jobLocation, isFullTime) {
     var jobsArray = [];
@@ -62,9 +68,15 @@ const FindJobPage = () => {
     };
 
     const result = await JobPostingController.searchJobs(searchData);
+    const savedJobs = await SavedJobsController.getAll(user.userId)
+
+    let savedJobsSet = new Set()
+    for(let item of savedJobs) {
+      savedJobsSet.add(item.id)
+    }
 
     for (const [index, value] of result.entries()) {
-      jobsArray.push(createData(value.company, value.companyLogo, value.companyUrl, value.createdAt, value.id, value.location, value.title, value.type, value.url, value.description));
+      jobsArray.push(createData(value.company, value.companyLogo, value.companyUrl, value.createdAt, value.id, value.location, value.title, value.type, value.url, user.userId, savedJobsSet.has(value.id), value.description));
     }
 
     setJobs(jobsArray);

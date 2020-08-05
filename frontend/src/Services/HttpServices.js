@@ -68,6 +68,10 @@ export default class HttpServices{
         return this.axiosInstance.delete('/' + url + '/' + id);
     }
 
+    delete1 (url){
+        return this.axiosInstance.delete('/' + url);
+    }
+
     deleteAll (url){
         return this.axiosInstance.delete('/' + url);
     }
