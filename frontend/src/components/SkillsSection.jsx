@@ -16,7 +16,8 @@ class SkillsSection extends Component {
     constructor(props) {
         super(props);
 
-        if(this.props.defaultInfo !== undefined) {
+        if(this.props.defaultInfo !== undefined 
+            && this.props.isView == true) {
             this.arr = this.props.defaultInfo
             
         }
