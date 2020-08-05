@@ -18,6 +18,12 @@ class ResumeControllerClass{
         return result;
     }
 
+    async deleteResume(id) {
+        let result = await this.httpServices.delete(this.baseURL + "resume/", id);
+        console.log('save', result);
+        return result;
+    }
+
     async getAllResumes (){
         let result = await this.httpServices.get(this.baseURL + "allResumes");
         console.log(result);

@@ -114,6 +114,22 @@ class ViewResumeForm extends Component {
         }
     }
 
+    async deleteResume() {
+        console.log(this.state);
+        let response = await ResumeController.deleteResume(
+                            this.context.resumeCRUD.currentResumeId);
+        console.log(response);
+        if (response.status == "200") {
+            //TODO: handle response in case error
+            let count = await ResumeController.getCountResumeByUserId(this.context.user.userId);
+            this.context.user.setNumOfResume(count);
+            await localForage.setItem('numOfResume', count);
+            this.props.history.push('/');
+            // return true;
+        } else {
+            
+        }
+    }
     render() {
         return (
             <React.Fragment>
@@ -124,7 +140,7 @@ class ViewResumeForm extends Component {
                 }}>
 
                     <Grid container spacing={3}>
-                        <Grid item xs={12} sm={10}>
+                        <Grid item xs={12} sm={9}>
                             <Typography variant="h4" gutterBottom>
                                 View Resume Form
                             </Typography>
@@ -137,6 +153,11 @@ class ViewResumeForm extends Component {
                         <Grid item xs={12} sm={1}>
                             <Button variant="contained" color="primary" onClick={() => this.prepareResume()}>
                                 Save
+                            </Button>
+                        </Grid>
+                        <Grid item xs={12} sm={1}>
+                            <Button variant="contained" color="secondary" onClick={() => this.deleteResume()}>
+                                Delete
                             </Button>
                         </Grid>
                     </Grid>

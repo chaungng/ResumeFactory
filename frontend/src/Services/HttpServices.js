@@ -48,6 +48,10 @@ export default class HttpServices{
         return await this.makeRequest(this.axiosInstance.put,  '/' + url, data)
     }
 
+    async delete(url, id) {
+        return await this.makeRequest(this.axiosInstance.delete,  '/' + url, id)
+    }
+
     getAllData (url){
         return this.axiosInstance.get('/' + url);
     }
