@@ -7,24 +7,38 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Skill {
 
 	@Id
-	public String id;
+	private String id;
 	
-	public String userId;
+	private String userId;
 	
-	public String content;
+	private String skillName;
+	
+	private String level;
+	
+	
+//	public String content;
 
 	public Skill() {}
 	
-	public Skill(String id, String userId, String content) {
-		super();
-		this.id = id;
-		this.userId = userId;
-		this.content = content;
-	}
+//	public Skill(String id, String userId, String content) {
+//		super();
+//		this.id = id;
+//		this.userId = userId;
+//		this.content = content;
+//	}
 
+	
 	public String getId() {
 		return id;
 	}
+
+	public Skill(String id, String userId, String skillName, String level) {
+	super();
+	this.id = id;
+	this.userId = userId;
+	this.skillName = skillName;
+	this.level = level;
+}
 
 	public void setId(String id) {
 		this.id = id;
@@ -38,11 +52,20 @@ public class Skill {
 		this.userId = userId;
 	}
 
-	public String getContent() {
-		return content;
+	public String getSkillName() {
+		return skillName;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
+	public void setSkillName(String skillName) {
+		this.skillName = skillName;
 	}
+
+	public String getLevel() {
+		return level;
+	}
+
+	public void setLevel(String level) {
+		this.level = level;
+	}
+	
 }

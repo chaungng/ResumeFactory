@@ -143,7 +143,7 @@ class EducationSection extends Component {
                     </Typography>
                     <Button variant="outlined" color="primary" size="small" startIcon={<SaveIcon/>}
                             onClick={this.stopEditing}>
-                        Save Education
+                        Save
                     </Button>
                     <Button variant="outlined" color="primary" size="small" startIcon={<SaveIcon/>}
                             onClick={this.saveTemplateEduData}>

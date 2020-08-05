@@ -6,6 +6,7 @@ import {Button} from '@material-ui/core';
 import SaveIcon from '@material-ui/icons/Save';
 import EditIcon from '@material-ui/icons/Edit';
 import CloseIcon from '@material-ui/icons/Close';
+import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import { Alert } from '@material-ui/lab';
 
 import ResumeController from '../controllers/ResumeController';
@@ -20,6 +21,7 @@ class WorkExperience extends Component {
             let defaultInfo = this.props.defaultInfo
             this.state = {
                 isEditing: true,
+                uid: defaultInfo.id,
                 jobTitle: defaultInfo.jobTitle,
                 company: defaultInfo.company,
                 country: defaultInfo.country,
@@ -30,12 +32,14 @@ class WorkExperience extends Component {
         } else {
             this.state = {
                 isEditing: true,
+                isView: false,
                 jobTitle: "",
                 company: "",
                 country: "",
                 from: "",
                 to: "",
-                description: ""
+                description: "",
+                uid: "",
             };
         }
 
@@ -47,6 +51,7 @@ class WorkExperience extends Component {
         this.cancle = this.cancle.bind(this);
         this.delete = this.delete.bind(this);
         this.sendData = this.sendData.bind(this);
+        this.saveTemplate = this.saveTemplate.bind(this);
     }
     isValid (){
         if (this.state.jobTitle == ""
@@ -69,9 +74,11 @@ class WorkExperience extends Component {
                     country: this.state.country,
                     from: this.state.from,
                     to: this.state.to,
-                    description: this.state.description
+                    description: this.state.description,
+                    id: this.state.uid,
                 }, 1, this.props.index);
                 this.original = this.state
+                console.log(this.original);
                 break
             default:
                 this.props.set(null, 0, this.props.index);
@@ -102,8 +109,9 @@ class WorkExperience extends Component {
     }
 
     async saveTemplate(){
-        // if (this.isValid()){
+        if (this.isValid()){
             let userIdContext = await localForage.getItem('userId');
+            console.log(this.state.uid);
             let info = {
                 userId: userIdContext,
                 jobTitle: this.state.jobTitle,
@@ -115,10 +123,17 @@ class WorkExperience extends Component {
             };
 
             console.log(info);
-            let response = await ResumeController.saveTempWorkExp(info);
+            let response = null;
+            if (this.state.uid == null || this.state.uid == ""){
+                response = await ResumeController.saveTempWorkExp(info);
+            } else {
+                response = await ResumeController.updateTempWorkExp(this.state.uid, info);
+            }
+            
             if (response.id !== null || response.id !== undefined) {
                 this.save();
                 this.setState({
+                    uid: response.id,
                     error: false,
                 });
             } else {
@@ -127,7 +142,7 @@ class WorkExperience extends Component {
                     error: true,
                 });
             }
-        // }
+        }
         
     }
 
@@ -178,7 +193,7 @@ class WorkExperience extends Component {
                             <TextField required id="jobTitle" name="jobTitle" label="Job Title" fullWidth
                                        value={this.state.jobTitle} onChange={this.handleInputChange}/>
                         </Grid>
-                        <Grid item xs={12} sm={4}>
+                        <Grid item xs={12} sm={6}>
                             <TextField required id="company" name="company" label="Company" fullWidth
                                        value={this.state.company} onChange={this.handleInputChange}/>
                         </Grid>
@@ -218,9 +233,6 @@ class WorkExperience extends Component {
                     </Button>
                 </div>
                 : <div>
-                    <Typography variant="h6" gutterBottom>
-                        Personal Information
-                    </Typography>
                     <Button variant="outlined" color="primary" size="small" startIcon={<EditIcon/>}
                             onClick={this.edit}>
                         Edit

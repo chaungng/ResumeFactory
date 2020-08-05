@@ -5,6 +5,9 @@ import Skill from './Skill';
 import SaveIcon from '@material-ui/icons/Save';
 import AddIcon from '@material-ui/icons/Add';
 import EditIcon from "@material-ui/icons/Edit";
+import ResumeController from '../controllers/ResumeController';
+import {DataContext} from "../contexts/DataContext";
+import localForage from "localforage";
 
 class SkillsSection extends Component {
     arr = [];
@@ -83,6 +86,36 @@ class SkillsSection extends Component {
         })
     }
 
+    async loadDefaultInfo(){
+        let userId = await localForage.getItem('userId');
+        if (userId != null && userId != undefined && userId != ""){
+            let result = await ResumeController.getSkill(userId);
+            return result;
+        }
+    }
+
+    async componentDidMount (){
+        await this.onClickLoadInfo();
+    }
+
+    async onClickLoadInfo(){
+        let result = await this.loadDefaultInfo();
+        if (result !== undefined && result.success){
+            let defaultInfo = result.data;
+            for (const [index, value] of defaultInfo.entries()) {
+                this.arr.push(value)
+            }
+            this.setState({
+                workExperiences: this.arr,
+                error: false,
+            });
+        } else {
+            this.setState({
+                error: true,
+            });
+        }
+    }
+
     render() {
         let style =
             this.state.isEditing ? {
@@ -105,20 +138,20 @@ class SkillsSection extends Component {
                                 this.getData().length !== 0
                                     ?
                                     <Button variant="outlined" color="primary" size="small" startIcon={<SaveIcon />}
-                                            onClick={this.save}>
+                                        style={{"margin": "2px",}} onClick={this.save}>
                                         Save Skills
                                     </Button>
                                     :
                                     null
                             }
                             <Button variant="outlined" color="primary" size="small" startIcon={<AddIcon/>}
-                                    onClick={this.handleAddSkill}>
+                                    style={{"margin": "2px",}} onClick={this.handleAddSkill}>
                                 Add Skill
                             </Button>
                         </>
                         :
                         <Button variant="outlined" color="primary" size="small" startIcon={<EditIcon/>}
-                                onClick={this.edit}>
+                        style={{"margin": "2px",}} onClick={this.edit}>
                             Edit
                         </Button>
                 }

@@ -5,6 +5,9 @@ import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 
 import WorkExperience from './WorkExperience';
+import ResumeController from '../controllers/ResumeController';
+import {DataContext} from "../contexts/DataContext";
+import localForage from "localforage";
 
 class WorkExpSection extends Component {
     arr = [];
@@ -36,6 +39,7 @@ class WorkExpSection extends Component {
                 break
             case 1:
                 this.arr[index] = childData
+                console.log(index);
                 break
             default:
                 break
@@ -58,6 +62,40 @@ class WorkExpSection extends Component {
         return data
     }
 
+    async loadDefaultInfo(){
+        // let userId = this.context.user.userId;
+        // if (userId == null || userId == undefined){
+           let userId = await localForage.getItem('userId');
+        // }
+        if (userId != null && userId != undefined && userId != ""){
+            let result = await ResumeController.getWorkExp(userId);
+            return result;
+        }
+    }
+
+    async componentDidMount (){
+        await this.onClickLoadInfo();
+    }
+
+    async onClickLoadInfo(){
+        let result = await this.loadDefaultInfo();
+        if (result !== undefined && result.success){
+            let defaultInfo = result.data;
+            // this.arr.push(defaultInfo)
+            for (const [index, value] of defaultInfo.entries()) {
+                this.arr.push(value)
+            }
+            this.setState({
+                workExperiences: this.arr,
+                error: false,
+            });
+        } else {
+            this.setState({
+                error: true,
+            });
+        }
+    }
+
     render() {
         return (
             <div className='workExperience' style={{
@@ -66,6 +104,7 @@ class WorkExpSection extends Component {
                 "padding": "20px",
                 "margin": "auto"
             }}>
+                <div style={{"paddingBottom": "20px",}}>
                 <Typography variant="h6" gutterBottom>
                     Work experience
                 </Typography>
@@ -73,6 +112,7 @@ class WorkExpSection extends Component {
                         onClick={this.handleAddExperience}>
                     Add Experience
                 </Button>
+                </div>
                 {
                     this.state.workExperiences.map((v, i) => {
                         if(v === -1) {
@@ -80,7 +120,7 @@ class WorkExpSection extends Component {
                         }
 
                         return (
-                            <WorkExperience
+                            <WorkExperience 
                                 key={i}
                                 set={this.getWorkExperience}
                                 defaultInfo={v}

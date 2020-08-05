@@ -72,8 +72,32 @@ class ResumeControllerClass{
         return result;
     }
 
+    async updateTempWorkExp(id, data ){
+        let result = await this.httpServices.put(this.baseURL + "updateWorkExp",id, data);
+        console.log(result);
+        return result;
+    }
+
     async getWorkExp( userId ){
         let result = await this.httpServices.get(this.baseURL + "workExp?userId=" + userId);
+        console.log(result);
+        return result;
+    }
+
+    async saveTempSkill( data ){
+        let result = await this.httpServices.post(this.baseURL + "saveSkill", data);
+        console.log(result);
+        return result;
+    }
+
+    async updateTempSkill(id, data ){
+        let result = await this.httpServices.put(this.baseURL + "updateSkill",id, data);
+        console.log(result);
+        return result;
+    }
+
+    async getSkill( userId ){
+        let result = await this.httpServices.get(this.baseURL + "skill?userId=" + userId);
         console.log(result);
         return result;
     }

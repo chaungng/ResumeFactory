@@ -17,6 +17,7 @@ import com.group.resumefactory.app.entities.PersonalInformation;
 import com.group.resumefactory.app.entities.Resume;
 import com.group.resumefactory.app.entities.Skill;
 import com.group.resumefactory.app.entities.WorkExperience;
+import com.group.resumefactory.app.exceptions.ResourceNotFoundException;
 import com.group.resumefactory.app.repositories.EducationRepository;
 import com.group.resumefactory.app.repositories.PersonalInformationRepository;
 import com.group.resumefactory.app.repositories.ResumeRepository;
@@ -147,6 +148,21 @@ public class ResumeController {
         return response;
     }
 
+    @GetMapping("/skill")
+    public Response<List<Skill>> getSkill (String userId) {
+    	Response<List<Skill>> response = new Response<>();
+    	Optional<List<Skill>> result = skillRepository.findByUserId(userId);
+    	if (!result.isPresent()) {
+            return response;
+        }
+
+        response.setSuccess(true);
+        response.setMessage("Success");
+        response.setData(result.get());
+
+        return response;
+    }
+    
     @GetMapping("/{id}")
     public Response<Resume> getResumeById(@PathVariable String id){
         Response<Resume> response = new Response<>();
@@ -165,4 +181,34 @@ public class ResumeController {
         return response;
     }
 
+    @PutMapping("/updateWorkExp/{id}")
+    public String updateWorkExp(@PathVariable(value = "id") String id, 
+    		@Valid @RequestBody WorkExperience workExp) {
+    	WorkExperience wExp = workExpRespository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("WorkExperience", "id", id));
+
+        wExp.setJobTitle(workExp.getJobTitle());
+        wExp.setCompany(workExp.getCompany());
+        wExp.setCountry(workExp.getCountry());
+        wExp.setFrom(workExp.getFrom());
+        wExp.setTo(workExp.getTo());
+//        wExp.setUserId(workExp.getUserId());
+        wExp.setDescription(workExp.getDescription());
+        
+        WorkExperience updatedWExp = workExpRespository.save(wExp);
+        return updatedWExp.getId();
+    }
+    
+    @PutMapping("/updateSkill/{id}")
+    public String updateSkill(@PathVariable(value = "id") String id, 
+    		@Valid @RequestBody Skill skill) {
+    	Skill sk = skillRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Skill", "id", id));
+    	
+    	sk.setSkillName(skill.getSkillName());
+    	sk.setLevel(skill.getLevel());
+        
+        Skill updatedSkill = skillRepository.save(sk);
+        return updatedSkill.getId();
+    }
 }
