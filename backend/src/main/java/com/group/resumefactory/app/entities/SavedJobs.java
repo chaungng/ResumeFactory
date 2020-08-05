@@ -16,8 +16,16 @@ public class SavedJobs {
     public String type;
     public String url;
     public String description;
+    
+    
 
-    public SavedJobs(String userId, String company, String location, String title, String type, String url, String description) {
+    public SavedJobs() {
+//		super();
+	}
+
+
+
+	public SavedJobs(String userId, String company, String location, String title, String type, String url, String description) {
         this.userId = userId;
         this.company = company;
         this.location = location;
@@ -26,4 +34,5 @@ public class SavedJobs {
         this.url = url;
         this.description = description;
     }
+    
 }

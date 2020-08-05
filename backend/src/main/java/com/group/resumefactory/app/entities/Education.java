@@ -11,6 +11,8 @@ public class Education {
 	
 	public String userId;
 	
+	public String school;
+	
 	public String degree;
 	
 	public String from;
@@ -20,6 +22,21 @@ public class Education {
 	public String description;
 
 	public Education() {}
+
+
+	public Education(String id, String userId, String school, String degree, String from, String to,
+			String description) {
+		super();
+		this.id = id;
+		this.userId = userId;
+		this.school = school;
+		this.degree = degree;
+		this.from = from;
+		this.to = to;
+		this.description = description;
+	}
+
+
 
 	public String getId() {
 		return id;
@@ -67,6 +84,14 @@ public class Education {
 
 	public void setTo(String to) {
 		this.to = to;
+	}
+
+	public String getSchool() {
+		return school;
+	}
+
+	public void setSchool(String school) {
+		this.school = school;
 	}
 	
 }
