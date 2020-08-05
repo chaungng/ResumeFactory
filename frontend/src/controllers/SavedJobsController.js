@@ -8,6 +8,7 @@ class SavedJobsControllerClass{
 
     async add(data){
         console.log('add')
+        console.log(data);
         let result = await this.httpServices.post(this.baseURL, data);
         console.log(result);
         return result.success;

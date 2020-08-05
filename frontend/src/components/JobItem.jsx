@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
@@ -10,6 +10,7 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import SavedJobsController from "../controllers/SavedJobsController";
+import {DataContext} from "../contexts/DataContext";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -44,25 +45,29 @@ const JobItem = ({
     const classes = useStyles();
     const [fav, setFav] = useState(fave)
     const [expand, setExpand] = useState(false);
+    const {user} = useContext(DataContext)
 
     const toggleFav = async () => {
-        let success
-        if (!fav) {
-            success = await SavedJobsController.add({
-                id,
-                userId,
-                company,
-                location,
-                title,
-                type,
-                url,
-                description
-            })
-        } else {
-            success = await SavedJobsController.delete(id)
+        if (user.loggedIn){
+            let success
+            if (!fav) {
+                success = await SavedJobsController.add({
+                    id,
+                    userId,
+                    company,
+                    location,
+                    title,
+                    type,
+                    url,
+                    description
+                })
+            } else {
+                success = await SavedJobsController.delete(id)
+            }
+            console.log('success', success)
+            setFav(success)
         }
-        console.log('success', success)
-        setFav(success)
+        
     }
 
   const toggleDescription = () => {

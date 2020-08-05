@@ -69,11 +69,12 @@ const FindJobPage = () => {
     };
 
     const result = await JobPostingController.searchJobs(searchData);
-    const savedJobs = await SavedJobsController.getAll(user.userId)
-
     let savedJobsSet = new Set()
-    for(let item of savedJobs) {
-      savedJobsSet.add(item.id)
+    if (user.loggedIn){
+      const savedJobs = await SavedJobsController.getAll(user.userId)
+      for(let item of savedJobs) {
+        savedJobsSet.add(item.id)
+      }
     }
 
     for (const [index, value] of result.entries()) {
