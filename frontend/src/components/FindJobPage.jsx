@@ -5,6 +5,7 @@ import JobsList from './JobsList';
 import JobPostingController from '../controllers/JobPostingController';
 import {DataContext} from "../contexts/DataContext";
 import SavedJobsController from "../controllers/SavedJobsController";
+import Grid from "@material-ui/core/Grid";
 
 // Function: create data
 const createData = (company, companyLogo, companyUrl, createdAt, id, location, title, type, url, userId, fave, description) => {
@@ -105,9 +106,13 @@ const FindJobPage = () => {
 
   return (<div>
     <Search searchTitle={title} searchLocation={location} isFullTime={isFullTime} onSearch={handleSearch} onChange={handleChange}/>
-    <div className={classes.listContainer}>
-      <JobsList list={jobs}/>
-    </div>
+    <Grid container spacing={3} alignItems='center' justify='center'>
+      <Grid item xs/>
+      <Grid item xs={10}>
+       <JobsList list={jobs}/>
+      </Grid>
+      <Grid item xs/>
+    </Grid>
   </div>);
 }
 

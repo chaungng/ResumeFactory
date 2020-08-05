@@ -51,7 +51,7 @@ const SavedJob = () => {
 
     return (
         <div>
-            <Grid container spacing={3}>
+            <Grid container spacing={3} alignItems='center' justify='center'>
                 <Grid item xs={4} sm={4}/>
                 <Grid item xs={4} sm={4}>
                     <Typography variant="h4" align="center">
@@ -59,11 +59,13 @@ const SavedJob = () => {
                     </Typography>
                 </Grid>
                 <Grid item xs={4} sm={4}/>
-                <Grid item xs={3} sm={3}/>
-                <Grid item xs={6} sm={6}>
+            </Grid>
+            <Grid container spacing={3} alignItems='center' justify='center'>
+                <Grid item xs/>
+                <Grid item xs={10}>
                     <JobsList list={jobs}/>
                 </Grid>
-                <Grid item xs={3} sm={3}/>
+                <Grid item xs/>
             </Grid>
         </div>
     );

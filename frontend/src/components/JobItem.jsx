@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   container: {
     margin: '20px',
     padding: '4px',
-    width: '70%'
+    width: '100%'
   },
   label: {
     margin: theme.spacing(1),
@@ -71,11 +71,11 @@ const JobItem = ({
 
     return (
         <div className={classes.container} index={id}>
-            <Paper elevation={3}>
-                <Grid container spacing={3}>
+            <Paper style={{padding: '15px'}} elevation={3}>
+                <Grid container spacing={3} justify='center' alignItems='center'>
                     <Grid item xs={10}>
                         <div className="job-title">
-                            <Typography variant="h5" gutterBottom={true} className={classes.label}>
+                            <Typography variant="h4" gutterBottom={true} className={classes.label}>
                                 {title}
                             </Typography>
                         </div>
