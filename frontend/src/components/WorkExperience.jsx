@@ -19,6 +19,7 @@ class WorkExperience extends Component {
         super(props);
         if (this.props.defaultInfo !== null) {
             let defaultInfo = this.props.defaultInfo
+            console.log(defaultInfo);
             this.state = {
                 isEditing: true,
                 uid: defaultInfo.id,

@@ -118,13 +118,13 @@ class NewResumeForm extends Component {
                         </Button>
                     </Grid>
                 </Grid>
-                <BasicInfoSection set={this.getBasicInfo}/>
+                <BasicInfoSection set={this.getBasicInfo} isView={false}/>
                 <br/>
-                <PersonalInfoSection set={this.getPersonalInfo}/>
+                <PersonalInfoSection set={this.getPersonalInfo} isView={false}/>
                 <br/>
-                <WorkExpSection set={this.getWorkExp}/>
+                <WorkExpSection set={this.getWorkExp} isView={false}/>
                 <br/>
-                <SkillsSection set={this.getSkills}/>
+                <SkillsSection set={this.getSkills} isView={false}/>
                 <br/>
                 <EducationSection set={this.getEducationInfo}/>
 

@@ -9,9 +9,10 @@ import ResumeController from '../controllers/ResumeController';
 import {DataContext} from "../contexts/DataContext";
 import localForage from "localforage";
 
+import { Alert } from '@material-ui/lab';
+
 class WorkExpSection extends Component {
     arr = [];
-
     constructor(props) {
         super(props);
         if(this.props.defaultInfo !== undefined) {
@@ -74,7 +75,10 @@ class WorkExpSection extends Component {
     }
 
     async componentDidMount (){
-        await this.onClickLoadInfo();
+        // console.log(this.props.isView);
+        if (!this.props.isView){
+            await this.onClickLoadInfo();
+        }
     }
 
     async onClickLoadInfo(){
@@ -112,6 +116,9 @@ class WorkExpSection extends Component {
                         onClick={this.handleAddExperience}>
                     Add Experience
                 </Button>
+                {this.state.error ? 
+                    <Alert severity="error">Something wrong! Could not load data!</Alert>
+                    : ""}
                 </div>
                 {
                     this.state.workExperiences.map((v, i) => {

@@ -54,6 +54,12 @@ class ResumeControllerClass{
         return result;
     }
 
+    async getEduInfo( userId ){
+        let result = await this.httpServices.get(this.baseURL + "eduInfo?userId=" + userId);
+        console.log(result);
+        return result;
+    }
+
     async saveTempPersonInfo( data ){
         let result = await this.httpServices.post(this.baseURL + "saveInfo", data);
         console.log(result);

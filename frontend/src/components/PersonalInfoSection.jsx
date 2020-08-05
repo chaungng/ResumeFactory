@@ -54,7 +54,9 @@ class PersonalInfoSection extends Component {
     }
 
     async componentDidMount(){
-        await this.onClickLoadInfo();
+        if (this.props.isView == false){
+            await this.onClickLoadInfo();
+        }
     }
 
     isValid (){
@@ -94,8 +96,6 @@ class PersonalInfoSection extends Component {
                 zip: defaultInfo.zip,
                 country: defaultInfo.country,
                 summary: defaultInfo.summary,
-            });
-            this.setState({
                 error: false,
             });
         } else {

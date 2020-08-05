@@ -8,6 +8,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import ResumeController from '../controllers/ResumeController';
 import {DataContext} from "../contexts/DataContext";
 import localForage from "localforage";
+import { Alert } from '@material-ui/lab';
 
 class SkillsSection extends Component {
     arr = [];
@@ -95,7 +96,9 @@ class SkillsSection extends Component {
     }
 
     async componentDidMount (){
-        await this.onClickLoadInfo();
+        if (!this.props.isView){
+            await this.onClickLoadInfo();
+        }
     }
 
     async onClickLoadInfo(){
@@ -129,6 +132,7 @@ class SkillsSection extends Component {
                 <Typography variant="h6" gutterBottom>
                     Skills
                 </Typography>
+               
 
                 {
                     this.state.isEditing
@@ -155,6 +159,9 @@ class SkillsSection extends Component {
                             Edit
                         </Button>
                 }
+                 {this.state.error ? 
+                    <Alert severity="error">Something wrong! Could not load data!</Alert>
+                    : ""}
 
                 {
                     this.state.skills.map((v, i) => {

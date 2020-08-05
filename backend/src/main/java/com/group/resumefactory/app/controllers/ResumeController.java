@@ -114,6 +114,12 @@ public class ResumeController {
     
     @PostMapping("/saveEdu")
     public String saveEdu (@Valid @RequestBody Education education) {
+    	String userId = education.getUserId();
+    	Optional<List<Education>> result = educationRepository.findByUserId(userId);
+    	if (result.get().size() > 0) {
+    		educationRepository.deleteByUserId(userId);
+    	}
+    	
     	Education savedEdu = educationRepository.save(education);
     	return savedEdu.getId();
     }
@@ -122,6 +128,21 @@ public class ResumeController {
     public Response<PersonalInformation> getPersonalInfo (String userId) {
     	Response<PersonalInformation> response = new Response<>();
     	Optional<List<PersonalInformation>> result = personalInfoRepository.findByUserId(userId);
+    	if (!result.isPresent()) {
+            return response;
+        }
+
+        response.setSuccess(true);
+        response.setMessage("Success");
+        response.setData(result.get().get(0));
+
+        return response;
+    }
+    
+    @GetMapping("/eduInfo")
+    public Response<Education> getEduInfo (String userId) {
+    	Response<Education> response = new Response<>();
+    	Optional<List<Education>> result = educationRepository.findByUserId(userId);
     	if (!result.isPresent()) {
             return response;
         }

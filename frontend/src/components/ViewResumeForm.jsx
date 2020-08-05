@@ -144,18 +144,23 @@ class ViewResumeForm extends Component {
                         <>
                             <BasicInfoSection
                                 set={this.getBasicInfo}
+                                isView={true}
                                 defaultInfo={this.state.basicInfo}/><br/>
                             <PersonalInfoSection
                                 set={this.getPersonalInfo}
+                                isView={true}
                                 defaultInfo={this.state.personalInfo}/><br/>
                             <WorkExpSection
                                 set={this.getWorkExp}
+                                isView={true}
                                 defaultInfo={this.state.workExperiences}/><br/>
                             <SkillsSection
                                 set={this.getSkills}
+                                isView={true}
                                 defaultInfo={this.state.skills}/><br/>
                             <EducationSection
                                 set={this.getEducationInfo}
+                                isView={true}
                                 defaultInfo={this.state.educationInfo}/><br/>
                         </>
                         :

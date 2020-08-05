@@ -9,13 +9,16 @@ import EditIcon from '@material-ui/icons/Edit';
 
 import ResumeController from '../controllers/ResumeController';
 import {DataContext} from "../contexts/DataContext";
+import localForage from "localforage";
+import { Alert } from '@material-ui/lab';
+import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
+
 
 class EducationSection extends Component {
     static contextType = DataContext;
     constructor(props, context) {
         super(props, context);
-        if (this.props.defaultInfo !== null 
-                && this.props.defaultInfo !== undefined) {
+        if (this.props.defaultInfo !== undefined) {
             let defaultInfo = this.props.defaultInfo
             console.log(this.props);
             this.state = {
@@ -43,6 +46,13 @@ class EducationSection extends Component {
         this.stopEditing = this.stopEditing.bind(this);
         this.clearEditing = this.clearEditing.bind(this);
         this.saveTemplateEduData = this.saveTemplateEduData.bind(this);
+        this.onClickLoadInfo = this.onClickLoadInfo.bind(this);
+    }
+
+    async componentDidMount(){
+        if (this.props.isView == false){
+            await this.onClickLoadInfo();
+        }
     }
 
     handleInputChange(event) {
@@ -70,33 +80,63 @@ class EducationSection extends Component {
 
     isValid (){
         if (this.state.degree == ""
-            && this.state.school == ""
-            && this.state.from == ""
-            && this.state.to == ""){
+            && this.state.school == ""){
             return false;
         }
         return true;
     }
 
+    async loadDefaultInfo(){
+        let userId = await localForage.getItem('userId');
+        if (userId != null && userId != undefined && userId != ""){
+            let result = await ResumeController.getEduInfo(userId);
+            return result;
+        }
+    }
+
+    async onClickLoadInfo(){
+        let result = await this.loadDefaultInfo();
+        if (result !== undefined && result.success){
+            let defaultInfo = result.data;
+            this.setState({
+                isEditing: true,
+                degree: defaultInfo.degree,
+                school: defaultInfo.school,
+                from: defaultInfo.from,
+                to: defaultInfo.to,
+                description: defaultInfo.description,
+                error: false,
+            });
+        } else {
+            this.setState({
+                error: true,
+            });
+        }
+    }
+
     async saveTemplateEduData() {
         if (this.isValid()){
-            let eduData = {
-                userId: this.context.user.userId,
+            let userIdContext = await localForage.getItem('userId');
+            let info = {
+                userId: userIdContext,
                 degree: this.state.degree,
                 school: this.state.school,
                 from: this.state.from,
                 to: this.state.to,
                 description: this.state.description,
             };
-            console.log(eduData);
-            let response = await ResumeController.saveTempEduData(eduData);
+            console.log(info);
+            let response = await ResumeController.saveTempEduData(info);
             if (response.id !== null || response.id !== undefined) {
-                //TODO: handle response in case error
-                // this.props.history.push('/');
-                console.log(response.id);
                 this.stopEditing();
+                this.setState({
+                    error: false,
+                });
             } else {
                 // return false;
+                this.setState({
+                    error: true,
+                });
             }
         }
     }
@@ -142,13 +182,20 @@ class EducationSection extends Component {
                         Education
                     </Typography>
                     <Button variant="outlined" color="primary" size="small" startIcon={<SaveIcon/>}
-                            onClick={this.stopEditing}>
+                            style={{"margin": "2px",}} onClick={this.stopEditing}>
                         Save
                     </Button>
                     <Button variant="outlined" color="primary" size="small" startIcon={<SaveIcon/>}
-                            onClick={this.saveTemplateEduData}>
+                            style={{"margin": "2px",}} onClick={this.saveTemplateEduData}>
                         Save Template
                     </Button>
+                    <Button variant="outlined" color="primary" size="small" startIcon={<CloudDownloadIcon/>}
+                            style={{"margin": "2px",}} onClick={this.onClickLoadInfo}>
+                        Load Info
+                    </Button>
+                    {this.state.error ? 
+                    <Alert severity="error">Something wrong! Could not load data!</Alert>
+                    : ""}
                     <Grid container spacing={3}>
                         <Grid item xs={12} sm={12}>
                             <TextField required id="degree" name="degree" label="Degree" fullWidth value={this.state.degree}
