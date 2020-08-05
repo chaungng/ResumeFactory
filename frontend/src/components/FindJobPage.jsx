@@ -5,7 +5,7 @@ import JobsList from './JobsList';
 import JobPostingController from '../controllers/JobPostingController';
 
 // Function: create data
-const createData = (company, companyLogo, companyUrl, createdAt, id, location, title, type, url,) => {
+const createData = (company, companyLogo, companyUrl, createdAt, id, location, title, type, url, description) => {
   return {
     company,
     companyLogo,
@@ -15,7 +15,8 @@ const createData = (company, companyLogo, companyUrl, createdAt, id, location, t
     location,
     title,
     type,
-    url
+    url,
+    description
   };
 }
 
@@ -63,7 +64,7 @@ const FindJobPage = () => {
     const result = await JobPostingController.searchJobs(searchData);
 
     for (const [index, value] of result.entries()) {
-      jobsArray.push(createData(value.company, value.companyLogo, value.companyUrl, value.createdAt, value.id, value.location, value.title, value.type, value.url));
+      jobsArray.push(createData(value.company, value.companyLogo, value.companyUrl, value.createdAt, value.id, value.location, value.title, value.type, value.url, value.description));
     }
 
     setJobs(jobsArray);
