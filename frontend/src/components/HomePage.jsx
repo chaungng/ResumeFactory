@@ -1,9 +1,21 @@
 import React, {Component} from 'react';
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Container from '@material-ui/core/Container';
+import Box from '@material-ui/core/Box';
 import ResumeTable from './ResumeTable';
 import history from './../history';
 import localForage from "localforage";
 import ProfileSummarySection from './ProfileSummarySection';
+import Grid from "@material-ui/core/Grid";
+
+import { withStyles } from "@material-ui/core/styles";
+
+const styles = theme => ({
+    root: {
+        flex: 1
+    },
+});
 
 class HomePage extends Component {
 
@@ -88,18 +100,29 @@ class HomePage extends Component {
             || this.state.userName === null
             || this.state.title === ""
             || this.state.location === ""){
-            return <h1>Seems like you are not logged in!</h1>
+            return (
+                <Grid style={{height: '500px'}} container direction='row' justify='center' alignItems='center'>
+                    <Grid item>
+                        <CircularProgress />
+                    </Grid>
+                </Grid>
+            )
         } else {
             return (
-                <div>
-                    <h1>Profile Summary</h1>
-                    <ProfileSummarySection isEditable = {false}/>
-                    <Button variant="contained" color="primary" onClick={this.addNewResume}>
-                        Add new Resume
-                    </Button>
-                    <h1>Resume List</h1>
-                    <ResumeTable/>
-                </div>
+                <Grid container spacing={3}>
+                    <Grid item xs/>
+                    <Grid item xs={10}>
+                        <h1>Profile Summary</h1>
+                        <ProfileSummarySection isEditable = {false}/>
+                        <br/>
+                        <Button variant="contained" color="primary" onClick={this.addNewResume}>
+                            Add new Resume
+                        </Button>
+                        <h1>Resume List</h1>
+                        <ResumeTable/>
+                    </Grid>
+                    <Grid item xs/>
+                </Grid>
             );
         }
     }

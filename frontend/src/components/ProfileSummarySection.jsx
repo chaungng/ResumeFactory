@@ -5,8 +5,18 @@ import TextField from '@material-ui/core/TextField';
 import localForage from "localforage";
 import history from './../history';
 import UserController from '../controllers/UserController';
+import { withStyles } from "@material-ui/core/styles";
 
-export default class ProfileSummarySection extends Component{
+const styles = theme => ({
+    root: {
+        padding: '15px'
+    },
+    h2: {
+        marginTop: '0px'
+    }
+});
+
+class ProfileSummarySection extends Component{
 
     constructor(props){
         super(props);
@@ -110,26 +120,30 @@ export default class ProfileSummarySection extends Component{
     }
 
     render(){
+        const { classes } = this.props;
+
         return(
             <div>
                 <Grid container spacing={3}>
                     <Grid item xs={9}>
                         {this.state.isEditable 
                             ?
-                        <Paper>
-                            <TextField required id="firstName" name="firstName" label="firstName" fullWidth autoComplete={this.state.firstName} value={this.state.firstName} onChange={this.handleInputChange}/>
-                            <TextField required id="lastName" name="lastName" label="Last Name" fullWidth autoComplete={this.state.lastName} value={this.state.lastName} onChange={this.handleInputChange}/>
-                            <TextField required id="title" name="title" label="Title" fullWidth autoComplete={this.state.title} value={this.state.title} onChange={this.handleInputChange}/>
-                            <TextField required id="location" name="location" label="Location" fullWidth autoComplete={this.state.location} value={this.state.location} onChange={this.handleInputChange}/>
-                            <button onClick={this.onSaveClicked}>
-                                Save
-                            </button>
-                            <button onClick={this.onCancelClicked}>
-                                Cancel
-                            </button>
+                        <Paper className={classes.root}>
+                            <div className={classes.root}>
+                                <TextField required id="firstName" name="firstName" label="firstName" fullWidth autoComplete={this.state.firstName} value={this.state.firstName} onChange={this.handleInputChange}/>
+                                <TextField required id="lastName" name="lastName" label="Last Name" fullWidth autoComplete={this.state.lastName} value={this.state.lastName} onChange={this.handleInputChange}/>
+                                <TextField required id="title" name="title" label="Title" fullWidth autoComplete={this.state.title} value={this.state.title} onChange={this.handleInputChange}/>
+                                <TextField required id="location" name="location" label="Location" fullWidth autoComplete={this.state.location} value={this.state.location} onChange={this.handleInputChange}/>
+                                <button onClick={this.onSaveClicked}>
+                                    Save
+                                </button>
+                                <button onClick={this.onCancelClicked}>
+                                    Cancel
+                                </button>
+                            </div>
                         </Paper>
-                        : <Paper>
-                            <h2>Name: {this.state.firstName + ' ' + this.state.lastName}</h2>
+                        : <Paper className={classes.root}>
+                            <h2 className={classes.h2}>Name: {this.state.firstName + ' ' + this.state.lastName}</h2>
                             <p>Title: {this.state.title}</p>
                             <p>Location: {this.state.location}</p>
                             <button onClick={this.onEditClicked}>
@@ -139,9 +153,15 @@ export default class ProfileSummarySection extends Component{
                     </Grid>
 
                     <Grid item xs={3}>
-                        <Paper>
-                            <p>Number of Resumes:</p>
-                            <h2>{(this.state.numOfResume == null) ? 0 : this.state.numOfResume}</h2>
+                        <Paper className={classes.root}>
+                            <Grid container alignItems="center" justify="center">
+                                <Grid item xs={9}>
+                                    <p>Number of Resumes:</p>
+                                </Grid>
+                                <Grid item xs={3}>
+                                    <h2>{(this.state.numOfResume == null) ? 0 : this.state.numOfResume}</h2>
+                                </Grid>
+                            </Grid>
                         </Paper>
                     </Grid>
                 </Grid>
@@ -150,3 +170,5 @@ export default class ProfileSummarySection extends Component{
     }
 
 }
+
+export default  withStyles(styles)(ProfileSummarySection)
