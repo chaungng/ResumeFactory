@@ -86,7 +86,8 @@ export default function SignUpPage() {
             location
         )
 
-        if(response.success) {
+        console.log('sign up', response)
+        if(response != undefined || response != null) {
             history.push('/login')
         }
     }
