@@ -16,18 +16,14 @@ class SkillsSection extends Component {
     constructor(props) {
         super(props);
 
-        if (this.props.defaultInfo) {
-            let defaultInfo = this.props.defaultInfo
-            this.state = {
-                isEditing: true,
-                skills: defaultInfo,
-            };
-        } else {
-            this.state = {
-                isEditing: true,
-                skills: this.arr,
-            };
+        if(this.props.defaultInfo !== undefined) {
+            this.arr = this.props.defaultInfo
+            
         }
+        this.state = {
+            isEditing: true,
+            skills: this.arr,
+        };
 
         this.save = this.save.bind(this)
         this.edit = this.edit.bind(this)
@@ -37,6 +33,7 @@ class SkillsSection extends Component {
 
     handleAddSkill() {
         this.arr.push(null)
+        console.log(this.arr);
         this.setState({
             skills: this.arr,
         });
@@ -60,8 +57,8 @@ class SkillsSection extends Component {
 
     sendData = () => {
         let data = this.getData()
-        // console.log('arr', this.arr)
-        // console.log('data', data)
+        console.log('arr', this.arr)
+        console.log('data', data)
         this.props.set(data)
     }
 
